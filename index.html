@@ -391,11 +391,15 @@ tbody td:nth-child(4) li::before {
   color: var(--text-dim);
   margin-bottom: 16px;
 }
-/* Term/Tool/TTP name column */
+/* Term/Tool/TTP name column — fixed width, word wrap */
+.ref-tables thead th:first-child,
 .ref-tables tbody td:first-child {
-  white-space: nowrap;
+  width: 200px;
+  min-width: 200px;
+  max-width: 200px;
+  white-space: normal;
+  word-wrap: break-word;
   vertical-align: top;
-  min-width: 140px;
 }
 .ref-tables tbody td:first-child strong {
   font-family: var(--font-mono);
@@ -403,7 +407,8 @@ tbody td:nth-child(4) li::before {
   color: var(--orange);
 }
 .ref-tables table {
-  min-width: 600px;
+  min-width: 500px;
+  table-layout: fixed;
 }
 
 /* ── FOOTER ── */
@@ -443,6 +448,8 @@ tbody td:nth-child(4) li::before {
   tbody td { padding: 12px 14px; }
   .theme-toggle { top: 12px; right: 12px; width: 38px; height: 38px; font-size: 1rem; }
   .ref-tables { padding: 0 12px; }
+  .ref-tables thead th:first-child,
+  .ref-tables tbody td:first-child { width: 160px; min-width: 160px; max-width: 160px; }
 }
 @media (max-width: 480px) {
   .page-header { padding: 50px 12px 32px; }
@@ -451,6 +458,8 @@ tbody td:nth-child(4) li::before {
   tbody td { padding: 10px 10px; }
   tbody ul { padding-left: 14px; }
   .ref-tables { padding: 0 8px; }
+  .ref-tables thead th:first-child,
+  .ref-tables tbody td:first-child { width: 130px; min-width: 130px; max-width: 130px; }
 }
 </style>
 </head>
