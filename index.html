@@ -357,7 +357,8 @@ tbody td:nth-child(2) li::before {
   background: #999;
 }
 /* Engineering column bullets — gradient */
-tbody td:nth-child(3) li::before {
+tbody td:nth-child(3) li::before,
+tbody td:nth-child(4) li::before {
   background: linear-gradient(135deg, var(--orange-bright), var(--blue-bright));
 }
 
@@ -371,63 +372,37 @@ tbody td:nth-child(3) li::before {
   opacity: 0.8;
 }
 
-/* ── GLOSSARY SECTIONS ── */
-.glossary-sections {
+/* ── REFERENCE TABLES ── */
+.ref-tables {
   max-width: 1100px;
   margin: 0 auto 60px;
   padding: 0 24px;
 }
-.glossary-section {
-  margin-bottom: 40px;
+.ref-section {
+  margin-bottom: 48px;
 }
-.glossary-section:last-child { margin-bottom: 0; }
-.glossary-section-title {
+.ref-section:last-child { margin-bottom: 0; }
+.ref-section-title {
   font-family: var(--font-mono);
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 700;
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--text-dim);
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
 }
-.glossary-list {
-  list-style: none;
-}
-.glossary-entry {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 16px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--border);
-  align-items: baseline;
-}
-.glossary-entry:last-child { border-bottom: none; }
-.glossary-term {
+/* Term names inside reference table cells */
+.ref-tables tbody li strong {
   font-family: var(--font-mono);
-  font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--orange);
-  white-space: nowrap;
 }
-.glossary-def {
-  font-size: 0.9rem;
-  color: var(--text);
-  line-height: 1.7;
-  opacity: 0.85;
+/* Single-column reference table: wider content column */
+.ref-tables table {
+  min-width: 600px;
 }
-.glossary-empty {
-  font-size: 0.85rem;
-  color: var(--text-dim);
-  font-style: italic;
-  padding: 8px 0;
-}
-@media (max-width: 600px) {
-  .glossary-entry {
-    grid-template-columns: 1fr;
-    gap: 4px;
-  }
+.ref-tables tbody td:nth-child(2) li::before {
+  background: linear-gradient(135deg, var(--orange-bright), var(--blue-bright));
 }
 
 /* ── FOOTER ── */
@@ -466,7 +441,7 @@ tbody td:nth-child(3) li::before {
   thead th { padding: 14px 14px; font-size: 0.9rem; }
   tbody td { padding: 12px 14px; }
   .theme-toggle { top: 12px; right: 12px; width: 38px; height: 38px; font-size: 1rem; }
-  .glossary-sections { padding: 0 12px; }
+  .ref-tables { padding: 0 12px; }
 }
 @media (max-width: 480px) {
   .page-header { padding: 50px 12px 32px; }
@@ -474,7 +449,7 @@ tbody td:nth-child(3) li::before {
   thead th { padding: 12px 10px; }
   tbody td { padding: 10px 10px; }
   tbody ul { padding-left: 14px; }
-  .glossary-sections { padding: 0 8px; }
+  .ref-tables { padding: 0 8px; }
 }
 </style>
 </head>
@@ -612,299 +587,207 @@ tbody td:nth-child(3) li::before {
   </div>
 </main>
 
-<div class="glossary-sections">
+<div class="ref-tables">
 
-<h2 class="glossary-section-title" style="font-size: 1.4rem; margin-bottom: 28px;">Terms</h2>
-
-<section class="glossary-section">
-  <h3 class="glossary-section-title">General</h3>
-  <ul class="glossary-list">
-    <li class="glossary-entry">
-      <span class="glossary-term">Systems Thinking</span>
-      <span class="glossary-def">An analytical approach that examines how components of a system interrelate and work together over time within larger systems. In GRC Engineering, applied across organizational governance, risk analysis, and control modeling to understand emergent behavior rather than treating each element in isolation.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Design Thinking</span>
-      <span class="glossary-def">A human-centered problem-solving methodology that emphasizes empathy, ideation, and iteration. In GRC Engineering, harnessed to make the right thing to do the easy thing to do&mdash;designing controls and processes that people naturally follow rather than work around.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Threat-Informed</span>
-      <span class="glossary-def">Grounding GRC activities&mdash;policies, controls, trainings, risk assessments&mdash;in real-world threat intelligence rather than abstract framework checklists. Ensures that defenses address actual adversary behaviors and attack patterns, not just theoretical compliance gaps.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">GRC as a Product</span>
-      <span class="glossary-def">Treating GRC programs as products that serve internal and external customers, with user research, feedback loops, iterative improvement, and measurable outcomes&mdash;replacing the legacy model where GRC exists as an internal program serving primarily the GRC team&rsquo;s own needs.</span>
-    </li>
-  </ul>
+<!-- ── TERMS TABLE ── -->
+<section class="ref-section">
+  <h2 class="ref-section-title">Terms</h2>
+  <div class="table-outer">
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Program</th>
+          <th><span class="col-engineering">GRC Engineering Terms</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="program-label"><em>General</em></span></td>
+          <td>
+            <ul>
+              <li><strong>Systems Thinking</strong> &mdash; examining how components interrelate and work together over time within larger systems</li>
+              <li><strong>Design Thinking</strong> &mdash; human-centered methodology to make the right thing to do the easy thing to do</li>
+              <li><strong>Threat-Informed</strong> &mdash; grounding policies, controls, and trainings in real-world threat intelligence</li>
+              <li><strong>GRC as a Product</strong> &mdash; treating GRC programs as products serving internal and external customers</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="program-label">Governance</span></td>
+          <td>
+            <ul>
+              <li><strong>Policy-as-Code</strong> &mdash; policies written as executable code; the code <em>is</em> the source of truth</li>
+              <li><strong>Policy-to-Code</strong> &mdash; translating human-readable policies into executable code</li>
+              <li><strong>Policy-from-Code</strong> &mdash; deriving policy documentation from code, configs, or runtime behavior</li>
+              <li><strong>PaC</strong> &mdash; Policy as Code; enforcing governance policies via automated evaluation</li>
+              <li><strong>Risk Tolerance</strong> &mdash; acceptable risk level, codified and enforced at pre-deploy/pre-change gates</li>
+              <li><strong>Real-time Behavioral Interventions</strong> &mdash; context-aware nudges at the moment of risky action</li>
+              <li><strong>Scientific Pedagogy</strong> &mdash; evidence-based learning science applied to security training</li>
+              <li><strong>Metrics-focused Committees</strong> &mdash; governance bodies deciding on quantitative data, not subjective discussion</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="program-label">Risk</span></td>
+          <td>
+            <ul>
+              <li><strong>TPCM</strong> &mdash; third-party compliance management; legacy questionnaire-focused approach</li>
+              <li><strong>TPRM</strong> &mdash; third-party risk management; balanced third + first-party focus</li>
+              <li><strong>Qualitative Risk Analysis</strong> &mdash; subjective High/Medium/Low scales; manual and inconsistent</li>
+              <li><strong>Quantitative Risk Analysis</strong> &mdash; numerical models and probability distributions; automated and reproducible</li>
+              <li><strong>Heatmaps</strong> &mdash; legacy likelihood &times; impact matrices that obscure actual risk magnitude</li>
+              <li><strong>Histograms</strong> &mdash; frequency-distribution charts conveying risk shape, range, and confidence intervals</li>
+              <li><strong>Risk Scenarios</strong> &mdash; holistic threat + vector + asset + impact descriptions</li>
+              <li><strong>FUD</strong> &mdash; Fear, Uncertainty, and Doubt; legacy fear-based risk communication</li>
+              <li><strong>ELMR</strong> &mdash; Evidence, Logic, Math, Reason; the GRC Engineering alternative to FUD</li>
+              <li><strong>Decision Support</strong> &mdash; providing data and options so stakeholders make informed risk decisions</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="program-label">Compliance</span></td>
+          <td>
+            <ul>
+              <li><strong>Control Monitoring</strong> &mdash; observing whether controls operate as intended; automated and continuous</li>
+              <li><strong>Active Testing</strong> &mdash; exercising controls to confirm they function, not just checking they exist</li>
+              <li><strong>Evidence Samples</strong> &mdash; legacy subset of records; incomplete and vulnerable to selection bias</li>
+              <li><strong>Evidence Populations</strong> &mdash; complete control records collected automatically; full coverage</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="program-label">Trust &amp;<br>Assurance</span></td>
+          <td>
+            <ul>
+              <li><strong>RFIs</strong> &mdash; Requests for Information; legacy GRC handles via email</li>
+              <li><strong>Self-service RFIs</strong> &mdash; customers answer security questions through portals or automated engines</li>
+              <li><strong>Real-time Visibility</strong> &mdash; transparent, up-to-date, historically browsable control status</li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  </div>
 </section>
 
-<section class="glossary-section">
-  <h3 class="glossary-section-title">Governance</h3>
-  <ul class="glossary-list">
-    <li class="glossary-entry">
-      <span class="glossary-term">Policy-as-Code</span>
-      <span class="glossary-def">Policies written and maintained directly as executable code (e.g., OPA Rego, Sentinel). The policy source of truth <em>is</em> the code itself, enabling version control, automated testing, and deterministic enforcement at deploy time or runtime.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Policy-to-Code</span>
-      <span class="glossary-def">The process of translating human-readable policy documents into executable code. Starts from natural-language policies and produces corresponding code representations, bridging the gap between policy authors and enforcement systems.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Policy-from-Code</span>
-      <span class="glossary-def">Deriving or generating human-readable policy documentation from existing code, configurations, or runtime behavior. Ensures that written policies reflect what is actually enforced, closing the gap between documentation and control reality.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">PaC</span>
-      <span class="glossary-def">Policy as Code. Shorthand for encoding governance policies into executable code that can be evaluated automatically&mdash;for example, enforcing risk tolerance thresholds before a deployment or change is approved.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Risk Tolerance</span>
-      <span class="glossary-def">The level of risk an organization is willing to accept in pursuit of its objectives. In GRC Engineering, risk tolerance is codified and enforced programmatically (via PaC) at pre-deploy or pre-change gates, rather than expressed only in narrative policy documents.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Real-time Behavioral Interventions</span>
-      <span class="glossary-def">Context-aware nudges or guardrails delivered to employees at the moment a risky or non-compliant action is about to occur, replacing static annual or semi-annual training with continuous, in-the-flow guidance.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Scientific Pedagogy</span>
-      <span class="glossary-def">Applying evidence-based learning science&mdash;spaced repetition, scenario-based exercises, measurable retention&mdash;to security and compliance training, replacing checkbox-style annual courses with methods proven to change behavior.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Metrics-focused Committees</span>
-      <span class="glossary-def">Governance bodies that base decisions on quantitative data&mdash;risk metrics, control effectiveness rates, incident trends&mdash;rather than relying on subjective discussion or status-quo reporting without measurable outcomes.</span>
-    </li>
-  </ul>
+<!-- ── TOOLS TABLE ── -->
+<section class="ref-section">
+  <h2 class="ref-section-title">Tools</h2>
+  <div class="table-outer">
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Program</th>
+          <th><span class="col-engineering">Open-Source Tools</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="program-label">Governance</span></td>
+          <td>
+            <ul>
+              <li><strong>OPA / Rego</strong> &mdash; general-purpose policy engine; Policy-as-Code via declarative Rego language</li>
+              <li><strong>Kyverno / Kubewarden</strong> &mdash; Kubernetes-native policy engines; block non-compliant workloads at admission</li>
+              <li><strong>Backstage</strong> &mdash; internal developer portal; reconciles docs &harr; controls via living documentation</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="program-label">Risk</span></td>
+          <td>
+            <ul>
+              <li><strong>FAIR / OpenFAIR</strong> &mdash; open standard decomposing risk into measurable factors for quantitative analysis</li>
+              <li><strong>MITRE ATT&amp;CK</strong> &mdash; open knowledge base of real-world adversary tactics, techniques, and procedures</li>
+              <li><strong>Monte Carlo Simulation Tools</strong> &mdash; probabilistic simulations producing distributions instead of point estimates</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="program-label">Compliance</span></td>
+          <td>
+            <ul>
+              <li><strong>Steampipe</strong> &mdash; cloud APIs as SQL tables; full-state infrastructure queries for evidence populations</li>
+              <li><strong>CloudQuery</strong> &mdash; infrastructure-as-data platform; automated evidence pipelines and full-population audits</li>
+              <li><strong>ScoutSuite / Prowler</strong> &mdash; cloud security posture tools; active testing against CIS, PCI DSS, HIPAA benchmarks</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="program-label">Trust &amp;<br>Assurance</span></td>
+          <td>
+            <ul>
+              <li><em style="opacity: 0.6;">Coming soon</em></li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  </div>
 </section>
 
-<section class="glossary-section">
-  <h3 class="glossary-section-title">Risk</h3>
-  <ul class="glossary-list">
-    <li class="glossary-entry">
-      <span class="glossary-term">TPCM</span>
-      <span class="glossary-def">Third-party compliance management. Legacy GRC approach to third-party &ldquo;risk&rdquo; management. Primarily focused on whether or not third parties comply with a customer&rsquo;s requirements as expressed in contract language and questionnaires. Does not account for real-world threats, value-at-risk, or positive vs. negative risk tradeoffs. Conflates outside-in vulnerability scanning with risk analysis.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">TPRM</span>
-      <span class="glossary-def">Third-party risk management. The GRC Engineering counterpart to TPCM. Balances third-party and first-party risk with equal rigor, evaluating real-world threat scenarios, value-at-risk, and risk tradeoffs rather than reducing the discipline to questionnaire-based compliance checking alone.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Qualitative Risk Analysis</span>
-      <span class="glossary-def">Assessing risk using subjective scales (e.g., High / Medium / Low) based on expert judgment. The legacy GRC default&mdash;manual, inconsistent across assessors, and difficult to aggregate or compare meaningfully.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Quantitative Risk Analysis</span>
-      <span class="glossary-def">Assessing risk using numerical models, probability distributions, and measurable data (e.g., annualized loss expectancy, Monte Carlo simulations). The GRC Engineering approach&mdash;automated, reproducible, and comparable across risk scenarios.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Heatmaps</span>
-      <span class="glossary-def">Color-coded matrices plotting likelihood against impact on ordinal scales. A hallmark of legacy GRC risk reporting. Often criticized for obscuring actual risk magnitude behind coarse, subjective categories that resist meaningful comparison.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Histograms</span>
-      <span class="glossary-def">Frequency-distribution charts showing the spread of possible loss outcomes from quantitative risk analysis. Replace heatmaps in GRC Engineering by conveying the shape, range, and confidence intervals of risk in objective, data-driven terms.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Risk Scenarios</span>
-      <span class="glossary-def">Holistic descriptions of risk that combine a threat, attack vector, affected asset, and resulting impact into a single, analyzable unit. GRC Engineering uses these in place of fragmented weakness or issue lists to model risk realistically and prioritize response.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">FUD</span>
-      <span class="glossary-def">Fear, Uncertainty, and Doubt. A persuasion tactic common in legacy GRC where risk is communicated through alarming narratives rather than objective evidence, often to justify budget or authority without rigorous analysis.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">ELMR</span>
-      <span class="glossary-def">Evidence, Logic, Math, Reason. The GRC Engineering alternative to FUD. Risk decisions and communications are grounded in verifiable data, sound logic, mathematical models, and reasoned argument rather than fear-based rhetoric.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Decision Support</span>
-      <span class="glossary-def">The GRC Engineering posture toward the business: acting as partners who provide data, analysis, and options so stakeholders can make informed risk decisions&mdash;replacing the legacy &ldquo;accountability police&rdquo; model of enforcement without context.</span>
-    </li>
-  </ul>
-</section>
-
-<section class="glossary-section">
-  <h3 class="glossary-section-title">Compliance</h3>
-  <ul class="glossary-list">
-    <li class="glossary-entry">
-      <span class="glossary-term">Control Monitoring</span>
-      <span class="glossary-def">The practice of observing whether security and compliance controls are operating as intended. Legacy GRC performs this periodically and in isolation; GRC Engineering automates it continuously and holistically across the control environment.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Active Testing</span>
-      <span class="glossary-def">Proactively exercising controls to confirm they function correctly&mdash;not just checking that they exist. A GRC Engineering complement to passive monitoring, analogous to how software engineers write automated tests to verify system behavior.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Evidence Samples</span>
-      <span class="glossary-def">A subset of records selected to demonstrate that a control operated during an audit period. The legacy GRC norm&mdash;limited by manual collection effort, inherently incomplete, and vulnerable to selection bias.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Evidence Populations</span>
-      <span class="glossary-def">The complete set of records for a control over a given period, collected and retained automatically. The GRC Engineering standard&mdash;eliminates sampling risk by providing full coverage and enabling statistical analysis of control effectiveness.</span>
-    </li>
-  </ul>
-</section>
-
-<section class="glossary-section">
-  <h3 class="glossary-section-title">Trust &amp; Assurance</h3>
-  <ul class="glossary-list">
-    <li class="glossary-entry">
-      <span class="glossary-term">RFIs</span>
-      <span class="glossary-def">Requests for Information. Inquiries from customers, prospects, or partners asking an organization to demonstrate its security and compliance posture. Legacy GRC handles these manually via email; GRC Engineering enables self-service completion and real-time responses.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Self-service RFIs</span>
-      <span class="glossary-def">A GRC Engineering model where customers and prospects can answer their own security questions through portals, trust centers, or automated questionnaire engines&mdash;eliminating the manual email back-and-forth of legacy GRC.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Real-time Visibility</span>
-      <span class="glossary-def">Providing transparent, up-to-date, and historically browsable views into an organization&rsquo;s control status. Replaces the legacy model of opaque, abstracted annual artifacts (e.g., SOC 2 reports shared once a year) with continuous assurance.</span>
-    </li>
-  </ul>
-</section>
-
-<h2 class="glossary-section-title" style="font-size: 1.4rem; margin-bottom: 28px; margin-top: 60px;">Tools</h2>
-
-<section class="glossary-section">
-  <h3 class="glossary-section-title">Governance</h3>
-  <ul class="glossary-list">
-    <li class="glossary-entry">
-      <span class="glossary-term">OPA / Rego</span>
-      <span class="glossary-def">Open Policy Agent&mdash;a general-purpose policy engine that uses the Rego declarative language. Enables Policy-as-Code by evaluating policies against structured data at deploy time, API request time, or in CI/CD pipelines to enforce risk tolerance programmatically.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Kyverno / Kubewarden</span>
-      <span class="glossary-def">Kubernetes-native policy engines that validate, mutate, and generate resource configurations at admission time. Enforce governance policies directly in the cluster control plane&mdash;blocking non-compliant workloads before they run.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Backstage</span>
-      <span class="glossary-def">An open-source internal developer portal (originally from Spotify) that catalogs services, documentation, and ownership. In GRC Engineering, enables the &ldquo;autocorrect/reconcile docs &harr; controls&rdquo; pattern by keeping living documentation tightly coupled to the systems they describe.</span>
-    </li>
-  </ul>
-</section>
-
-<section class="glossary-section">
-  <h3 class="glossary-section-title">Risk</h3>
-  <ul class="glossary-list">
-    <li class="glossary-entry">
-      <span class="glossary-term">FAIR / OpenFAIR</span>
-      <span class="glossary-def">Factor Analysis of Information Risk&mdash;a quantitative risk analysis model that decomposes risk into measurable factors (threat event frequency, vulnerability, loss magnitude). The open standard (OpenFAIR) provides a taxonomy and methodology for replacing subjective heatmaps with defensible, data-driven risk quantification.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">MITRE ATT&amp;CK</span>
-      <span class="glossary-def">A globally accessible knowledge base of adversary tactics, techniques, and procedures based on real-world observations. In GRC Engineering, used to build threat-informed risk scenarios by grounding risk analysis in documented adversary behavior rather than hypothetical threats.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Monte Carlo Simulation Tools</span>
-      <span class="glossary-def">Software that runs thousands of probabilistic simulations to model the range and likelihood of possible outcomes. In risk analysis, replaces single-point estimates and heatmaps with probability distributions and histograms that convey uncertainty honestly.</span>
-    </li>
-  </ul>
-</section>
-
-<section class="glossary-section">
-  <h3 class="glossary-section-title">Compliance</h3>
-  <ul class="glossary-list">
-    <li class="glossary-entry">
-      <span class="glossary-term">Steampipe</span>
-      <span class="glossary-def">An open-source tool that exposes cloud APIs as SQL tables, enabling compliance queries across AWS, GCP, Azure, and 100+ services using standard SQL. Produces evidence populations by querying the full state of infrastructure rather than sampling screenshots.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">CloudQuery</span>
-      <span class="glossary-def">An open-source infrastructure-as-data platform that syncs cloud and SaaS configurations into queryable databases. Enables compliance teams to build automated evidence pipelines and full-population audits using familiar data tools.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">ScoutSuite / Prowler</span>
-      <span class="glossary-def">Open-source cloud security posture assessment tools that actively test configurations against compliance benchmarks (CIS, PCI DSS, HIPAA). Perform active testing of controls rather than relying on passive observation or vendor attestations.</span>
-    </li>
-  </ul>
-</section>
-
-<section class="glossary-section">
-  <h3 class="glossary-section-title">Trust &amp; Assurance</h3>
-  <ul class="glossary-list">
-    <li class="glossary-empty">Coming soon</li>
-  </ul>
-</section>
-
-<h2 class="glossary-section-title" style="font-size: 1.4rem; margin-bottom: 28px; margin-top: 60px;">TTPs</h2>
-
-<section class="glossary-section">
-  <h3 class="glossary-section-title">Governance</h3>
-  <ul class="glossary-list">
-    <li class="glossary-entry">
-      <span class="glossary-term">GitOps for Policy</span>
-      <span class="glossary-def">Managing the full policy lifecycle&mdash;drafting, reviewing, approving, versioning, and deploying&mdash;through Git workflows. Policies live as code in repositories with pull request reviews, audit trails, and automated deployment, replacing shared drives and manual document routing.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Pre-deploy Policy Gates</span>
-      <span class="glossary-def">CI/CD pipeline checks that evaluate policy compliance before changes reach production. Deployments that violate governance policies (e.g., missing encryption, unapproved regions, excessive permissions) are blocked automatically&mdash;enforcing risk tolerance at the point of change.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Nudge Engineering</span>
-      <span class="glossary-def">Designing real-time behavioral interventions that guide employees toward secure, compliant actions at the moment of decision. Context-aware prompts, guardrails, and defaults that make the right thing to do the easy thing to do&mdash;replacing annual training slide decks.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Spaced Repetition Training</span>
-      <span class="glossary-def">Applying the scientific pedagogy principle of spaced repetition to security and compliance training. Short, scenario-based exercises delivered at increasing intervals to maximize retention&mdash;proven to be more effective than annual or semi-annual checkbox courses.</span>
-    </li>
-  </ul>
-</section>
-
-<section class="glossary-section">
-  <h3 class="glossary-section-title">Risk</h3>
-  <ul class="glossary-list">
-    <li class="glossary-entry">
-      <span class="glossary-term">Scenario-based Risk Quantification</span>
-      <span class="glossary-def">Building holistic risk scenarios (threat + vector + asset + impact) and running Monte Carlo simulations to produce loss distributions. Replaces qualitative heatmap exercises with repeatable, data-informed models that output dollars and probabilities.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Risk-as-Data Pipelines</span>
-      <span class="glossary-def">ETL pipelines that ingest threat intelligence, vulnerability scanner output, asset inventory, and business context into unified risk models. Automates the data collection that legacy GRC performs manually, enabling continuous risk quantification at scale.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">First-party Hardening over Third-party Questionnaires</span>
-      <span class="glossary-def">Prioritizing configuration of your own systems to limit blast radius when a vendor is compromised, rather than relying primarily on third-party compliance attestations. The TPRM counterpart to TPCM&rsquo;s questionnaire-heavy approach&mdash;balanced third + first-party focus.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Decision Briefings over Risk Registers</span>
-      <span class="glossary-def">Presenting stakeholders with data-driven options and trade-off analysis for specific risk decisions, rather than maintaining static risk registers that accumulate entries without driving action. The decision support partner model in practice.</span>
-    </li>
-  </ul>
-</section>
-
-<section class="glossary-section">
-  <h3 class="glossary-section-title">Compliance</h3>
-  <ul class="glossary-list">
-    <li class="glossary-entry">
-      <span class="glossary-term">Evidence-as-Code</span>
-      <span class="glossary-def">Programmatic evidence collection via APIs, infrastructure queries, and automated scripts&mdash;not manual screenshots or spreadsheet exports. Evidence is versioned, reproducible, and covers full populations rather than hand-picked samples.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Continuous Control Regression Testing</span>
-      <span class="glossary-def">Active tests that exercise controls on an ongoing basis to confirm they work as intended&mdash;e.g., attempting to deploy without required approvals, testing MFA bypass paths, or verifying encryption at rest. The compliance equivalent of software regression tests.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Full-population Audit</span>
-      <span class="glossary-def">Querying 100% of control evidence records rather than sampling a subset. Enabled by automated evidence collection infrastructure, eliminates sampling bias and provides statistically complete assurance of control operation over the audit period.</span>
-    </li>
-  </ul>
-</section>
-
-<section class="glossary-section">
-  <h3 class="glossary-section-title">Trust &amp; Assurance</h3>
-  <ul class="glossary-list">
-    <li class="glossary-entry">
-      <span class="glossary-term">Trust Center as Product</span>
-      <span class="glossary-def">Treating your public-facing trust page as a product with user research, analytics, iterative improvement, and measurable outcomes&mdash;not a static compliance artifact. Designed to serve customer needs efficiently and reduce friction in the sales and procurement cycle.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Auto-populated Questionnaires</span>
-      <span class="glossary-def">Mapping live control data and evidence to common security questionnaire schemas (SIG, CAIQ, VSA) automatically. Replaces the manual, repetitive process of re-answering the same questions for every customer with a system that stays current as controls evolve.</span>
-    </li>
-    <li class="glossary-entry">
-      <span class="glossary-term">Real-time Control Dashboards</span>
-      <span class="glossary-def">Live, historically queryable views of control effectiveness shared with customers and auditors. Replaces annual SOC 2 PDFs and point-in-time snapshots with transparent, continuous assurance that stakeholders can verify at any time.</span>
-    </li>
-  </ul>
+<!-- ── TTPs TABLE ── -->
+<section class="ref-section">
+  <h2 class="ref-section-title">TTPs</h2>
+  <div class="table-outer">
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Program</th>
+          <th><span class="col-engineering">Tactics, Techniques &amp; Procedures</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="program-label">Governance</span></td>
+          <td>
+            <ul>
+              <li><strong>GitOps for Policy</strong> &mdash; version-controlled policy lifecycle with PR reviews, audit trails, and automated deployment</li>
+              <li><strong>Pre-deploy Policy Gates</strong> &mdash; CI/CD checks that block deployments violating governance policies</li>
+              <li><strong>Nudge Engineering</strong> &mdash; real-time behavioral interventions making the right action the easy action</li>
+              <li><strong>Spaced Repetition Training</strong> &mdash; scenario-based exercises at increasing intervals; proven retention over annual courses</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="program-label">Risk</span></td>
+          <td>
+            <ul>
+              <li><strong>Scenario-based Risk Quantification</strong> &mdash; holistic risk scenarios fed through Monte Carlo simulations for loss distributions</li>
+              <li><strong>Risk-as-Data Pipelines</strong> &mdash; ETL from threat intel, vuln scanners, and asset inventory into unified risk models</li>
+              <li><strong>First-party Hardening over Third-party Questionnaires</strong> &mdash; blast-radius controls over vendor attestations</li>
+              <li><strong>Decision Briefings over Risk Registers</strong> &mdash; data-driven options and trade-offs instead of static spreadsheets</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="program-label">Compliance</span></td>
+          <td>
+            <ul>
+              <li><strong>Evidence-as-Code</strong> &mdash; programmatic evidence collection via APIs; versioned, reproducible, full-population</li>
+              <li><strong>Continuous Control Regression Testing</strong> &mdash; active tests exercising controls on an ongoing basis</li>
+              <li><strong>Full-population Audit</strong> &mdash; querying 100% of records; eliminates sampling bias entirely</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="program-label">Trust &amp;<br>Assurance</span></td>
+          <td>
+            <ul>
+              <li><strong>Trust Center as Product</strong> &mdash; trust page with user research, analytics, and iterative improvement</li>
+              <li><strong>Auto-populated Questionnaires</strong> &mdash; mapping live control data to SIG, CAIQ, VSA schemas automatically</li>
+              <li><strong>Real-time Control Dashboards</strong> &mdash; live, historically queryable views replacing annual SOC 2 PDFs</li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  </div>
 </section>
 
 </div>
