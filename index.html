@@ -615,6 +615,28 @@ tbody td:nth-child(3) li::before {
 <div class="glossary-sections">
 
 <section class="glossary-section">
+  <h2 class="glossary-section-title">General</h2>
+  <ul class="glossary-list">
+    <li class="glossary-entry">
+      <span class="glossary-term">Systems Thinking</span>
+      <span class="glossary-def">An analytical approach that examines how components of a system interrelate and work together over time within larger systems. In GRC Engineering, applied across organizational governance, risk analysis, and control modeling to understand emergent behavior rather than treating each element in isolation.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Design Thinking</span>
+      <span class="glossary-def">A human-centered problem-solving methodology that emphasizes empathy, ideation, and iteration. In GRC Engineering, harnessed to make the right thing to do the easy thing to do&mdash;designing controls and processes that people naturally follow rather than work around.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Threat-Informed</span>
+      <span class="glossary-def">Grounding GRC activities&mdash;policies, controls, trainings, risk assessments&mdash;in real-world threat intelligence rather than abstract framework checklists. Ensures that defenses address actual adversary behaviors and attack patterns, not just theoretical compliance gaps.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">GRC as a Product</span>
+      <span class="glossary-def">Treating GRC programs as products that serve internal and external customers, with user research, feedback loops, iterative improvement, and measurable outcomes&mdash;replacing the legacy model where GRC exists as an internal program serving primarily the GRC team&rsquo;s own needs.</span>
+    </li>
+  </ul>
+</section>
+
+<section class="glossary-section">
   <h2 class="glossary-section-title">Governance</h2>
   <ul class="glossary-list">
     <li class="glossary-entry">
@@ -629,6 +651,26 @@ tbody td:nth-child(3) li::before {
       <span class="glossary-term">Policy-from-Code</span>
       <span class="glossary-def">Deriving or generating human-readable policy documentation from existing code, configurations, or runtime behavior. Ensures that written policies reflect what is actually enforced, closing the gap between documentation and control reality.</span>
     </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">PaC</span>
+      <span class="glossary-def">Policy as Code. Shorthand for encoding governance policies into executable code that can be evaluated automatically&mdash;for example, enforcing risk tolerance thresholds before a deployment or change is approved.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Risk Tolerance</span>
+      <span class="glossary-def">The level of risk an organization is willing to accept in pursuit of its objectives. In GRC Engineering, risk tolerance is codified and enforced programmatically (via PaC) at pre-deploy or pre-change gates, rather than expressed only in narrative policy documents.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Real-time Behavioral Interventions</span>
+      <span class="glossary-def">Context-aware nudges or guardrails delivered to employees at the moment a risky or non-compliant action is about to occur, replacing static annual or semi-annual training with continuous, in-the-flow guidance.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Scientific Pedagogy</span>
+      <span class="glossary-def">Applying evidence-based learning science&mdash;spaced repetition, scenario-based exercises, measurable retention&mdash;to security and compliance training, replacing checkbox-style annual courses with methods proven to change behavior.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Metrics-focused Committees</span>
+      <span class="glossary-def">Governance bodies that base decisions on quantitative data&mdash;risk metrics, control effectiveness rates, incident trends&mdash;rather than relying on subjective discussion or status-quo reporting without measurable outcomes.</span>
+    </li>
   </ul>
 </section>
 
@@ -639,20 +681,82 @@ tbody td:nth-child(3) li::before {
       <span class="glossary-term">TPCM</span>
       <span class="glossary-def">Third-party compliance management. Legacy GRC approach to third-party &ldquo;risk&rdquo; management. Primarily focused on whether or not third parties comply with a customer&rsquo;s requirements as expressed in contract language and questionnaires. Does not account for real-world threats, value-at-risk, or positive vs. negative risk tradeoffs. Conflates outside-in vulnerability scanning with risk analysis.</span>
     </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">TPRM</span>
+      <span class="glossary-def">Third-party risk management. The GRC Engineering counterpart to TPCM. Balances third-party and first-party risk with equal rigor, evaluating real-world threat scenarios, value-at-risk, and risk tradeoffs rather than reducing the discipline to questionnaire-based compliance checking alone.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Qualitative Risk Analysis</span>
+      <span class="glossary-def">Assessing risk using subjective scales (e.g., High / Medium / Low) based on expert judgment. The legacy GRC default&mdash;manual, inconsistent across assessors, and difficult to aggregate or compare meaningfully.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Quantitative Risk Analysis</span>
+      <span class="glossary-def">Assessing risk using numerical models, probability distributions, and measurable data (e.g., annualized loss expectancy, Monte Carlo simulations). The GRC Engineering approach&mdash;automated, reproducible, and comparable across risk scenarios.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Heatmaps</span>
+      <span class="glossary-def">Color-coded matrices plotting likelihood against impact on ordinal scales. A hallmark of legacy GRC risk reporting. Often criticized for obscuring actual risk magnitude behind coarse, subjective categories that resist meaningful comparison.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Histograms</span>
+      <span class="glossary-def">Frequency-distribution charts showing the spread of possible loss outcomes from quantitative risk analysis. Replace heatmaps in GRC Engineering by conveying the shape, range, and confidence intervals of risk in objective, data-driven terms.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Risk Scenarios</span>
+      <span class="glossary-def">Holistic descriptions of risk that combine a threat, attack vector, affected asset, and resulting impact into a single, analyzable unit. GRC Engineering uses these in place of fragmented weakness or issue lists to model risk realistically and prioritize response.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">FUD</span>
+      <span class="glossary-def">Fear, Uncertainty, and Doubt. A persuasion tactic common in legacy GRC where risk is communicated through alarming narratives rather than objective evidence, often to justify budget or authority without rigorous analysis.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">ELMR</span>
+      <span class="glossary-def">Evidence, Logic, Math, Reason. The GRC Engineering alternative to FUD. Risk decisions and communications are grounded in verifiable data, sound logic, mathematical models, and reasoned argument rather than fear-based rhetoric.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Decision Support</span>
+      <span class="glossary-def">The GRC Engineering posture toward the business: acting as partners who provide data, analysis, and options so stakeholders can make informed risk decisions&mdash;replacing the legacy &ldquo;accountability police&rdquo; model of enforcement without context.</span>
+    </li>
   </ul>
 </section>
 
 <section class="glossary-section">
   <h2 class="glossary-section-title">Compliance</h2>
   <ul class="glossary-list">
-    <li class="glossary-empty">Coming soon</li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Control Monitoring</span>
+      <span class="glossary-def">The practice of observing whether security and compliance controls are operating as intended. Legacy GRC performs this periodically and in isolation; GRC Engineering automates it continuously and holistically across the control environment.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Active Testing</span>
+      <span class="glossary-def">Proactively exercising controls to confirm they function correctly&mdash;not just checking that they exist. A GRC Engineering complement to passive monitoring, analogous to how software engineers write automated tests to verify system behavior.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Evidence Samples</span>
+      <span class="glossary-def">A subset of records selected to demonstrate that a control operated during an audit period. The legacy GRC norm&mdash;limited by manual collection effort, inherently incomplete, and vulnerable to selection bias.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Evidence Populations</span>
+      <span class="glossary-def">The complete set of records for a control over a given period, collected and retained automatically. The GRC Engineering standard&mdash;eliminates sampling risk by providing full coverage and enabling statistical analysis of control effectiveness.</span>
+    </li>
   </ul>
 </section>
 
 <section class="glossary-section">
   <h2 class="glossary-section-title">Trust &amp; Assurance</h2>
   <ul class="glossary-list">
-    <li class="glossary-empty">Coming soon</li>
+    <li class="glossary-entry">
+      <span class="glossary-term">RFIs</span>
+      <span class="glossary-def">Requests for Information. Inquiries from customers, prospects, or partners asking an organization to demonstrate its security and compliance posture. Legacy GRC handles these manually via email; GRC Engineering enables self-service completion and real-time responses.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Self-service RFIs</span>
+      <span class="glossary-def">A GRC Engineering model where customers and prospects can answer their own security questions through portals, trust centers, or automated questionnaire engines&mdash;eliminating the manual email back-and-forth of legacy GRC.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Real-time Visibility</span>
+      <span class="glossary-def">Providing transparent, up-to-date, and historically browsable views into an organization&rsquo;s control status. Replaces the legacy model of opaque, abstracted annual artifacts (e.g., SOC 2 reports shared once a year) with continuous assurance.</span>
+    </li>
   </ul>
 </section>
 
