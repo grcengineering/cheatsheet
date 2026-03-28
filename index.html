@@ -765,13 +765,169 @@ tbody td:nth-child(3) li::before {
 <h2 class="glossary-section-title" style="font-size: 1.4rem; margin-bottom: 28px; margin-top: 60px;">Tools</h2>
 
 <section class="glossary-section">
-  <p class="glossary-empty">Coming soon</p>
+  <h3 class="glossary-section-title">Governance</h3>
+  <ul class="glossary-list">
+    <li class="glossary-entry">
+      <span class="glossary-term">OPA / Rego</span>
+      <span class="glossary-def">Open Policy Agent&mdash;a general-purpose policy engine that uses the Rego declarative language. Enables Policy-as-Code by evaluating policies against structured data at deploy time, API request time, or in CI/CD pipelines to enforce risk tolerance programmatically.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">HashiCorp Sentinel</span>
+      <span class="glossary-def">A Policy-as-Code framework embedded in HashiCorp products (Terraform, Vault, Consul, Nomad). Enforces fine-grained, logic-based policy decisions on infrastructure changes before they are applied&mdash;ensuring governance guardrails are part of the deployment pipeline, not an afterthought.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Kyverno / Kubewarden</span>
+      <span class="glossary-def">Kubernetes-native policy engines that validate, mutate, and generate resource configurations at admission time. Enforce governance policies directly in the cluster control plane&mdash;blocking non-compliant workloads before they run.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Backstage</span>
+      <span class="glossary-def">An open-source internal developer portal (originally from Spotify) that catalogs services, documentation, and ownership. In GRC Engineering, enables the &ldquo;autocorrect/reconcile docs &harr; controls&rdquo; pattern by keeping living documentation tightly coupled to the systems they describe.</span>
+    </li>
+  </ul>
+</section>
+
+<section class="glossary-section">
+  <h3 class="glossary-section-title">Risk</h3>
+  <ul class="glossary-list">
+    <li class="glossary-entry">
+      <span class="glossary-term">FAIR / OpenFAIR</span>
+      <span class="glossary-def">Factor Analysis of Information Risk&mdash;a quantitative risk analysis model that decomposes risk into measurable factors (threat event frequency, vulnerability, loss magnitude). The open standard (OpenFAIR) provides a taxonomy and methodology for replacing subjective heatmaps with defensible, data-driven risk quantification.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">RiskLens</span>
+      <span class="glossary-def">A cyber risk quantification platform built on the FAIR model. Automates Monte Carlo simulations to produce loss exceedance curves and financial impact distributions&mdash;enabling risk teams to communicate in dollars and probabilities rather than red/yellow/green.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">MITRE ATT&amp;CK</span>
+      <span class="glossary-def">A globally accessible knowledge base of adversary tactics, techniques, and procedures based on real-world observations. In GRC Engineering, used to build threat-informed risk scenarios by grounding risk analysis in documented adversary behavior rather than hypothetical threats.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Monte Carlo Simulation Tools</span>
+      <span class="glossary-def">Software that runs thousands of probabilistic simulations to model the range and likelihood of possible outcomes. In risk analysis, replaces single-point estimates and heatmaps with probability distributions and histograms that convey uncertainty honestly.</span>
+    </li>
+  </ul>
+</section>
+
+<section class="glossary-section">
+  <h3 class="glossary-section-title">Compliance</h3>
+  <ul class="glossary-list">
+    <li class="glossary-entry">
+      <span class="glossary-term">Drata / Vanta / Anecdotes</span>
+      <span class="glossary-def">Continuous compliance automation platforms that integrate with cloud infrastructure, identity providers, and developer tools to collect evidence populations automatically. Replace periodic manual evidence gathering with real-time, holistic control monitoring dashboards.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Steampipe</span>
+      <span class="glossary-def">An open-source tool that exposes cloud APIs as SQL tables, enabling compliance queries across AWS, GCP, Azure, and 100+ services using standard SQL. Produces evidence populations by querying the full state of infrastructure rather than sampling screenshots.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">CloudQuery</span>
+      <span class="glossary-def">An open-source infrastructure-as-data platform that syncs cloud and SaaS configurations into queryable databases. Enables compliance teams to build automated evidence pipelines and full-population audits using familiar data tools.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">ScoutSuite / Prowler</span>
+      <span class="glossary-def">Open-source cloud security posture assessment tools that actively test configurations against compliance benchmarks (CIS, PCI DSS, HIPAA). Perform active testing of controls rather than relying on passive observation or vendor attestations.</span>
+    </li>
+  </ul>
+</section>
+
+<section class="glossary-section">
+  <h3 class="glossary-section-title">Trust &amp; Assurance</h3>
+  <ul class="glossary-list">
+    <li class="glossary-entry">
+      <span class="glossary-term">Vanta Trust Center / SafeBase</span>
+      <span class="glossary-def">Customer-facing trust portals that publish an organization&rsquo;s security posture, compliance certifications, and control status in real time. Enable self-service RFI resolution&mdash;prospects and customers access what they need without email back-and-forth.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Conveyor</span>
+      <span class="glossary-def">An AI-powered platform for completing security questionnaires at scale. Maps an organization&rsquo;s control data to questionnaire schemas automatically, replacing the manual, repetitive process of answering the same questions across hundreds of customer requests.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">SecurityScorecard / Bitsight</span>
+      <span class="glossary-def">External security ratings platforms that provide continuous, outside-in visibility into an organization&rsquo;s security posture. Offer transparent, real-time signals that complement traditional audit artifacts with always-current, independently observable data.</span>
+    </li>
+  </ul>
 </section>
 
 <h2 class="glossary-section-title" style="font-size: 1.4rem; margin-bottom: 28px; margin-top: 60px;">TTPs</h2>
 
 <section class="glossary-section">
-  <p class="glossary-empty">Coming soon</p>
+  <h3 class="glossary-section-title">Governance</h3>
+  <ul class="glossary-list">
+    <li class="glossary-entry">
+      <span class="glossary-term">GitOps for Policy</span>
+      <span class="glossary-def">Managing the full policy lifecycle&mdash;drafting, reviewing, approving, versioning, and deploying&mdash;through Git workflows. Policies live as code in repositories with pull request reviews, audit trails, and automated deployment, replacing shared drives and manual document routing.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Pre-deploy Policy Gates</span>
+      <span class="glossary-def">CI/CD pipeline checks that evaluate policy compliance before changes reach production. Deployments that violate governance policies (e.g., missing encryption, unapproved regions, excessive permissions) are blocked automatically&mdash;enforcing risk tolerance at the point of change.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Nudge Engineering</span>
+      <span class="glossary-def">Designing real-time behavioral interventions that guide employees toward secure, compliant actions at the moment of decision. Context-aware prompts, guardrails, and defaults that make the right thing to do the easy thing to do&mdash;replacing annual training slide decks.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Spaced Repetition Training</span>
+      <span class="glossary-def">Applying the scientific pedagogy principle of spaced repetition to security and compliance training. Short, scenario-based exercises delivered at increasing intervals to maximize retention&mdash;proven to be more effective than annual or semi-annual checkbox courses.</span>
+    </li>
+  </ul>
+</section>
+
+<section class="glossary-section">
+  <h3 class="glossary-section-title">Risk</h3>
+  <ul class="glossary-list">
+    <li class="glossary-entry">
+      <span class="glossary-term">Scenario-based Risk Quantification</span>
+      <span class="glossary-def">Building holistic risk scenarios (threat + vector + asset + impact) and running Monte Carlo simulations to produce loss distributions. Replaces qualitative heatmap exercises with repeatable, data-informed models that output dollars and probabilities.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Risk-as-Data Pipelines</span>
+      <span class="glossary-def">ETL pipelines that ingest threat intelligence, vulnerability scanner output, asset inventory, and business context into unified risk models. Automates the data collection that legacy GRC performs manually, enabling continuous risk quantification at scale.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">First-party Hardening over Third-party Questionnaires</span>
+      <span class="glossary-def">Prioritizing configuration of your own systems to limit blast radius when a vendor is compromised, rather than relying primarily on third-party compliance attestations. The TPRM counterpart to TPCM&rsquo;s questionnaire-heavy approach&mdash;balanced third + first-party focus.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Decision Briefings over Risk Registers</span>
+      <span class="glossary-def">Presenting stakeholders with data-driven options and trade-off analysis for specific risk decisions, rather than maintaining static risk registers that accumulate entries without driving action. The decision support partner model in practice.</span>
+    </li>
+  </ul>
+</section>
+
+<section class="glossary-section">
+  <h3 class="glossary-section-title">Compliance</h3>
+  <ul class="glossary-list">
+    <li class="glossary-entry">
+      <span class="glossary-term">Evidence-as-Code</span>
+      <span class="glossary-def">Programmatic evidence collection via APIs, infrastructure queries, and automated scripts&mdash;not manual screenshots or spreadsheet exports. Evidence is versioned, reproducible, and covers full populations rather than hand-picked samples.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Continuous Control Regression Testing</span>
+      <span class="glossary-def">Active tests that exercise controls on an ongoing basis to confirm they work as intended&mdash;e.g., attempting to deploy without required approvals, testing MFA bypass paths, or verifying encryption at rest. The compliance equivalent of software regression tests.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Full-population Audit</span>
+      <span class="glossary-def">Querying 100% of control evidence records rather than sampling a subset. Enabled by automated evidence collection infrastructure, eliminates sampling bias and provides statistically complete assurance of control operation over the audit period.</span>
+    </li>
+  </ul>
+</section>
+
+<section class="glossary-section">
+  <h3 class="glossary-section-title">Trust &amp; Assurance</h3>
+  <ul class="glossary-list">
+    <li class="glossary-entry">
+      <span class="glossary-term">Trust Center as Product</span>
+      <span class="glossary-def">Treating your public-facing trust page as a product with user research, analytics, iterative improvement, and measurable outcomes&mdash;not a static compliance artifact. Designed to serve customer needs efficiently and reduce friction in the sales and procurement cycle.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Auto-populated Questionnaires</span>
+      <span class="glossary-def">Mapping live control data and evidence to common security questionnaire schemas (SIG, CAIQ, VSA) automatically. Replaces the manual, repetitive process of re-answering the same questions for every customer with a system that stays current as controls evolve.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Real-time Control Dashboards</span>
+      <span class="glossary-def">Live, historically queryable views of control effectiveness shared with customers and auditors. Replaces annual SOC 2 PDFs and point-in-time snapshots with transparent, continuous assurance that stakeholders can verify at any time.</span>
+    </li>
+  </ul>
 </section>
 
 </div>
