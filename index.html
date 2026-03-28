@@ -549,6 +549,7 @@ tbody td:nth-child(3) li::before {
               <li>&ldquo;Autocorrect/reconcile&rdquo; docs &harr; controls</li>
               <li>Metrics-focused committees &amp; decisions</li>
               <li>Real-time behavioral interventions &amp; scientific pedagogy</li>
+              <li>Policy-[as|to|from]-Code</li>
             </ul>
           </td>
         </tr>
@@ -616,7 +617,18 @@ tbody td:nth-child(3) li::before {
 <section class="glossary-section">
   <h2 class="glossary-section-title">Governance</h2>
   <ul class="glossary-list">
-    <li class="glossary-empty">Coming soon</li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Policy-as-Code</span>
+      <span class="glossary-def">Policies written and maintained directly as executable code (e.g., OPA Rego, Sentinel). The policy source of truth <em>is</em> the code itself, enabling version control, automated testing, and deterministic enforcement at deploy time or runtime.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Policy-to-Code</span>
+      <span class="glossary-def">The process of translating human-readable policy documents into executable code. Starts from natural-language policies and produces corresponding code representations, bridging the gap between policy authors and enforcement systems.</span>
+    </li>
+    <li class="glossary-entry">
+      <span class="glossary-term">Policy-from-Code</span>
+      <span class="glossary-def">Deriving or generating human-readable policy documentation from existing code, configurations, or runtime behavior. Ensures that written policies reflect what is actually enforced, closing the gap between documentation and control reality.</span>
+    </li>
   </ul>
 </section>
 
