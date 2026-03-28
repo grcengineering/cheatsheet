@@ -391,18 +391,19 @@ tbody td:nth-child(4) li::before {
   color: var(--text-dim);
   margin-bottom: 16px;
 }
-/* Term names inside reference table cells */
-.ref-tables tbody li strong {
+/* Term/Tool/TTP name column */
+.ref-tables tbody td:first-child {
+  white-space: nowrap;
+  vertical-align: top;
+  min-width: 140px;
+}
+.ref-tables tbody td:first-child strong {
   font-family: var(--font-mono);
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   color: var(--orange);
 }
-/* Single-column reference table: wider content column */
 .ref-tables table {
   min-width: 600px;
-}
-.ref-tables tbody td:nth-child(2) li::before {
-  background: linear-gradient(135deg, var(--orange-bright), var(--blue-bright));
 }
 
 /* ── FOOTER ── */
@@ -597,75 +598,40 @@ tbody td:nth-child(4) li::before {
     <table>
       <thead>
         <tr>
-          <th>Program</th>
-          <th><span class="col-engineering">GRC Engineering Terms</span></th>
+          <th>Term</th>
+          <th>Description</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td><span class="program-label"><em>General</em></span></td>
-          <td>
-            <ul>
-              <li><strong>Systems Thinking</strong> &mdash; examining how components interrelate and work together over time within larger systems</li>
-              <li><strong>Design Thinking</strong> &mdash; human-centered methodology to make the right thing to do the easy thing to do</li>
-              <li><strong>Threat-Informed</strong> &mdash; grounding policies, controls, and trainings in real-world threat intelligence</li>
-              <li><strong>GRC as a Product</strong> &mdash; treating GRC programs as products serving internal and external customers</li>
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="program-label">Governance</span></td>
-          <td>
-            <ul>
-              <li><strong>Policy-as-Code</strong> &mdash; policies written as executable code; the code <em>is</em> the source of truth</li>
-              <li><strong>Policy-to-Code</strong> &mdash; translating human-readable policies into executable code</li>
-              <li><strong>Policy-from-Code</strong> &mdash; deriving policy documentation from code, configs, or runtime behavior</li>
-              <li><strong>PaC</strong> &mdash; Policy as Code; enforcing governance policies via automated evaluation</li>
-              <li><strong>Risk Tolerance</strong> &mdash; acceptable risk level, codified and enforced at pre-deploy/pre-change gates</li>
-              <li><strong>Real-time Behavioral Interventions</strong> &mdash; context-aware nudges at the moment of risky action</li>
-              <li><strong>Scientific Pedagogy</strong> &mdash; evidence-based learning science applied to security training</li>
-              <li><strong>Metrics-focused Committees</strong> &mdash; governance bodies deciding on quantitative data, not subjective discussion</li>
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="program-label">Risk</span></td>
-          <td>
-            <ul>
-              <li><strong>TPCM</strong> &mdash; third-party compliance management; legacy questionnaire-focused approach</li>
-              <li><strong>TPRM</strong> &mdash; third-party risk management; balanced third + first-party focus</li>
-              <li><strong>Qualitative Risk Analysis</strong> &mdash; subjective High/Medium/Low scales; manual and inconsistent</li>
-              <li><strong>Quantitative Risk Analysis</strong> &mdash; numerical models and probability distributions; automated and reproducible</li>
-              <li><strong>Heatmaps</strong> &mdash; legacy likelihood &times; impact matrices that obscure actual risk magnitude</li>
-              <li><strong>Histograms</strong> &mdash; frequency-distribution charts conveying risk shape, range, and confidence intervals</li>
-              <li><strong>Risk Scenarios</strong> &mdash; holistic threat + vector + asset + impact descriptions</li>
-              <li><strong>FUD</strong> &mdash; Fear, Uncertainty, and Doubt; legacy fear-based risk communication</li>
-              <li><strong>ELMR</strong> &mdash; Evidence, Logic, Math, Reason; the GRC Engineering alternative to FUD</li>
-              <li><strong>Decision Support</strong> &mdash; providing data and options so stakeholders make informed risk decisions</li>
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="program-label">Compliance</span></td>
-          <td>
-            <ul>
-              <li><strong>Control Monitoring</strong> &mdash; observing whether controls operate as intended; automated and continuous</li>
-              <li><strong>Active Testing</strong> &mdash; exercising controls to confirm they function, not just checking they exist</li>
-              <li><strong>Evidence Samples</strong> &mdash; legacy subset of records; incomplete and vulnerable to selection bias</li>
-              <li><strong>Evidence Populations</strong> &mdash; complete control records collected automatically; full coverage</li>
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="program-label">Trust &amp;<br>Assurance</span></td>
-          <td>
-            <ul>
-              <li><strong>RFIs</strong> &mdash; Requests for Information; legacy GRC handles via email</li>
-              <li><strong>Self-service RFIs</strong> &mdash; customers answer security questions through portals or automated engines</li>
-              <li><strong>Real-time Visibility</strong> &mdash; transparent, up-to-date, historically browsable control status</li>
-            </ul>
-          </td>
-        </tr>
+        <tr><td><strong>Systems Thinking</strong></td><td>Examining how components interrelate and work together over time within larger systems. Applied across governance, risk analysis, and control modeling.</td></tr>
+        <tr><td><strong>Design Thinking</strong></td><td>Human-centered problem-solving methodology. Harnessed to make the right thing to do the easy thing to do.</td></tr>
+        <tr><td><strong>Threat-Informed</strong></td><td>Grounding policies, controls, and trainings in real-world threat intelligence rather than abstract framework checklists.</td></tr>
+        <tr><td><strong>GRC as a Product</strong></td><td>Treating GRC programs as products serving internal and external customers, with user research, feedback loops, and measurable outcomes.</td></tr>
+        <tr><td><strong>Policy-as-Code</strong></td><td>Policies written as executable code; the code <em>is</em> the source of truth, enabling version control, testing, and deterministic enforcement.</td></tr>
+        <tr><td><strong>Policy-to-Code</strong></td><td>Translating human-readable policy documents into executable code, bridging policy authors and enforcement systems.</td></tr>
+        <tr><td><strong>Policy-from-Code</strong></td><td>Deriving policy documentation from code, configurations, or runtime behavior. Closes the gap between docs and control reality.</td></tr>
+        <tr><td><strong>PaC</strong></td><td>Policy as Code. Shorthand for encoding governance policies into executable code evaluated automatically at pre-deploy/pre-change gates.</td></tr>
+        <tr><td><strong>Risk Tolerance</strong></td><td>Acceptable risk level, codified and enforced programmatically (via PaC) rather than expressed only in narrative policy documents.</td></tr>
+        <tr><td><strong>Real-time Behavioral Interventions</strong></td><td>Context-aware nudges or guardrails delivered at the moment a risky action is about to occur, replacing static annual training.</td></tr>
+        <tr><td><strong>Scientific Pedagogy</strong></td><td>Evidence-based learning science&mdash;spaced repetition, scenario-based exercises, measurable retention&mdash;applied to security training.</td></tr>
+        <tr><td><strong>Metrics-focused Committees</strong></td><td>Governance bodies deciding on quantitative data&mdash;risk metrics, control effectiveness, incident trends&mdash;not subjective discussion.</td></tr>
+        <tr><td><strong>TPCM</strong></td><td>Third-party compliance management. Legacy questionnaire-focused approach that conflates compliance with risk.</td></tr>
+        <tr><td><strong>TPRM</strong></td><td>Third-party risk management. Balanced third + first-party focus, evaluating real-world threat scenarios and value-at-risk.</td></tr>
+        <tr><td><strong>Qualitative Risk Analysis</strong></td><td>Subjective High/Medium/Low scales based on expert judgment. Manual, inconsistent, and difficult to aggregate.</td></tr>
+        <tr><td><strong>Quantitative Risk Analysis</strong></td><td>Numerical models, probability distributions, and measurable data. Automated, reproducible, and comparable across scenarios.</td></tr>
+        <tr><td><strong>Heatmaps</strong></td><td>Legacy likelihood &times; impact matrices on ordinal scales. Obscure actual risk magnitude behind coarse, subjective categories.</td></tr>
+        <tr><td><strong>Histograms</strong></td><td>Frequency-distribution charts conveying risk shape, range, and confidence intervals in objective, data-driven terms.</td></tr>
+        <tr><td><strong>Risk Scenarios</strong></td><td>Holistic descriptions combining threat + attack vector + affected asset + impact into a single analyzable unit.</td></tr>
+        <tr><td><strong>FUD</strong></td><td>Fear, Uncertainty, and Doubt. Legacy fear-based risk communication used to justify budget without rigorous analysis.</td></tr>
+        <tr><td><strong>ELMR</strong></td><td>Evidence, Logic, Math, Reason. The GRC Engineering alternative to FUD&mdash;grounded in verifiable data and sound reasoning.</td></tr>
+        <tr><td><strong>Decision Support</strong></td><td>Providing data, analysis, and options so stakeholders make informed risk decisions. Replaces the &ldquo;accountability police&rdquo; model.</td></tr>
+        <tr><td><strong>Control Monitoring</strong></td><td>Observing whether controls operate as intended. GRC Engineering automates this continuously and holistically.</td></tr>
+        <tr><td><strong>Active Testing</strong></td><td>Exercising controls to confirm they function&mdash;not just checking they exist. Analogous to software automated tests.</td></tr>
+        <tr><td><strong>Evidence Samples</strong></td><td>Legacy subset of records selected to demonstrate control operation. Incomplete and vulnerable to selection bias.</td></tr>
+        <tr><td><strong>Evidence Populations</strong></td><td>Complete control records collected automatically over a period. Eliminates sampling risk with full coverage.</td></tr>
+        <tr><td><strong>RFIs</strong></td><td>Requests for Information. Inquiries asking an organization to demonstrate its security posture.</td></tr>
+        <tr><td><strong>Self-service RFIs</strong></td><td>Customers answer security questions through portals or automated engines, eliminating manual email back-and-forth.</td></tr>
+        <tr><td><strong>Real-time Visibility</strong></td><td>Transparent, up-to-date, historically browsable views into control status, replacing opaque annual artifacts.</td></tr>
       </tbody>
     </table>
   </div>
@@ -680,49 +646,20 @@ tbody td:nth-child(4) li::before {
     <table>
       <thead>
         <tr>
-          <th>Program</th>
-          <th><span class="col-engineering">Open-Source Tools</span></th>
+          <th>Tool</th>
+          <th>Description</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td><span class="program-label">Governance</span></td>
-          <td>
-            <ul>
-              <li><strong>OPA / Rego</strong> &mdash; general-purpose policy engine; Policy-as-Code via declarative Rego language</li>
-              <li><strong>Kyverno / Kubewarden</strong> &mdash; Kubernetes-native policy engines; block non-compliant workloads at admission</li>
-              <li><strong>Backstage</strong> &mdash; internal developer portal; reconciles docs &harr; controls via living documentation</li>
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="program-label">Risk</span></td>
-          <td>
-            <ul>
-              <li><strong>FAIR / OpenFAIR</strong> &mdash; open standard decomposing risk into measurable factors for quantitative analysis</li>
-              <li><strong>MITRE ATT&amp;CK</strong> &mdash; open knowledge base of real-world adversary tactics, techniques, and procedures</li>
-              <li><strong>Monte Carlo Simulation Tools</strong> &mdash; probabilistic simulations producing distributions instead of point estimates</li>
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="program-label">Compliance</span></td>
-          <td>
-            <ul>
-              <li><strong>Steampipe</strong> &mdash; cloud APIs as SQL tables; full-state infrastructure queries for evidence populations</li>
-              <li><strong>CloudQuery</strong> &mdash; infrastructure-as-data platform; automated evidence pipelines and full-population audits</li>
-              <li><strong>ScoutSuite / Prowler</strong> &mdash; cloud security posture tools; active testing against CIS, PCI DSS, HIPAA benchmarks</li>
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="program-label">Trust &amp;<br>Assurance</span></td>
-          <td>
-            <ul>
-              <li><em style="opacity: 0.6;">Coming soon</em></li>
-            </ul>
-          </td>
-        </tr>
+        <tr><td><strong>OPA / Rego</strong></td><td>General-purpose policy engine using the Rego declarative language. Enables Policy-as-Code in CI/CD pipelines.</td></tr>
+        <tr><td><strong>Kyverno / Kubewarden</strong></td><td>Kubernetes-native policy engines that validate, mutate, and generate resource configurations at admission time.</td></tr>
+        <tr><td><strong>Backstage</strong></td><td>Open-source internal developer portal. Reconciles docs &harr; controls via living, system-coupled documentation.</td></tr>
+        <tr><td><strong>FAIR / OpenFAIR</strong></td><td>Open standard decomposing risk into measurable factors (threat event frequency, vulnerability, loss magnitude).</td></tr>
+        <tr><td><strong>MITRE ATT&amp;CK</strong></td><td>Open knowledge base of real-world adversary tactics, techniques, and procedures for threat-informed risk scenarios.</td></tr>
+        <tr><td><strong>Monte Carlo Simulation Tools</strong></td><td>Probabilistic simulations producing distributions and histograms instead of single-point estimates and heatmaps.</td></tr>
+        <tr><td><strong>Steampipe</strong></td><td>Cloud APIs as SQL tables. Full-state infrastructure queries for evidence populations across 100+ services.</td></tr>
+        <tr><td><strong>CloudQuery</strong></td><td>Infrastructure-as-data platform syncing cloud and SaaS configurations into queryable databases for evidence pipelines.</td></tr>
+        <tr><td><strong>ScoutSuite / Prowler</strong></td><td>Cloud security posture assessment tools. Active testing against CIS, PCI DSS, and HIPAA benchmarks.</td></tr>
       </tbody>
     </table>
   </div>
@@ -737,53 +674,25 @@ tbody td:nth-child(4) li::before {
     <table>
       <thead>
         <tr>
-          <th>Program</th>
-          <th><span class="col-engineering">Tactics, Techniques &amp; Procedures</span></th>
+          <th>TTP</th>
+          <th>Description</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td><span class="program-label">Governance</span></td>
-          <td>
-            <ul>
-              <li><strong>GitOps for Policy</strong> &mdash; version-controlled policy lifecycle with PR reviews, audit trails, and automated deployment</li>
-              <li><strong>Pre-deploy Policy Gates</strong> &mdash; CI/CD checks that block deployments violating governance policies</li>
-              <li><strong>Nudge Engineering</strong> &mdash; real-time behavioral interventions making the right action the easy action</li>
-              <li><strong>Spaced Repetition Training</strong> &mdash; scenario-based exercises at increasing intervals; proven retention over annual courses</li>
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="program-label">Risk</span></td>
-          <td>
-            <ul>
-              <li><strong>Scenario-based Risk Quantification</strong> &mdash; holistic risk scenarios fed through Monte Carlo simulations for loss distributions</li>
-              <li><strong>Risk-as-Data Pipelines</strong> &mdash; ETL from threat intel, vuln scanners, and asset inventory into unified risk models</li>
-              <li><strong>First-party Hardening over Third-party Questionnaires</strong> &mdash; blast-radius controls over vendor attestations</li>
-              <li><strong>Decision Briefings over Risk Registers</strong> &mdash; data-driven options and trade-offs instead of static spreadsheets</li>
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="program-label">Compliance</span></td>
-          <td>
-            <ul>
-              <li><strong>Evidence-as-Code</strong> &mdash; programmatic evidence collection via APIs; versioned, reproducible, full-population</li>
-              <li><strong>Continuous Control Regression Testing</strong> &mdash; active tests exercising controls on an ongoing basis</li>
-              <li><strong>Full-population Audit</strong> &mdash; querying 100% of records; eliminates sampling bias entirely</li>
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="program-label">Trust &amp;<br>Assurance</span></td>
-          <td>
-            <ul>
-              <li><strong>Trust Center as Product</strong> &mdash; trust page with user research, analytics, and iterative improvement</li>
-              <li><strong>Auto-populated Questionnaires</strong> &mdash; mapping live control data to SIG, CAIQ, VSA schemas automatically</li>
-              <li><strong>Real-time Control Dashboards</strong> &mdash; live, historically queryable views replacing annual SOC 2 PDFs</li>
-            </ul>
-          </td>
-        </tr>
+        <tr><td><strong>GitOps for Policy</strong></td><td>Version-controlled policy lifecycle with PR reviews, audit trails, and automated deployment. Replaces shared drives.</td></tr>
+        <tr><td><strong>Pre-deploy Policy Gates</strong></td><td>CI/CD checks that block deployments violating governance policies (missing encryption, unapproved regions, etc.).</td></tr>
+        <tr><td><strong>Nudge Engineering</strong></td><td>Real-time behavioral interventions&mdash;context-aware prompts, guardrails, and defaults making the right action easy.</td></tr>
+        <tr><td><strong>Spaced Repetition Training</strong></td><td>Scenario-based exercises at increasing intervals. Proven retention over annual checkbox courses.</td></tr>
+        <tr><td><strong>Scenario-based Risk Quantification</strong></td><td>Holistic risk scenarios (threat + vector + asset + impact) fed through Monte Carlo simulations for loss distributions.</td></tr>
+        <tr><td><strong>Risk-as-Data Pipelines</strong></td><td>ETL from threat intel, vulnerability scanners, and asset inventory into unified risk models for continuous quantification.</td></tr>
+        <tr><td><strong>First-party Hardening over Third-party Questionnaires</strong></td><td>Configuring your own blast-radius controls rather than relying on vendor compliance attestations.</td></tr>
+        <tr><td><strong>Decision Briefings over Risk Registers</strong></td><td>Data-driven options and trade-off analysis for stakeholders, replacing static registers that don&rsquo;t drive action.</td></tr>
+        <tr><td><strong>Evidence-as-Code</strong></td><td>Programmatic evidence collection via APIs and infrastructure queries. Versioned, reproducible, full-population.</td></tr>
+        <tr><td><strong>Continuous Control Regression Testing</strong></td><td>Active tests exercising controls on an ongoing basis&mdash;the compliance equivalent of software regression tests.</td></tr>
+        <tr><td><strong>Full-population Audit</strong></td><td>Querying 100% of control evidence records rather than sampling. Eliminates sampling bias entirely.</td></tr>
+        <tr><td><strong>Trust Center as Product</strong></td><td>Treating your trust page as a product with user research, analytics, and iterative improvement.</td></tr>
+        <tr><td><strong>Auto-populated Questionnaires</strong></td><td>Mapping live control data to common schemas (SIG, CAIQ, VSA) automatically, replacing manual re-answering.</td></tr>
+        <tr><td><strong>Real-time Control Dashboards</strong></td><td>Live, historically queryable views of control effectiveness replacing annual SOC 2 PDFs.</td></tr>
       </tbody>
     </table>
   </div>
