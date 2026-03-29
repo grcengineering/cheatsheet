@@ -407,8 +407,77 @@ tbody td:nth-child(4) li::before {
   color: var(--orange);
 }
 .ref-tables table {
-  min-width: 500px;
+  min-width: 0;
   table-layout: fixed;
+}
+/* Per-table header colors */
+#terms-table thead th {
+  background: linear-gradient(135deg, #2d6a4f, #40916c);
+  color: #fff;
+  border-bottom-color: rgba(0,0,0,0.15);
+}
+#tools-table thead th {
+  background: linear-gradient(135deg, #1b4965, #5fa8d3);
+  color: #fff;
+  border-bottom-color: rgba(0,0,0,0.15);
+}
+#ttps-table thead th {
+  background: linear-gradient(135deg, #7b2d8e, #b185db);
+  color: #fff;
+  border-bottom-color: rgba(0,0,0,0.15);
+}
+#teachings-table thead th {
+  background: linear-gradient(135deg, #b45309, #f59e0b);
+  color: #fff;
+  border-bottom-color: rgba(0,0,0,0.15);
+}
+[data-theme="dark"] #terms-table thead th {
+  background: linear-gradient(135deg, #1b3d2f, #2d6a4f);
+}
+[data-theme="dark"] #tools-table thead th {
+  background: linear-gradient(135deg, #0d2a3a, #1b4965);
+}
+[data-theme="dark"] #ttps-table thead th {
+  background: linear-gradient(135deg, #4a1a5e, #7b2d8e);
+}
+[data-theme="dark"] #teachings-table thead th {
+  background: linear-gradient(135deg, #78350f, #b45309);
+}
+/* Responsive: stack ref-table cells on small screens */
+@media (max-width: 600px) {
+  .ref-tables table {
+    table-layout: auto;
+  }
+  .ref-tables thead {
+    display: none;
+  }
+  .ref-tables tbody tr {
+    display: block;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .ref-tables tbody tr:last-child {
+    border-bottom: none;
+  }
+  .ref-tables tbody td {
+    display: block;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    padding: 2px 12px !important;
+    border-bottom: none;
+  }
+  .ref-tables tbody td:first-child {
+    padding-top: 8px !important;
+  }
+  .ref-tables tbody td:last-child {
+    padding-bottom: 8px !important;
+    opacity: 0.85;
+  }
+  /* Category separator rows in Teachings */
+  .ref-tables tbody td[colspan] {
+    padding: 10px 12px !important;
+  }
 }
 
 /* ── FOOTER ── */
@@ -448,8 +517,6 @@ tbody td:nth-child(4) li::before {
   tbody td { padding: 12px 14px; }
   .theme-toggle { top: 12px; right: 12px; width: 38px; height: 38px; font-size: 1rem; }
   .ref-tables { padding: 0 12px; }
-  .ref-tables thead th:first-child,
-  .ref-tables tbody td:first-child { width: 160px; min-width: 160px; max-width: 160px; }
 }
 @media (max-width: 480px) {
   .page-header { padding: 50px 12px 32px; }
@@ -458,8 +525,6 @@ tbody td:nth-child(4) li::before {
   tbody td { padding: 10px 10px; }
   tbody ul { padding-left: 14px; }
   .ref-tables { padding: 0 8px; }
-  .ref-tables thead th:first-child,
-  .ref-tables tbody td:first-child { width: 130px; min-width: 130px; max-width: 130px; }
 }
 </style>
 </head>
@@ -600,7 +665,7 @@ tbody td:nth-child(4) li::before {
 <div class="ref-tables">
 
 <!-- ── TERMS TABLE ── -->
-<section class="ref-section">
+<section class="ref-section" id="terms-table">
   <h2 class="ref-section-title">Terms</h2>
   <div class="table-outer">
   <div class="table-container">
@@ -648,7 +713,7 @@ tbody td:nth-child(4) li::before {
 </section>
 
 <!-- ── TOOLS TABLE ── -->
-<section class="ref-section">
+<section class="ref-section" id="tools-table">
   <h2 class="ref-section-title">Tools</h2>
   <div class="table-outer">
   <div class="table-container">
@@ -676,7 +741,7 @@ tbody td:nth-child(4) li::before {
 </section>
 
 <!-- ── TTPs TABLE ── -->
-<section class="ref-section">
+<section class="ref-section" id="ttps-table">
   <h2 class="ref-section-title">TTPs</h2>
   <div class="table-outer">
   <div class="table-container">
@@ -709,7 +774,7 @@ tbody td:nth-child(4) li::before {
 </section>
 
 <!-- ── TEACHINGS TABLE ── -->
-<section class="ref-section">
+<section class="ref-section" id="teachings-table">
   <h2 class="ref-section-title">Teachings</h2>
   <div class="table-outer">
   <div class="table-container">
