@@ -157,7 +157,8 @@ body {
 .definitions {
   display: flex;
   gap: 20px;
-  max-width: 700px;
+  max-width: 1100px;
+  padding: 0 24px;
   margin: 24px auto;
   position: relative;
   z-index: 1;
@@ -391,12 +392,10 @@ tbody td:nth-child(4) li::before {
   color: var(--text-dim);
   margin-bottom: 16px;
 }
-/* Term/Tool/TTP name column — fixed width, word wrap */
+/* Term/Tool/TTP name column */
 .ref-tables thead th:first-child,
 .ref-tables tbody td:first-child {
-  width: 200px;
-  min-width: 200px;
-  max-width: 200px;
+  width: 220px;
   white-space: normal;
   word-wrap: break-word;
   vertical-align: top;
@@ -407,8 +406,9 @@ tbody td:nth-child(4) li::before {
   color: var(--orange);
 }
 .ref-tables table {
+  width: 100%;
   min-width: 0;
-  table-layout: fixed;
+  table-layout: auto;
 }
 /* Per-table header colors */
 #terms-table thead th {
@@ -445,9 +445,6 @@ tbody td:nth-child(4) li::before {
 }
 /* Responsive: stack ref-table cells on small screens */
 @media (max-width: 600px) {
-  .ref-tables table {
-    table-layout: auto;
-  }
   .ref-tables thead {
     display: none;
   }
