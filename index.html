@@ -204,7 +204,7 @@ body {
 
 /* ── TABLE CONTAINER ── */
 .table-wrapper {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto 80px;
   padding: 0 24px;
 }
@@ -251,7 +251,7 @@ thead th {
 }
 .table-wrapper thead th {
   background: transparent;
-  color: #fff;
+  color: #000;
   border-bottom-color: rgba(0,0,0,0.15);
 }
 [data-theme="dark"] thead th {
@@ -364,6 +364,7 @@ tbody li {
   margin-bottom: 6px;
   position: relative;
   padding-left: 4px;
+  font-weight: 700;
 }
 tbody li:last-child { margin-bottom: 0; }
 tbody li::before {
@@ -374,6 +375,7 @@ tbody li::before {
   width: 5px;
   height: 5px;
   border-radius: 50%;
+  border: 1px solid #000;
 }
 /* Legacy column bullets — grey */
 tbody td:nth-child(2) li::before {
