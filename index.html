@@ -265,11 +265,18 @@ thead th {
   background: transparent;
   opacity: 0.9;
 }
+[data-theme="dark"] .table-wrapper thead th:first-child {
+  background: var(--orange-bright);
+}
 thead th:first-child {
   position: sticky;
   left: 0;
   z-index: 30;
   text-align: center;
+  background: var(--bg-header);
+}
+.table-wrapper thead th:first-child {
+  background: var(--orange-bright);
   border-right: 2px solid var(--border-header);
 }
 
