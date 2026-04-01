@@ -246,9 +246,18 @@ thead th {
   border-bottom: 2px solid var(--border-header);
   white-space: nowrap;
 }
+.table-wrapper thead th {
+  background: linear-gradient(135deg, var(--orange-bright), var(--blue-bright));
+  color: #fff;
+  border-bottom-color: rgba(0,0,0,0.15);
+}
 [data-theme="dark"] thead th {
   background: linear-gradient(135deg, #2a1f3e, #1a2a3e);
   border-bottom-color: var(--border-header);
+}
+[data-theme="dark"] .table-wrapper thead th {
+  background: linear-gradient(135deg, var(--orange-bright), var(--blue-bright));
+  opacity: 0.9;
 }
 thead th:first-child {
   position: sticky;
