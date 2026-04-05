@@ -210,14 +210,28 @@ body {
   position: relative;
   border: 3px solid transparent;
   background-clip: padding-box;
+  z-index: 0;
 }
 .def-card-grc-eng::before {
   content: '';
   position: absolute;
   inset: -3px;
   border-radius: 12px;
-  background: linear-gradient(135deg, var(--orange-bright), var(--blue-bright));
+  background: conic-gradient(
+    from var(--gradient-angle, 0deg),
+    transparent,
+    #fff 10%,
+    transparent 30%
+  );
   z-index: -1;
+}
+.def-card-grc-eng::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--orange-bright), var(--blue-bright));
+  z-index: -2;
 }
 .def-term {
   font-family: var(--font-mono);
@@ -935,6 +949,22 @@ function updateIcon(theme) {
   document.documentElement.setAttribute('data-theme', theme);
   updateIcon(theme);
 })();
+/* Animated border rotation for GRC Engineering card */
+(function() {
+  var card = document.querySelector('.def-card-grc-eng');
+  if (!card) return;
+  var angle = 0;
+  var speed = 110;
+  var last = performance.now();
+  function rotate(now) {
+    var dt = (now - last) / 1000;
+    last = now;
+    angle = (angle + speed * dt) % 360;
+    card.style.setProperty('--gradient-angle', angle + 'deg');
+    requestAnimationFrame(rotate);
+  }
+  requestAnimationFrame(rotate);
+}());
 </script>
 
 </body>
