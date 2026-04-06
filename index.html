@@ -193,7 +193,7 @@ body {
   justify-content: center;
   flex-shrink: 0;
   width: 48px;
-  opacity: 0.6;
+  opacity: 1;
 }
 .def-equation-bottom {
   width: 100%;
@@ -208,14 +208,16 @@ body {
 }
 .def-card-grc-eng {
   position: relative;
-  border: 3px solid transparent;
-  background-clip: padding-box;
-  z-index: 0;
+  border: none;
+  padding: 19px 23px;
+  background: linear-gradient(135deg, var(--orange-bright), var(--blue-bright));
+  border-radius: 10px;
+  z-index: 1;
 }
 .def-card-grc-eng::before {
   content: '';
   position: absolute;
-  inset: -3px;
+  inset: -2px;
   border-radius: 12px;
   background: conic-gradient(
     from var(--gradient-angle, 0deg),
@@ -228,10 +230,10 @@ body {
 .def-card-grc-eng::after {
   content: '';
   position: absolute;
-  inset: -3px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--orange-bright), var(--blue-bright));
-  z-index: -2;
+  inset: 3px;
+  border-radius: 7px;
+  background: var(--bg-card);
+  z-index: -1;
 }
 .def-term {
   font-family: var(--font-mono);
