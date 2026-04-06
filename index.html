@@ -208,32 +208,22 @@ body {
 }
 .def-card-grc-eng {
   position: relative;
-  border: none;
-  padding: 19px 23px;
-  background: linear-gradient(135deg, var(--orange-bright), var(--blue-bright));
-  border-radius: 10px;
-  z-index: 1;
-}
-.def-card-grc-eng::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border-radius: 12px;
-  background: conic-gradient(
-    from var(--gradient-angle, 0deg),
-    transparent,
-    #fff 10%,
-    transparent 30%
-  );
-  z-index: -1;
-}
-.def-card-grc-eng::after {
-  content: '';
-  position: absolute;
-  inset: 2.5px;
-  border-radius: 7px;
+  border: 2px solid transparent;
+  padding: 16px 20px;
   background: var(--bg-card);
-  z-index: -1;
+  background-clip: padding-box;
+  border-radius: 10px;
+  animation: glow-pulse 4s ease-in-out infinite;
+}
+@keyframes glow-pulse {
+  0%, 100% {
+    border-color: var(--orange-bright);
+    box-shadow: 0 0 12px rgba(255, 140, 0, 0.5), 0 0 24px rgba(255, 140, 0, 0.2);
+  }
+  50% {
+    border-color: var(--blue-bright);
+    box-shadow: 0 0 12px rgba(0, 168, 232, 0.5), 0 0 24px rgba(0, 168, 232, 0.2);
+  }
 }
 .def-term {
   font-family: var(--font-mono);
@@ -951,28 +941,6 @@ function updateIcon(theme) {
   document.documentElement.setAttribute('data-theme', theme);
   updateIcon(theme);
 })();
-/* Animated border rotation for GRC Engineering card */
-(function() {
-  var card = document.querySelector('.def-card-grc-eng');
-  if (!card) return;
-  var angle = 0;
-  var time = 0;
-  var minSpeed = 40;
-  var maxSpeed = 160;
-  var cycleDuration = 4;
-  var last = performance.now();
-  function rotate(now) {
-    var dt = (now - last) / 1000;
-    last = now;
-    time += dt;
-    var t = (Math.sin(time * Math.PI * 2 / cycleDuration) + 1) / 2;
-    var speed = minSpeed + (maxSpeed - minSpeed) * t;
-    angle = (angle + speed * dt) % 360;
-    card.style.setProperty('--gradient-angle', angle + 'deg');
-    requestAnimationFrame(rotate);
-  }
-  requestAnimationFrame(rotate);
-}());
 </script>
 
 </body>
