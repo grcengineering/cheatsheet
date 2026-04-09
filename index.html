@@ -99,35 +99,20 @@ body {
 /* ── STICKY NAVBAR ── */
 .sticky-nav {
   position: fixed;
-  top: -60px;
+  top: 0;
   left: 0;
   right: 0;
   height: 60px;
   background: var(--bg);
   border-bottom: 1px solid var(--border);
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  padding: 0 24px;
-  transition: top 0.3s ease;
+  z-index: 99;
   backdrop-filter: blur(12px);
+  opacity: 0;
+  pointer-events: none;
 }
 .sticky-nav.visible {
-  top: 0;
-}
-.sticky-nav-title {
-  font-family: var(--font-body);
-  font-size: 1.1rem;
-  font-weight: 400;
-  color: var(--text);
-  white-space: nowrap;
-}
-.sticky-nav-title .highlight {
-  font-weight: 700;
-  background: linear-gradient(135deg, var(--orange-bright), var(--blue-bright));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* ── HEADER ── */
@@ -672,9 +657,7 @@ tbody td:nth-child(4) li::before {
   <i class="theme-icon ri-moon-line"></i>
 </button>
 
-<nav class="sticky-nav" id="sticky-nav">
-  <span class="sticky-nav-title">The <span class="highlight">GRC Engineering</span> Cheat Sheet</span>
-</nav>
+<nav class="sticky-nav" id="sticky-nav"></nav>
 
 <header class="page-header">
   <a href="https://grc.engineering" class="back-link">&larr; grc.engineering</a>
@@ -1021,41 +1004,117 @@ function updateIcon(theme) {
   }
   requestAnimationFrame(rotate);
 }());
-/* Sticky navbar on scroll */
+/* Sticky navbar on scroll — title moves into navbar */
 (function() {
   var nav = document.getElementById('sticky-nav');
   var title = document.querySelector('.page-title');
   if (!nav || !title) return;
-  var lastScroll = 0;
-  var titleTop = title.offsetTop;
-  var titleH = title.offsetHeight;
-  var shrinkStart = titleTop;
-  var shrinkEnd = titleTop + titleH;
+
+  // Measure starting position
+  var titleRect = title.getBoundingClientRect();
+  var titleStartTop = title.offsetTop;
+  var titleStartCenterX = titleRect.left + titleRect.width / 2;
+  var titleFontSize = parseFloat(window.getComputedStyle(title).fontSize);
+
+  // Target: navbar position (left-aligned, smaller)
+  var navTargetFontSize = 18; // px in navbar
+  var navTargetX = 24; // left padding
+  var navTargetY = 30; // vertical center of 60px navbar
+  var targetScale = navTargetFontSize / titleFontSize;
+
+  // Animation range: starts when title top hits viewport top,
+  // ends when title would be fully scrolled off
+  var animStart = titleStartTop;
+  var animEnd = titleStartTop + titleRect.height + 40;
+
   function onScroll() {
     var scrollY = window.scrollY;
-    var progress = Math.min(Math.max((scrollY - shrinkStart) / (shrinkEnd - shrinkStart), 0), 1);
-    // Shrink title: scale from 1 to 0.4, move from center to left
-    if (progress > 0 && progress < 1) {
-      var scale = 1 - (progress * 0.6);
-      title.style.transform = 'scale(' + scale + ')';
-      title.style.transformOrigin = 'left center';
-      title.style.opacity = 1 - progress;
-    } else if (progress <= 0) {
+    var progress = Math.min(Math.max((scrollY - animStart) / (animEnd - animStart), 0), 1);
+
+    if (progress <= 0) {
+      // Reset — title in natural position
+      title.style.position = '';
+      title.style.top = '';
+      title.style.left = '';
+      title.style.right = '';
       title.style.transform = '';
       title.style.transformOrigin = '';
-      title.style.opacity = '';
-    } else {
-      title.style.opacity = '0';
+      title.style.zIndex = '';
+      title.style.textAlign = '';
+      nav.classList.remove('visible');
+      return;
     }
-    // Show navbar when the title has scrolled out of view
+
     if (progress >= 1) {
+      // Fully in navbar — fixed position
+      title.style.position = 'fixed';
+      title.style.top = '0';
+      title.style.left = '0';
+      title.style.right = 'auto';
+      title.style.transform = 'translate(' + navTargetX + 'px, ' + (navTargetY - titleRect.height * targetScale / 2) + 'px) scale(' + targetScale + ')';
+      title.style.transformOrigin = 'left top';
+      title.style.zIndex = '101';
+      title.style.textAlign = 'left';
+      nav.classList.add('visible');
+      return;
+    }
+
+    // Mid-animation: interpolate position
+    // Title scrolls up naturally but we counteract with fixed positioning
+    var currentScale = 1 - progress * (1 - targetScale);
+
+    // Calculate where the title currently is (natural scroll position)
+    var naturalY = titleStartTop - scrollY;
+
+    // Target Y: centered in navbar
+    var finalY = navTargetY - (titleRect.height * targetScale / 2);
+
+    // Interpolate Y from natural position to fixed navbar position
+    var interpY = naturalY + progress * (finalY - naturalY);
+
+    // Interpolate X from centered to left-aligned
+    var startX = titleStartCenterX - (titleRect.width / 2);
+    var interpX = startX + progress * (navTargetX - startX);
+
+    title.style.position = 'fixed';
+    title.style.top = '0';
+    title.style.left = '0';
+    title.style.right = 'auto';
+    title.style.transform = 'translate(' + interpX + 'px, ' + interpY + 'px) scale(' + currentScale + ')';
+    title.style.transformOrigin = 'left top';
+    title.style.zIndex = '101';
+    title.style.textAlign = 'left';
+
+    // Fade in navbar background as title nears final position
+    if (progress > 0.7) {
       nav.classList.add('visible');
     } else {
       nav.classList.remove('visible');
     }
-    lastScroll = scrollY;
   }
+
   window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function() {
+    // Recalculate on resize
+    title.style.position = '';
+    title.style.top = '';
+    title.style.left = '';
+    title.style.right = '';
+    title.style.transform = '';
+    title.style.transformOrigin = '';
+    title.style.zIndex = '';
+    title.style.textAlign = '';
+    nav.classList.remove('visible');
+    var r = title.getBoundingClientRect();
+    titleStartTop = title.offsetTop;
+    titleStartCenterX = r.left + r.width / 2;
+    titleFontSize = parseFloat(window.getComputedStyle(title).fontSize);
+    targetScale = navTargetFontSize / titleFontSize;
+    animStart = titleStartTop;
+    animEnd = titleStartTop + r.height + 40;
+    titleRect = r;
+    onScroll();
+  });
   onScroll();
 }());
 </script>
