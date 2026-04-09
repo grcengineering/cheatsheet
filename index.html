@@ -138,9 +138,9 @@ body {
   position: fixed;
   z-index: 101;
   margin: 0;
-  will-change: transform;
   pointer-events: none;
   text-align: left;
+  line-height: 1.2;
 }
 
 /* ── HEADER ── */
@@ -1059,6 +1059,7 @@ function updateIcon(theme) {
     title.style.transform = '';
     title.style.left = '';
     title.style.top = '';
+    title.style.fontSize = '';
     toggle.style.transform = '';
     toggle.style.top = '';
     toggle.style.right = '';
@@ -1091,7 +1092,6 @@ function updateIcon(theme) {
       m.titleStartX = flowRect.left + (flowRect.width - m.titleIntrinsicW) / 2;
       m.titleStartY = flowRect.top + window.scrollY;
       m.titleFinalX = NAV_PAD;
-      m.titleFinalY_viewport = (NAV_H - m.titleH * m.scale) / 2;
     }
 
     // Toggle
@@ -1168,6 +1168,7 @@ function updateIcon(theme) {
         title.style.transform = '';
         title.style.left = '';
         title.style.top = '';
+        title.style.fontSize = '';
         if (placeholder.parentNode) placeholder.parentNode.removeChild(placeholder);
         toggle.style.transform = '';
         toggle.style.top = '';
@@ -1185,15 +1186,20 @@ function updateIcon(theme) {
       wasAnimating = true;
     }
 
-    // --- TITLE ---
+    // --- TITLE (font-size animation for crisp text) ---
+    var currentFontSize = m.titleFontSize + eased * (TARGET_FONT_SIZE - m.titleFontSize);
+    var sizeRatio = currentFontSize / m.titleFontSize;
+    // Recalculate final Y based on current element height (shrinks with font-size)
+    var currentH = m.titleH * sizeRatio;
+    var finalY = (NAV_H - currentH) / 2;
     var startViewportY = m.titleStartY - scrollY;
     var currentX = m.titleStartX + eased * (m.titleFinalX - m.titleStartX);
-    var currentY = startViewportY + eased * (m.titleFinalY_viewport - startViewportY);
-    var currentScale = 1 + eased * (m.scale - 1);
+    var currentY = startViewportY + eased * (finalY - startViewportY);
 
+    title.style.fontSize = currentFontSize + 'px';
     title.style.left = '0px';
     title.style.top = '0px';
-    title.style.transform = 'translate(' + currentX + 'px,' + currentY + 'px) scale(' + currentScale + ')';
+    title.style.transform = 'translate(' + currentX + 'px,' + currentY + 'px)';
     title.style.transformOrigin = 'left top';
 
     // --- TOGGLE ---
