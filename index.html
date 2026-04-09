@@ -76,7 +76,7 @@ body {
   position: fixed;
   top: 20px;
   right: 20px;
-  z-index: 100;
+  z-index: 102;
   background: var(--toggle-bg);
   border: 1px solid var(--border);
   border-radius: 50%;
@@ -87,13 +87,12 @@ body {
   justify-content: center;
   cursor: pointer;
   font-size: 1.2rem;
-  transition: all 0.3s ease;
   backdrop-filter: blur(10px);
   color: var(--text);
+  will-change: transform;
 }
 .theme-toggle:hover {
   background: var(--toggle-hover);
-  transform: scale(1.1);
 }
 
 /* ── STICKY NAVBAR ── */
@@ -102,36 +101,28 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: 60px;
+  height: 52px;
   background: var(--bg);
-  border-bottom: 1px solid var(--border);
   z-index: 99;
   backdrop-filter: blur(12px);
-  opacity: 0;
+  transform: translateY(-100%);
+  box-shadow: none;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease;
   pointer-events: none;
-  transition: opacity 0.15s ease;
-  display: flex;
-  align-items: center;
-  padding: 0 24px;
 }
 .sticky-nav.visible {
-  opacity: 1;
+  transform: translateY(0);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1), 0 1px 4px rgba(0,0,0,0.06);
   pointer-events: auto;
 }
-.sticky-nav-title {
-  font-family: var(--font-body);
-  font-size: 1.125rem;
-  font-weight: 400;
-  color: var(--text);
-  white-space: nowrap;
-  line-height: 1.2;
-}
-.sticky-nav-title .highlight {
-  font-weight: 700;
-  background: linear-gradient(135deg, var(--orange-bright), var(--blue-bright));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+
+/* Title animation state */
+.page-title.animating {
+  position: fixed;
+  z-index: 101;
+  margin: 0;
+  will-change: transform;
+  pointer-events: none;
 }
 
 /* ── HEADER ── */
@@ -676,7 +667,7 @@ tbody td:nth-child(4) li::before {
   <i class="theme-icon ri-moon-line"></i>
 </button>
 
-<nav class="sticky-nav" id="sticky-nav"><span class="sticky-nav-title">The <span class="highlight">GRC Engineering</span> Cheat Sheet</span></nav>
+<nav class="sticky-nav" id="sticky-nav"></nav>
 
 <header class="page-header">
   <a href="https://grc.engineering" class="back-link">&larr; grc.engineering</a>
@@ -1023,30 +1014,161 @@ function updateIcon(theme) {
   }
   requestAnimationFrame(rotate);
 }());
-/* Sticky navbar on scroll — crossfade title into navbar */
+/* Scroll-driven title shrink + navbar slide-down */
 (function() {
   var nav = document.getElementById('sticky-nav');
   var title = document.querySelector('.page-title');
-  if (!nav || !title) return;
+  var toggle = document.querySelector('.theme-toggle');
+  if (!nav || !title || !toggle) return;
 
-  function getThreshold() {
-    // Show navbar when the title's bottom edge scrolls above viewport
-    return title.offsetTop + title.offsetHeight;
+  // Create placeholder to preserve layout when title goes fixed
+  var placeholder = document.createElement('div');
+  placeholder.style.visibility = 'hidden';
+  placeholder.style.pointerEvents = 'none';
+  placeholder.setAttribute('aria-hidden', 'true');
+
+  var NAV_H = 52;
+  var NAV_PAD = 24;
+  var TARGET_FONT_SIZE = 18; // px — final title size in navbar
+  var TOGGLE_FINAL_SIZE = 36; // px — toggle size when in navbar
+  var TOGGLE_NAV_RIGHT = 12; // px from right edge in navbar
+  var TOGGLE_NAV_TOP = 8; // px from top in navbar
+  var EASE = function(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }; // easeInOutQuad
+
+  // Snapshot measurements (recalculated on resize)
+  var m = {};
+  function measure() {
+    // Reset any animation state first
+    title.classList.remove('animating');
+    title.style.transform = '';
+    title.style.left = '';
+    title.style.top = '';
+    toggle.style.transform = '';
+    toggle.style.top = '';
+    toggle.style.right = '';
+    toggle.style.width = '';
+    toggle.style.height = '';
+    if (placeholder.parentNode) placeholder.parentNode.removeChild(placeholder);
+    nav.classList.remove('visible');
+
+    var tRect = title.getBoundingClientRect();
+    var toggleRect = toggle.getBoundingClientRect();
+    var cs = getComputedStyle(title);
+
+    m.titleTop = tRect.top + window.scrollY;  // document Y
+    m.titleLeft = tRect.left;                  // viewport X
+    m.titleW = tRect.width;
+    m.titleH = tRect.height;
+    m.titleFontSize = parseFloat(cs.fontSize);
+    m.scale = TARGET_FONT_SIZE / m.titleFontSize;
+
+    // Title final position: left-aligned in navbar, vertically centered
+    m.titleFinalLeft = NAV_PAD;
+    m.titleFinalTop = (NAV_H - m.titleH * m.scale) / 2;
+
+    // Toggle initial position (already fixed, so these are viewport coords)
+    m.toggleTop = toggleRect.top;
+    m.toggleRight = window.innerWidth - toggleRect.right;
+    m.toggleW = toggleRect.width;
+    m.toggleH = toggleRect.height;
+    m.toggleScale = TOGGLE_FINAL_SIZE / m.toggleW;
+
+    // Animation scroll range
+    m.animStart = m.titleTop - 80; // start a bit before title reaches top
+    if (m.animStart < 0) m.animStart = 0;
+    m.animEnd = m.titleTop + m.titleH; // end when title fully scrolled past
+
+    // Placeholder dimensions
+    placeholder.style.width = m.titleW + 'px';
+    placeholder.style.height = m.titleH + 'px';
+    placeholder.style.margin = cs.margin;
   }
 
-  var threshold = getThreshold();
+  var wasAnimating = false;
+  var navVisible = false;
 
   function onScroll() {
-    if (window.scrollY >= threshold) {
-      nav.classList.add('visible');
+    var scrollY = window.scrollY;
+    var raw = (scrollY - m.animStart) / (m.animEnd - m.animStart);
+    var progress = Math.min(Math.max(raw, 0), 1);
+    var eased = EASE(progress);
+
+    if (progress <= 0) {
+      // Fully reset
+      if (wasAnimating) {
+        title.classList.remove('animating');
+        title.style.transform = '';
+        title.style.left = '';
+        title.style.top = '';
+        if (placeholder.parentNode) placeholder.parentNode.removeChild(placeholder);
+        toggle.style.transform = '';
+        toggle.style.top = '';
+        toggle.style.right = '';
+        toggle.style.width = '';
+        toggle.style.height = '';
+        wasAnimating = false;
+      }
+      if (navVisible) {
+        nav.classList.remove('visible');
+        navVisible = false;
+      }
+      return;
+    }
+
+    // Enter animation mode
+    if (!wasAnimating) {
+      // Insert placeholder before switching to fixed
+      title.parentNode.insertBefore(placeholder, title);
+      title.classList.add('animating');
+      wasAnimating = true;
+    }
+
+    // --- TITLE: interpolate from natural pos to navbar pos ---
+    // Natural viewport Y = document position - scroll
+    var naturalViewportY = m.titleTop - scrollY;
+    // Interpolate viewport Y toward final navbar Y
+    var currentY = naturalViewportY + eased * (m.titleFinalTop - naturalViewportY);
+    // Interpolate viewport X from centered to left-aligned
+    var currentX = m.titleLeft + eased * (m.titleFinalLeft - m.titleLeft);
+    // Scale
+    var currentScale = 1 + eased * (m.scale - 1);
+
+    title.style.left = '0px';
+    title.style.top = '0px';
+    title.style.transform = 'translate(' + currentX + 'px,' + currentY + 'px) scale(' + currentScale + ')';
+    title.style.transformOrigin = 'left top';
+
+    // --- TOGGLE: interpolate to navbar top-right ---
+    var toggleNaturalTop = m.toggleTop; // already fixed, doesn't move with scroll
+    var toggleFinalTop = TOGGLE_NAV_TOP;
+    var toggleFinalRight = TOGGLE_NAV_RIGHT;
+    var toggleCurrentTop = toggleNaturalTop + eased * (toggleFinalTop - toggleNaturalTop);
+    var toggleCurrentRight = m.toggleRight + eased * (toggleFinalRight - m.toggleRight);
+    var toggleCurrentScale = 1 + eased * (m.toggleScale - 1);
+
+    toggle.style.top = toggleCurrentTop + 'px';
+    toggle.style.right = toggleCurrentRight + 'px';
+    toggle.style.transform = 'scale(' + toggleCurrentScale + ')';
+    toggle.style.transformOrigin = 'top right';
+
+    // --- NAVBAR: slide down once animation completes ---
+    if (progress >= 1) {
+      if (!navVisible) {
+        nav.classList.add('visible');
+        navVisible = true;
+      }
     } else {
-      nav.classList.remove('visible');
+      if (navVisible) {
+        nav.classList.remove('visible');
+        navVisible = false;
+      }
     }
   }
 
+  measure();
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', function() {
-    threshold = getThreshold();
+    measure();
     onScroll();
   });
   onScroll();
