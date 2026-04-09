@@ -7,7 +7,7 @@
 <meta name="description" content="Legacy GRC vs. GRC Engineering in practice — a side-by-side comparison across Governance, Risk, Compliance, and Trust & Assurance.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;600;700&family=Audiowide&family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet" integrity="sha384-yvnQ71IHGvMhr6ThVxOD5GNlmL3ABiJHVLg8erJYIEXJm/I6whbQfRNJvsVitGBm" crossorigin="anonymous">
 <style>
 :root {
@@ -35,8 +35,8 @@
   --toggle-bg: rgba(0,0,0,0.06);
   --toggle-hover: rgba(0,0,0,0.1);
 
-  --font-body: 'Google Sans', sans-serif;
-  --font-mono: 'Space Mono', monospace;
+  --font-body: 'Work Sans', sans-serif;
+  --font-mono: 'Work Sans', sans-serif;
 }
 
 [data-theme="dark"] {
@@ -129,9 +129,9 @@ body {
 .back-link:hover { color: var(--orange); }
 
 .page-title {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-body);
   font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 700;
+  font-weight: 400;
   color: var(--text);
   position: relative;
   z-index: 1;
@@ -139,7 +139,7 @@ body {
   line-height: 1.2;
 }
 .page-title .highlight {
-  font-family: 'Audiowide', sans-serif;
+  font-weight: 700;
   background: linear-gradient(135deg, var(--orange-bright), var(--blue-bright));
   -webkit-background-clip: text;
   background-clip: text;
@@ -187,7 +187,7 @@ body {
 .def-operator {
   font-family: var(--font-mono);
   font-size: 1.6rem;
-  font-weight: 700;
+  font-weight: 400;
   color: var(--text-dim);
   display: flex;
   align-items: center;
@@ -250,7 +250,7 @@ body {
 .def-term {
   font-family: var(--font-mono);
   font-size: 1.1rem;
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--orange);
@@ -315,7 +315,7 @@ thead th {
   z-index: 20;
   background: var(--bg-header);
   color: var(--text-header);
-  font-weight: 700;
+  font-weight: 400;
   font-size: 1rem;
   padding: 18px 20px;
   text-align: left;
@@ -364,7 +364,7 @@ tbody td:first-child {
   left: 0;
   z-index: 10;
   background: var(--bg-row-header);
-  font-weight: 700;
+  font-weight: 400;
   text-align: center;
   vertical-align: middle;
   white-space: nowrap;
@@ -440,7 +440,7 @@ tbody li {
   margin-bottom: 6px;
   position: relative;
   padding-left: 4px;
-  font-weight: 700;
+  font-weight: 400;
 }
 tbody li:last-child { margin-bottom: 0; }
 tbody li::before {
@@ -486,7 +486,7 @@ tbody td:nth-child(4) li::before {
 .ref-section-title {
   font-family: var(--font-mono);
   font-size: 1.2rem;
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--text-dim);
@@ -900,23 +900,23 @@ tbody td:nth-child(4) li::before {
         </tr>
       </thead>
       <tbody>
-        <tr><td colspan="2" style="background: var(--bg-row-header); font-weight: 700; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);">Books</td></tr>
+        <tr><td colspan="2" style="background: var(--bg-row-header); font-weight: 400; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);">Books</td></tr>
         <tr><td><strong>GRC Engineering for AWS</strong></td><td>AJ Yawn</td></tr>
         <tr><td><strong>How to Measure Anything in Cybersecurity Risk</strong></td><td>Richard Seiersen, Doug Hubbard</td></tr>
         <tr><td><strong>Measuring and Managing Information Risk: A FAIR Approach</strong></td><td>Jack Jones, Jack Freund</td></tr>
-        <tr><td colspan="2" style="background: var(--bg-row-header); font-weight: 700; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);">Courses</td></tr>
+        <tr><td colspan="2" style="background: var(--bg-row-header); font-weight: 400; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);">Courses</td></tr>
         <tr><td><strong>GRC for the Cloud-Native Revolution</strong></td><td>Ayoub Fandi</td></tr>
         <tr><td><strong>Cybersecurity Foundations: GRC</strong></td><td>AJ Yawn</td></tr>
         <tr><td><strong>Leveraging AI for GRC</strong></td><td>Terra Cooke</td></tr>
-        <tr><td colspan="2" style="background: var(--bg-row-header); font-weight: 700; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);">Labs</td></tr>
+        <tr><td colspan="2" style="background: var(--bg-row-header); font-weight: 400; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);">Labs</td></tr>
         <tr><td><strong>GRC Playground</strong></td><td>Ashley Pearce</td></tr>
         <tr><td><strong>GRC Portfolio Labs</strong></td><td>AJ Yawn</td></tr>
-        <tr><td colspan="2" style="background: var(--bg-row-header); font-weight: 700; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);">Podcasts</td></tr>
+        <tr><td colspan="2" style="background: var(--bg-row-header); font-weight: 400; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);">Podcasts</td></tr>
         <tr><td><strong>GRC Engineer Podcast</strong></td><td>Ayoub Fandi</td></tr>
         <tr><td><strong>Cyber Stories &mdash; GRC Engineering</strong></td><td>Day Johnson (feat. Ayoub Fandi)</td></tr>
         <tr><td><strong>Resilient Cyber &mdash; Transforming Compliance</strong></td><td>Chris Hughes (feat. AJ Yawn)</td></tr>
         <tr><td><strong>MYGRCPOV &mdash; Rise of GRC Engineering</strong></td><td>Monica Reagor (feat. AJ Yawn)</td></tr>
-        <tr><td colspan="2" style="background: var(--bg-row-header); font-weight: 700; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);">Talks &amp; Interviews</td></tr>
+        <tr><td colspan="2" style="background: var(--bg-row-header); font-weight: 400; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);">Talks &amp; Interviews</td></tr>
         <tr><td><strong>BSidesSF 2024 &mdash; GRC Engineering in Repository</strong></td><td>Varun Gurnaney</td></tr>
         <tr><td><strong>BSidesSF 2025 &mdash; Compliance in DevOps Pipeline</strong></td><td>Varun Gurnaney</td></tr>
         <tr><td><strong>Netflix Security &mdash; Risk-based Decision Making</strong></td><td>Prashanthi Koutha, Shannon Morrison</td></tr>
@@ -926,12 +926,12 @@ tbody td:nth-child(4) li::before {
         <tr><td><strong>CPA to Cybersecurity Pivot</strong></td><td>Steve McMichael (feat. Ayoub Fandi)</td></tr>
         <tr><td><strong>FAIRCon 2022 &mdash; Five Objections to FAIR</strong></td><td>Tony Martin-Vegue, Prashanthi Koutha</td></tr>
         <tr><td><strong>Simply Cyber &mdash; Cyber Risk Quantification</strong></td><td>Steve McMichael (feat. Richard Seiersen)</td></tr>
-        <tr><td colspan="2" style="background: var(--bg-row-header); font-weight: 700; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);">Blogs &amp; Newsletters</td></tr>
+        <tr><td colspan="2" style="background: var(--bg-row-header); font-weight: 400; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);">Blogs &amp; Newsletters</td></tr>
         <tr><td><strong>The GRC Engineer Newsletter</strong></td><td>Ayoub Fandi</td></tr>
         <tr><td><strong>From Heatmaps to Histograms</strong></td><td>Tony Martin-Vegue</td></tr>
         <tr><td><strong>Varun Gurnaney&rsquo;s Medium</strong></td><td>Varun Gurnaney</td></tr>
         <tr><td><strong>Netflix TechBlog &mdash; Open-Sourcing riskquant</strong></td><td>Markus De Shon, Shannon Morrison</td></tr>
-        <tr><td colspan="2" style="background: var(--bg-row-header); font-weight: 700; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);">Community</td></tr>
+        <tr><td colspan="2" style="background: var(--bg-row-header); font-weight: 400; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);">Community</td></tr>
         <tr><td><strong>GRC Engineering Discord</strong></td><td>Community Discord server</td></tr>
         <tr><td><strong>GRC Engineering LinkedIn Group</strong></td><td>Community LinkedIn group</td></tr>
         <tr><td><strong>GRC Engineering Club</strong></td><td>Patreon community</td></tr>
