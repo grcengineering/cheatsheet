@@ -106,14 +106,9 @@ body {
   z-index: 99;
   backdrop-filter: blur(12px);
   transform: translateY(-100%);
-  box-shadow: none;
-  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease;
-  pointer-events: none;
-}
-.sticky-nav.visible {
-  transform: translateY(0);
   box-shadow: 0 2px 12px rgba(0,0,0,0.1), 0 1px 4px rgba(0,0,0,0.06);
-  pointer-events: auto;
+  pointer-events: none;
+  will-change: transform;
 }
 
 /* Title animation state */
@@ -123,6 +118,7 @@ body {
   margin: 0;
   will-change: transform;
   pointer-events: none;
+  text-align: left;
 }
 
 /* ── HEADER ── */
@@ -1029,16 +1025,15 @@ function updateIcon(theme) {
 
   var NAV_H = 52;
   var NAV_PAD = 24;
-  var TARGET_FONT_SIZE = 18; // px — final title size in navbar
-  var TOGGLE_FINAL_SIZE = 36; // px — toggle size when in navbar
-  var TOGGLE_NAV_RIGHT = 12; // px from right edge in navbar
-  var TOGGLE_NAV_TOP = 8; // px from top in navbar
-  var EASE = function(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }; // easeInOutQuad
+  var TARGET_FONT_SIZE = 18;
+  var TOGGLE_FINAL_SIZE = 36;
+  var TOGGLE_NAV_RIGHT = 12;
+  var TOGGLE_NAV_TOP = 8;
+  var EASE = function(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; };
 
-  // Snapshot measurements (recalculated on resize)
   var m = {};
   function measure() {
-    // Reset any animation state first
+    // Reset everything
     title.classList.remove('animating');
     title.style.transform = '';
     title.style.left = '';
@@ -1046,46 +1041,57 @@ function updateIcon(theme) {
     toggle.style.transform = '';
     toggle.style.top = '';
     toggle.style.right = '';
-    toggle.style.width = '';
-    toggle.style.height = '';
+    nav.style.transform = '';
     if (placeholder.parentNode) placeholder.parentNode.removeChild(placeholder);
-    nav.classList.remove('visible');
 
-    var tRect = title.getBoundingClientRect();
-    var toggleRect = toggle.getBoundingClientRect();
+    // Measure title in its natural centered flow position
+    var flowRect = title.getBoundingClientRect();
     var cs = getComputedStyle(title);
-
-    m.titleTop = tRect.top + window.scrollY;  // document Y
-    m.titleLeft = tRect.left;                  // viewport X
-    m.titleW = tRect.width;
-    m.titleH = tRect.height;
     m.titleFontSize = parseFloat(cs.fontSize);
     m.scale = TARGET_FONT_SIZE / m.titleFontSize;
+    m.titleDocTop = flowRect.top + window.scrollY;
+    m.titleFlowW = flowRect.width;
+    m.titleH = flowRect.height;
 
-    // Title final position: left-aligned in navbar, vertically centered
-    m.titleFinalLeft = NAV_PAD;
-    m.titleFinalTop = (NAV_H - m.titleH * m.scale) / 2;
+    // Briefly switch to fixed to measure intrinsic (text-only) width
+    title.classList.add('animating');
+    title.style.left = '0px';
+    title.style.top = '0px';
+    title.style.transform = 'none';
+    var fixedRect = title.getBoundingClientRect();
+    m.titleIntrinsicW = fixedRect.width;
+    title.classList.remove('animating');
+    title.style.left = '';
+    title.style.top = '';
+    title.style.transform = '';
 
-    // Toggle initial position (already fixed, so these are viewport coords)
-    m.toggleTop = toggleRect.top;
-    m.toggleRight = window.innerWidth - toggleRect.right;
+    // Starting X: where the text visually was (centered within the full-width block)
+    m.titleStartX = flowRect.left + (flowRect.width - m.titleIntrinsicW) / 2;
+    m.titleStartY = flowRect.top + window.scrollY; // document Y
+
+    // Final position: left-aligned, vertically centered in navbar
+    m.titleFinalX = NAV_PAD;
+    m.titleFinalY_viewport = (NAV_H - m.titleH * m.scale) / 2;
+
+    // Toggle
+    var toggleRect = toggle.getBoundingClientRect();
+    m.toggleStartTop = toggleRect.top;
+    m.toggleStartRight = window.innerWidth - toggleRect.right;
     m.toggleW = toggleRect.width;
-    m.toggleH = toggleRect.height;
     m.toggleScale = TOGGLE_FINAL_SIZE / m.toggleW;
 
-    // Animation scroll range
-    m.animStart = m.titleTop - 80; // start a bit before title reaches top
+    // Animation range
+    m.animStart = m.titleDocTop - 80;
     if (m.animStart < 0) m.animStart = 0;
-    m.animEnd = m.titleTop + m.titleH; // end when title fully scrolled past
+    m.animEnd = m.titleDocTop + m.titleH;
 
-    // Placeholder dimensions
-    placeholder.style.width = m.titleW + 'px';
+    // Placeholder
+    placeholder.style.width = m.titleFlowW + 'px';
     placeholder.style.height = m.titleH + 'px';
     placeholder.style.margin = cs.margin;
   }
 
   var wasAnimating = false;
-  var navVisible = false;
 
   function onScroll() {
     var scrollY = window.scrollY;
@@ -1094,7 +1100,6 @@ function updateIcon(theme) {
     var eased = EASE(progress);
 
     if (progress <= 0) {
-      // Fully reset
       if (wasAnimating) {
         title.classList.remove('animating');
         title.style.transform = '';
@@ -1104,33 +1109,24 @@ function updateIcon(theme) {
         toggle.style.transform = '';
         toggle.style.top = '';
         toggle.style.right = '';
-        toggle.style.width = '';
-        toggle.style.height = '';
+        nav.style.transform = 'translateY(-100%)';
         wasAnimating = false;
-      }
-      if (navVisible) {
-        nav.classList.remove('visible');
-        navVisible = false;
       }
       return;
     }
 
-    // Enter animation mode
     if (!wasAnimating) {
-      // Insert placeholder before switching to fixed
       title.parentNode.insertBefore(placeholder, title);
       title.classList.add('animating');
       wasAnimating = true;
     }
 
-    // --- TITLE: interpolate from natural pos to navbar pos ---
-    // Natural viewport Y = document position - scroll
-    var naturalViewportY = m.titleTop - scrollY;
-    // Interpolate viewport Y toward final navbar Y
-    var currentY = naturalViewportY + eased * (m.titleFinalTop - naturalViewportY);
-    // Interpolate viewport X from centered to left-aligned
-    var currentX = m.titleLeft + eased * (m.titleFinalLeft - m.titleLeft);
-    // Scale
+    // --- TITLE ---
+    // Starting viewport Y = document position - scroll offset
+    var startViewportY = m.titleStartY - scrollY;
+    // Interpolate from current visual position to final navbar position
+    var currentX = m.titleStartX + eased * (m.titleFinalX - m.titleStartX);
+    var currentY = startViewportY + eased * (m.titleFinalY_viewport - startViewportY);
     var currentScale = 1 + eased * (m.scale - 1);
 
     title.style.left = '0px';
@@ -1138,12 +1134,9 @@ function updateIcon(theme) {
     title.style.transform = 'translate(' + currentX + 'px,' + currentY + 'px) scale(' + currentScale + ')';
     title.style.transformOrigin = 'left top';
 
-    // --- TOGGLE: interpolate to navbar top-right ---
-    var toggleNaturalTop = m.toggleTop; // already fixed, doesn't move with scroll
-    var toggleFinalTop = TOGGLE_NAV_TOP;
-    var toggleFinalRight = TOGGLE_NAV_RIGHT;
-    var toggleCurrentTop = toggleNaturalTop + eased * (toggleFinalTop - toggleNaturalTop);
-    var toggleCurrentRight = m.toggleRight + eased * (toggleFinalRight - m.toggleRight);
+    // --- TOGGLE ---
+    var toggleCurrentTop = m.toggleStartTop + eased * (TOGGLE_NAV_TOP - m.toggleStartTop);
+    var toggleCurrentRight = m.toggleStartRight + eased * (TOGGLE_NAV_RIGHT - m.toggleStartRight);
     var toggleCurrentScale = 1 + eased * (m.toggleScale - 1);
 
     toggle.style.top = toggleCurrentTop + 'px';
@@ -1151,26 +1144,18 @@ function updateIcon(theme) {
     toggle.style.transform = 'scale(' + toggleCurrentScale + ')';
     toggle.style.transformOrigin = 'top right';
 
-    // --- NAVBAR: slide down once animation completes ---
-    if (progress >= 1) {
-      if (!navVisible) {
-        nav.classList.add('visible');
-        navVisible = true;
-      }
-    } else {
-      if (navVisible) {
-        nav.classList.remove('visible');
-        navVisible = false;
-      }
-    }
+    // --- NAVBAR: slides down during last 20% of animation ---
+    // So it's fully in place exactly when title arrives
+    var navRaw = Math.min(Math.max((progress - 0.8) / 0.2, 0), 1);
+    var navEased = EASE(navRaw);
+    nav.style.transform = 'translateY(' + (-100 + navEased * 100) + '%)';
+    nav.style.pointerEvents = progress >= 1 ? 'auto' : 'none';
   }
 
   measure();
+  nav.style.transform = 'translateY(-100%)';
   window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', function() {
-    measure();
-    onScroll();
-  });
+  window.addEventListener('resize', function() { measure(); onScroll(); });
   onScroll();
 }());
 </script>
