@@ -1115,7 +1115,6 @@ function updateIcon(theme) {
   }
 
   var wasAnimating = false;
-  var locked = false; // hysteresis: stay locked once animation completes
 
   function onScroll() {
     var scrollY = window.scrollY;
@@ -1123,18 +1122,17 @@ function updateIcon(theme) {
     // ── MOBILE: simple crossfade, no shrink animation ──
     if (m.isMobile) {
       if (wasAnimating) {
-        // Clean up any leftover desktop animation state
         title.classList.remove('animating');
         title.style.transform = '';
         title.style.left = '';
         title.style.top = '';
+        title.style.fontSize = '';
         if (placeholder.parentNode) placeholder.parentNode.removeChild(placeholder);
         wasAnimating = false;
       }
       if (scrollY >= m.mobileThreshold) {
         nav.style.transform = 'translateY(0)';
         nav.style.pointerEvents = 'auto';
-        // Move toggle into navbar position
         toggle.style.top = TOGGLE_NAV_TOP + 'px';
         toggle.style.right = TOGGLE_NAV_RIGHT + 'px';
         toggle.style.transform = 'scale(' + m.toggleScale + ')';
@@ -1149,20 +1147,12 @@ function updateIcon(theme) {
       return;
     }
 
-    // ── DESKTOP: shrink animation ──
+    // ── DESKTOP: shrink animation (plays forward AND reverse) ──
     var raw = (scrollY - m.animStart) / (m.animEnd - m.animStart);
     var progress = Math.min(Math.max(raw, 0), 1);
-
-    // Hysteresis: once animation completes, stay locked at progress=1
-    // until user scrolls back above animStart
-    if (progress >= 1) locked = true;
-    if (scrollY <= m.animStart) locked = false;
-
-    if (locked && progress < 1) progress = 1;
-
     var eased = EASE(progress);
 
-    if (progress <= 0 && !locked) {
+    if (progress <= 0) {
       if (wasAnimating) {
         title.classList.remove('animating');
         title.style.transform = '';
@@ -1222,7 +1212,7 @@ function updateIcon(theme) {
   measure();
   nav.style.transform = 'translateY(-100%)';
   window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', function() { locked = false; measure(); onScroll(); });
+  window.addEventListener('resize', function() { measure(); onScroll(); });
   onScroll();
 }());
 </script>
