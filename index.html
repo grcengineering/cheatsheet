@@ -96,6 +96,40 @@ body {
   transform: scale(1.1);
 }
 
+/* ── STICKY NAVBAR ── */
+.sticky-nav {
+  position: fixed;
+  top: -60px;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  transition: top 0.3s ease;
+  backdrop-filter: blur(12px);
+}
+.sticky-nav.visible {
+  top: 0;
+}
+.sticky-nav-title {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--text);
+  white-space: nowrap;
+}
+.sticky-nav-title .highlight {
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--orange-bright), var(--blue-bright));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 /* ── HEADER ── */
 .page-header {
   text-align: center;
@@ -638,6 +672,10 @@ tbody td:nth-child(4) li::before {
   <i class="theme-icon ri-moon-line"></i>
 </button>
 
+<nav class="sticky-nav" id="sticky-nav">
+  <span class="sticky-nav-title">The <span class="highlight">GRC Engineering</span> Cheat Sheet</span>
+</nav>
+
 <header class="page-header">
   <a href="https://grc.engineering" class="back-link">&larr; grc.engineering</a>
   <h1 class="page-title">The <span class="highlight">GRC Engineering</span> Cheat Sheet</h1>
@@ -982,6 +1020,43 @@ function updateIcon(theme) {
     requestAnimationFrame(rotate);
   }
   requestAnimationFrame(rotate);
+}());
+/* Sticky navbar on scroll */
+(function() {
+  var nav = document.getElementById('sticky-nav');
+  var title = document.querySelector('.page-title');
+  if (!nav || !title) return;
+  var lastScroll = 0;
+  var titleTop = title.offsetTop;
+  var titleH = title.offsetHeight;
+  var shrinkStart = titleTop;
+  var shrinkEnd = titleTop + titleH;
+  function onScroll() {
+    var scrollY = window.scrollY;
+    var progress = Math.min(Math.max((scrollY - shrinkStart) / (shrinkEnd - shrinkStart), 0), 1);
+    // Shrink title: scale from 1 to 0.4, move from center to left
+    if (progress > 0 && progress < 1) {
+      var scale = 1 - (progress * 0.6);
+      title.style.transform = 'scale(' + scale + ')';
+      title.style.transformOrigin = 'left center';
+      title.style.opacity = 1 - progress;
+    } else if (progress <= 0) {
+      title.style.transform = '';
+      title.style.transformOrigin = '';
+      title.style.opacity = '';
+    } else {
+      title.style.opacity = '0';
+    }
+    // Show navbar when the title has scrolled out of view
+    if (progress >= 1) {
+      nav.classList.add('visible');
+    } else {
+      nav.classList.remove('visible');
+    }
+    lastScroll = scrollY;
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 }());
 </script>
 
