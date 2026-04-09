@@ -109,9 +109,31 @@ body {
   box-shadow: 0 2px 12px rgba(0,0,0,0.1), 0 1px 4px rgba(0,0,0,0.06);
   pointer-events: none;
   will-change: transform;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+}
+.sticky-nav-title {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  font-weight: 400;
+  color: var(--text);
+  white-space: nowrap;
+  line-height: 1.2;
+  display: none;
+}
+.sticky-nav-title .highlight {
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--orange-bright), var(--blue-bright));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+@media (max-width: 768px) {
+  .sticky-nav-title { display: block; }
 }
 
-/* Title animation state */
+/* Title animation state (desktop only) */
 .page-title.animating {
   position: fixed;
   z-index: 101;
@@ -663,7 +685,7 @@ tbody td:nth-child(4) li::before {
   <i class="theme-icon ri-moon-line"></i>
 </button>
 
-<nav class="sticky-nav" id="sticky-nav"></nav>
+<nav class="sticky-nav" id="sticky-nav"><span class="sticky-nav-title">The <span class="highlight">GRC Engineering</span> Cheat Sheet</span></nav>
 
 <header class="page-header">
   <a href="https://grc.engineering" class="back-link">&larr; grc.engineering</a>
@@ -1017,7 +1039,6 @@ function updateIcon(theme) {
   var toggle = document.querySelector('.theme-toggle');
   if (!nav || !title || !toggle) return;
 
-  // Create placeholder to preserve layout when title goes fixed
   var placeholder = document.createElement('div');
   placeholder.style.visibility = 'hidden';
   placeholder.style.pointerEvents = 'none';
@@ -1029,11 +1050,11 @@ function updateIcon(theme) {
   var TOGGLE_FINAL_SIZE = 36;
   var TOGGLE_NAV_RIGHT = 12;
   var TOGGLE_NAV_TOP = 8;
+  var MOBILE_BP = 768;
   var EASE = function(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; };
 
   var m = {};
   function measure() {
-    // Reset everything
     title.classList.remove('animating');
     title.style.transform = '';
     title.style.left = '';
@@ -1044,7 +1065,8 @@ function updateIcon(theme) {
     nav.style.transform = '';
     if (placeholder.parentNode) placeholder.parentNode.removeChild(placeholder);
 
-    // Measure title in its natural centered flow position
+    m.isMobile = window.innerWidth <= MOBILE_BP;
+
     var flowRect = title.getBoundingClientRect();
     var cs = getComputedStyle(title);
     m.titleFontSize = parseFloat(cs.fontSize);
@@ -1053,25 +1075,24 @@ function updateIcon(theme) {
     m.titleFlowW = flowRect.width;
     m.titleH = flowRect.height;
 
-    // Briefly switch to fixed to measure intrinsic (text-only) width
-    title.classList.add('animating');
-    title.style.left = '0px';
-    title.style.top = '0px';
-    title.style.transform = 'none';
-    var fixedRect = title.getBoundingClientRect();
-    m.titleIntrinsicW = fixedRect.width;
-    title.classList.remove('animating');
-    title.style.left = '';
-    title.style.top = '';
-    title.style.transform = '';
+    if (!m.isMobile) {
+      // Desktop: measure intrinsic width for center-offset calculation
+      title.classList.add('animating');
+      title.style.left = '0px';
+      title.style.top = '0px';
+      title.style.transform = 'none';
+      var fixedRect = title.getBoundingClientRect();
+      m.titleIntrinsicW = fixedRect.width;
+      title.classList.remove('animating');
+      title.style.left = '';
+      title.style.top = '';
+      title.style.transform = '';
 
-    // Starting X: where the text visually was (centered within the full-width block)
-    m.titleStartX = flowRect.left + (flowRect.width - m.titleIntrinsicW) / 2;
-    m.titleStartY = flowRect.top + window.scrollY; // document Y
-
-    // Final position: left-aligned, vertically centered in navbar
-    m.titleFinalX = NAV_PAD;
-    m.titleFinalY_viewport = (NAV_H - m.titleH * m.scale) / 2;
+      m.titleStartX = flowRect.left + (flowRect.width - m.titleIntrinsicW) / 2;
+      m.titleStartY = flowRect.top + window.scrollY;
+      m.titleFinalX = NAV_PAD;
+      m.titleFinalY_viewport = (NAV_H - m.titleH * m.scale) / 2;
+    }
 
     // Toggle
     var toggleRect = toggle.getBoundingClientRect();
@@ -1085,21 +1106,63 @@ function updateIcon(theme) {
     if (m.animStart < 0) m.animStart = 0;
     m.animEnd = m.titleDocTop + m.titleH;
 
-    // Placeholder
+    // Mobile threshold: navbar appears when title bottom scrolls off
+    m.mobileThreshold = m.titleDocTop + m.titleH;
+
     placeholder.style.width = m.titleFlowW + 'px';
     placeholder.style.height = m.titleH + 'px';
     placeholder.style.margin = cs.margin;
   }
 
   var wasAnimating = false;
+  var locked = false; // hysteresis: stay locked once animation completes
 
   function onScroll() {
     var scrollY = window.scrollY;
+
+    // ── MOBILE: simple crossfade, no shrink animation ──
+    if (m.isMobile) {
+      if (wasAnimating) {
+        // Clean up any leftover desktop animation state
+        title.classList.remove('animating');
+        title.style.transform = '';
+        title.style.left = '';
+        title.style.top = '';
+        if (placeholder.parentNode) placeholder.parentNode.removeChild(placeholder);
+        wasAnimating = false;
+      }
+      if (scrollY >= m.mobileThreshold) {
+        nav.style.transform = 'translateY(0)';
+        nav.style.pointerEvents = 'auto';
+        // Move toggle into navbar position
+        toggle.style.top = TOGGLE_NAV_TOP + 'px';
+        toggle.style.right = TOGGLE_NAV_RIGHT + 'px';
+        toggle.style.transform = 'scale(' + m.toggleScale + ')';
+        toggle.style.transformOrigin = 'top right';
+      } else {
+        nav.style.transform = 'translateY(-100%)';
+        nav.style.pointerEvents = 'none';
+        toggle.style.transform = '';
+        toggle.style.top = '';
+        toggle.style.right = '';
+      }
+      return;
+    }
+
+    // ── DESKTOP: shrink animation ──
     var raw = (scrollY - m.animStart) / (m.animEnd - m.animStart);
     var progress = Math.min(Math.max(raw, 0), 1);
+
+    // Hysteresis: once animation completes, stay locked at progress=1
+    // until user scrolls back above animStart
+    if (progress >= 1) locked = true;
+    if (scrollY <= m.animStart) locked = false;
+
+    if (locked && progress < 1) progress = 1;
+
     var eased = EASE(progress);
 
-    if (progress <= 0) {
+    if (progress <= 0 && !locked) {
       if (wasAnimating) {
         title.classList.remove('animating');
         title.style.transform = '';
@@ -1110,6 +1173,7 @@ function updateIcon(theme) {
         toggle.style.top = '';
         toggle.style.right = '';
         nav.style.transform = 'translateY(-100%)';
+        nav.style.pointerEvents = 'none';
         wasAnimating = false;
       }
       return;
@@ -1122,9 +1186,7 @@ function updateIcon(theme) {
     }
 
     // --- TITLE ---
-    // Starting viewport Y = document position - scroll offset
     var startViewportY = m.titleStartY - scrollY;
-    // Interpolate from current visual position to final navbar position
     var currentX = m.titleStartX + eased * (m.titleFinalX - m.titleStartX);
     var currentY = startViewportY + eased * (m.titleFinalY_viewport - startViewportY);
     var currentScale = 1 + eased * (m.scale - 1);
@@ -1144,8 +1206,7 @@ function updateIcon(theme) {
     toggle.style.transform = 'scale(' + toggleCurrentScale + ')';
     toggle.style.transformOrigin = 'top right';
 
-    // --- NAVBAR: slides down during last 20% of animation ---
-    // So it's fully in place exactly when title arrives
+    // --- NAVBAR ---
     var navRaw = Math.min(Math.max((progress - 0.8) / 0.2, 0), 1);
     var navEased = EASE(navRaw);
     nav.style.transform = 'translateY(' + (-100 + navEased * 100) + '%)';
@@ -1155,7 +1216,7 @@ function updateIcon(theme) {
   measure();
   nav.style.transform = 'translateY(-100%)';
   window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', function() { measure(); onScroll(); });
+  window.addEventListener('resize', function() { locked = false; measure(); onScroll(); });
   onScroll();
 }());
 </script>
