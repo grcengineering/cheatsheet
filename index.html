@@ -7,7 +7,7 @@
 <meta name="description" content="Legacy GRC vs. GRC Engineering in practice — a side-by-side comparison across Governance, Risk, Compliance, and Trust & Assurance.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet" integrity="sha384-yvnQ71IHGvMhr6ThVxOD5GNlmL3ABiJHVLg8erJYIEXJm/I6whbQfRNJvsVitGBm" crossorigin="anonymous">
 <style>
 :root {
@@ -37,6 +37,7 @@
 
   --font-body: 'Manrope', sans-serif;
   --font-mono: 'Manrope', sans-serif;
+  --font-title: 'IBM Plex Mono', monospace;
 }
 
 [data-theme="dark"] {
@@ -114,7 +115,7 @@ body {
   padding: 0 24px;
 }
 .sticky-nav-title {
-  font-family: var(--font-body);
+  font-family: var(--font-title);
   font-size: 1.125rem;
   font-weight: 400;
   color: var(--text);
@@ -176,7 +177,7 @@ body {
 .back-link:hover { color: var(--orange); }
 
 .page-title {
-  font-family: var(--font-body);
+  font-family: var(--font-title);
   font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 400;
   color: var(--text);
@@ -362,6 +363,7 @@ thead th {
   z-index: 20;
   background: var(--bg-header);
   color: var(--text-header);
+  font-family: var(--font-title);
   font-weight: 400;
   font-size: 1rem;
   padding: 18px 20px;
@@ -658,7 +660,7 @@ tbody td:nth-child(4) li::before {
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   .page-header { padding: 60px 16px 40px; }
-  .page-title { font-size: clamp(1.6rem, 6vw, 2.5rem); }
+  .page-title { font-size: clamp(2rem, 8vw, 3rem); }
   .definitions { flex-direction: column; gap: 12px; }
   .def-equation-top { flex-direction: column; gap: 0; }
   .def-operator { width: auto; height: 32px; font-size: 1.3rem; }
