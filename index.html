@@ -134,13 +134,12 @@ body {
   .sticky-nav-title { display: block; }
 }
 
-/* Title animation state (desktop only) */
+/* Title animation state */
 .page-title.animating {
   position: fixed;
   z-index: 101;
   margin: 0;
   pointer-events: none;
-  text-align: left;
   line-height: 1.2;
 }
 
@@ -1053,7 +1052,6 @@ function updateIcon(theme) {
   var TOGGLE_FINAL_SIZE = 36;
   var TOGGLE_NAV_RIGHT = 12;
   var TOGGLE_NAV_TOP = 8;
-  var MOBILE_BP = 768;
   var EASE = function(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; };
 
   var m = {};
@@ -1062,40 +1060,59 @@ function updateIcon(theme) {
     title.style.transform = '';
     title.style.left = '';
     title.style.top = '';
+    title.style.width = '';
     title.style.fontSize = '';
+    title.style.textAlign = '';
     toggle.style.transform = '';
     toggle.style.top = '';
     toggle.style.right = '';
     nav.style.transform = '';
     if (placeholder.parentNode) placeholder.parentNode.removeChild(placeholder);
 
-    m.isMobile = window.innerWidth <= MOBILE_BP;
-
     var flowRect = title.getBoundingClientRect();
     var cs = getComputedStyle(title);
     m.titleFontSize = parseFloat(cs.fontSize);
-    m.scale = TARGET_FONT_SIZE / m.titleFontSize;
     m.titleDocTop = flowRect.top + window.scrollY;
     m.titleFlowW = flowRect.width;
     m.titleH = flowRect.height;
 
-    if (!m.isMobile) {
-      // Desktop: measure intrinsic width for center-offset calculation
-      title.classList.add('animating');
-      title.style.left = '0px';
-      title.style.top = '0px';
-      title.style.transform = 'none';
-      var fixedRect = title.getBoundingClientRect();
-      m.titleIntrinsicW = fixedRect.width;
-      title.classList.remove('animating');
-      title.style.left = '';
-      title.style.top = '';
-      title.style.transform = '';
+    // Measure intrinsic (single-line) width at final font size
+    // to know the final width the title needs
+    title.classList.add('animating');
+    title.style.left = '0px';
+    title.style.top = '0px';
+    title.style.transform = 'none';
+    title.style.fontSize = TARGET_FONT_SIZE + 'px';
+    title.style.width = 'auto';
+    title.style.textAlign = 'left';
+    var finalRect = title.getBoundingClientRect();
+    m.titleFinalW = finalRect.width;
+    m.titleFinalH = finalRect.height;
 
-      m.titleStartX = flowRect.left + (flowRect.width - m.titleIntrinsicW) / 2;
-      m.titleStartY = flowRect.top + window.scrollY;
-      m.titleFinalX = NAV_PAD;
-    }
+    // Also measure intrinsic width at original font size
+    title.style.fontSize = '';
+    var intrinsicRect = title.getBoundingClientRect();
+    m.titleIntrinsicW = intrinsicRect.width;
+
+    title.classList.remove('animating');
+    title.style.left = '';
+    title.style.top = '';
+    title.style.transform = '';
+    title.style.fontSize = '';
+    title.style.width = '';
+    title.style.textAlign = '';
+
+    // Starting X: visual text center offset within full-width block
+    // For centered multi-line text, the block starts at flowRect.left
+    // The visual text is centered, so offset = (blockWidth - intrinsicWidth) / 2
+    // But if intrinsic is wider than block (text wraps), text starts at block left
+    var textOffsetX = Math.max(0, (m.titleFlowW - m.titleIntrinsicW) / 2);
+    m.titleStartX = flowRect.left + textOffsetX;
+    m.titleStartY = flowRect.top + window.scrollY;
+    m.titleFinalX = NAV_PAD;
+
+    // Final Y: vertically centered in navbar
+    m.titleFinalY_viewport = (NAV_H - m.titleFinalH) / 2;
 
     // Toggle
     var toggleRect = toggle.getBoundingClientRect();
@@ -1109,9 +1126,6 @@ function updateIcon(theme) {
     if (m.animStart < 0) m.animStart = 0;
     m.animEnd = m.titleDocTop + m.titleH;
 
-    // Mobile threshold: navbar appears when title bottom scrolls off
-    m.mobileThreshold = m.titleDocTop + m.titleH;
-
     placeholder.style.width = m.titleFlowW + 'px';
     placeholder.style.height = m.titleH + 'px';
     placeholder.style.margin = cs.margin;
@@ -1122,35 +1136,6 @@ function updateIcon(theme) {
   function onScroll() {
     var scrollY = window.scrollY;
 
-    // ── MOBILE: simple crossfade, no shrink animation ──
-    if (m.isMobile) {
-      if (wasAnimating) {
-        title.classList.remove('animating');
-        title.style.transform = '';
-        title.style.left = '';
-        title.style.top = '';
-        title.style.fontSize = '';
-        if (placeholder.parentNode) placeholder.parentNode.removeChild(placeholder);
-        wasAnimating = false;
-      }
-      if (scrollY >= m.mobileThreshold) {
-        nav.style.transform = 'translateY(0)';
-        nav.style.pointerEvents = 'auto';
-        toggle.style.top = TOGGLE_NAV_TOP + 'px';
-        toggle.style.right = TOGGLE_NAV_RIGHT + 'px';
-        toggle.style.transform = 'scale(' + m.toggleScale + ')';
-        toggle.style.transformOrigin = 'top right';
-      } else {
-        nav.style.transform = 'translateY(-100%)';
-        nav.style.pointerEvents = 'none';
-        toggle.style.transform = '';
-        toggle.style.top = '';
-        toggle.style.right = '';
-      }
-      return;
-    }
-
-    // ── DESKTOP: shrink animation (plays forward AND reverse) ──
     var raw = (scrollY - m.animStart) / (m.animEnd - m.animStart);
     var progress = Math.min(Math.max(raw, 0), 1);
     var eased = EASE(progress);
@@ -1161,7 +1146,9 @@ function updateIcon(theme) {
         title.style.transform = '';
         title.style.left = '';
         title.style.top = '';
+        title.style.width = '';
         title.style.fontSize = '';
+        title.style.textAlign = '';
         if (placeholder.parentNode) placeholder.parentNode.removeChild(placeholder);
         toggle.style.transform = '';
         toggle.style.top = '';
@@ -1179,17 +1166,24 @@ function updateIcon(theme) {
       wasAnimating = true;
     }
 
-    // --- TITLE (font-size animation for crisp text) ---
+    // --- TITLE ---
     var currentFontSize = m.titleFontSize + eased * (TARGET_FONT_SIZE - m.titleFontSize);
-    var sizeRatio = currentFontSize / m.titleFontSize;
-    // Recalculate final Y based on current element height (shrinks with font-size)
-    var currentH = m.titleH * sizeRatio;
+    // Interpolate width from flow width to final intrinsic width
+    var currentW = m.titleFlowW + eased * (m.titleFinalW - m.titleFlowW);
+    // Interpolate text-align: start centered, end left
+    // We keep centered until 70% through, then snap to left
+    var alignLeft = eased > 0.7;
+
+    // Y: interpolate current height for vertical centering
+    var currentH = m.titleH + eased * (m.titleFinalH - m.titleH);
     var finalY = (NAV_H - currentH) / 2;
     var startViewportY = m.titleStartY - scrollY;
     var currentX = m.titleStartX + eased * (m.titleFinalX - m.titleStartX);
     var currentY = startViewportY + eased * (finalY - startViewportY);
 
     title.style.fontSize = currentFontSize + 'px';
+    title.style.width = currentW + 'px';
+    title.style.textAlign = alignLeft ? 'left' : 'center';
     title.style.left = '0px';
     title.style.top = '0px';
     title.style.transform = 'translate(' + currentX + 'px,' + currentY + 'px)';
