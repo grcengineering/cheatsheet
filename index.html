@@ -380,11 +380,8 @@ thead th {
   border-bottom: 2px solid var(--border-header);
   white-space: nowrap;
 }
-.table-wrapper thead tr {
-  background: linear-gradient(135deg, var(--orange-bright), var(--blue-bright));
-}
 .table-wrapper thead th {
-  background: transparent;
+  background: linear-gradient(135deg, var(--orange-bright), var(--blue-bright));
   color: #000;
   border-bottom-color: rgba(0,0,0,0.15);
 }
@@ -392,11 +389,8 @@ thead th {
   background: linear-gradient(135deg, #2a1f3e, #1a2a3e);
   border-bottom-color: var(--border-header);
 }
-[data-theme="dark"] .table-wrapper thead tr {
-  background: linear-gradient(135deg, var(--orange-bright), var(--blue-bright));
-}
 [data-theme="dark"] .table-wrapper thead th {
-  background: transparent;
+  background: linear-gradient(135deg, var(--orange-bright), var(--blue-bright));
   opacity: 0.9;
 }
 [data-theme="dark"] .table-wrapper thead th:first-child {
@@ -412,6 +406,10 @@ thead th:first-child {
 .table-wrapper thead th:first-child {
   background: var(--orange-bright);
   border-right: 2px solid var(--border-header);
+  border-top-left-radius: 16px;
+}
+.table-wrapper thead th:last-child {
+  border-top-right-radius: 16px;
 }
 
 /* Rounded corners handled by .table-outer overflow: hidden */
@@ -558,7 +556,7 @@ tbody td:nth-child(4) li::before {
 }
 /* Ref table: no horizontal scroll, fully responsive */
 .ref-tables .table-outer {
-  overflow: visible;
+  overflow: clip;
   border-radius: 16px;
 }
 .ref-tables .table-container {
@@ -571,6 +569,10 @@ tbody td:nth-child(4) li::before {
 }
 .ref-tables thead th:first-child {
   width: 180px;
+  border-top-left-radius: 16px;
+}
+.ref-tables thead th:last-child {
+  border-top-right-radius: 16px;
 }
 .ref-tables tbody td:first-child {
   vertical-align: top;
@@ -599,29 +601,25 @@ tbody td:nth-child(4) li::before {
   z-index: 20;
 }
 /* Per-table header colors */
-#terms-table thead tr { background: linear-gradient(135deg, #2d6a4f, #40916c); }
-#terms-table thead th { background: transparent; color: #fff; border-bottom-color: rgba(0,0,0,0.15); }
+#terms-table thead th { background: linear-gradient(135deg, #2d6a4f, #40916c); color: #fff; border-bottom-color: rgba(0,0,0,0.15); }
 #terms-table thead th:first-child { background: #2d6a4f; }
 
-#tools-table thead tr { background: linear-gradient(135deg, #1b4965, #5fa8d3); }
-#tools-table thead th { background: transparent; color: #fff; border-bottom-color: rgba(0,0,0,0.15); }
+#tools-table thead th { background: linear-gradient(135deg, #1b4965, #5fa8d3); color: #fff; border-bottom-color: rgba(0,0,0,0.15); }
 #tools-table thead th:first-child { background: #1b4965; }
 
-#ttps-table thead tr { background: linear-gradient(135deg, #7b2d8e, #b185db); }
-#ttps-table thead th { background: transparent; color: #fff; border-bottom-color: rgba(0,0,0,0.15); }
+#ttps-table thead th { background: linear-gradient(135deg, #7b2d8e, #b185db); color: #fff; border-bottom-color: rgba(0,0,0,0.15); }
 #ttps-table thead th:first-child { background: #7b2d8e; }
 
-#teachings-table thead tr { background: linear-gradient(135deg, #b45309, #f59e0b); }
-#teachings-table thead th { background: transparent; color: #fff; border-bottom-color: rgba(0,0,0,0.15); }
+#teachings-table thead th { background: linear-gradient(135deg, #b45309, #f59e0b); color: #fff; border-bottom-color: rgba(0,0,0,0.15); }
 #teachings-table thead th:first-child { background: #b45309; }
 
-[data-theme="dark"] #terms-table thead tr { background: linear-gradient(135deg, #1b3d2f, #2d6a4f); }
+[data-theme="dark"] #terms-table thead th { background: linear-gradient(135deg, #1b3d2f, #2d6a4f); }
 [data-theme="dark"] #terms-table thead th:first-child { background: #1b3d2f; }
-[data-theme="dark"] #tools-table thead tr { background: linear-gradient(135deg, #0d2a3a, #1b4965); }
+[data-theme="dark"] #tools-table thead th { background: linear-gradient(135deg, #0d2a3a, #1b4965); }
 [data-theme="dark"] #tools-table thead th:first-child { background: #0d2a3a; }
-[data-theme="dark"] #ttps-table thead tr { background: linear-gradient(135deg, #4a1a5e, #7b2d8e); }
+[data-theme="dark"] #ttps-table thead th { background: linear-gradient(135deg, #4a1a5e, #7b2d8e); }
 [data-theme="dark"] #ttps-table thead th:first-child { background: #4a1a5e; }
-[data-theme="dark"] #teachings-table thead tr { background: linear-gradient(135deg, #78350f, #b45309); }
+[data-theme="dark"] #teachings-table thead th { background: linear-gradient(135deg, #78350f, #b45309); }
 [data-theme="dark"] #teachings-table thead th:first-child { background: #78350f; }
 
 /* ── FOOTER ── */
