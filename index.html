@@ -352,9 +352,7 @@ body {
   background: var(--bg-card);
 }
 .table-container {
-  overflow-x: auto;
-  overflow-y: visible;
-  -webkit-overflow-scrolling: touch;
+  overflow: visible;
   background: var(--bg-card);
 }
 
@@ -370,7 +368,7 @@ table {
 /* Header row */
 thead th {
   position: sticky;
-  top: 0;
+  top: 52px;
   z-index: 20;
   background: var(--bg-header);
   color: var(--text-header);
@@ -538,6 +536,7 @@ tbody td:nth-child(4) li::before {
   max-width: 1200px;
   margin: 0 auto 60px;
   padding: 0 24px;
+  overflow-x: clip;
 }
 .ref-section {
   margin-bottom: 48px;
@@ -596,7 +595,7 @@ tbody td:nth-child(4) li::before {
 /* Ref table sticky headers — work with page scroll since no overflow container */
 .ref-tables thead th {
   position: sticky;
-  top: 0;
+  top: 52px;
   z-index: 20;
 }
 /* Per-table header colors */
