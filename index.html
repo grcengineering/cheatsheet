@@ -88,9 +88,9 @@ body {
   justify-content: center;
   cursor: pointer;
   font-size: 1.2rem;
+  transition: background 0.2s ease;
   backdrop-filter: blur(10px);
   color: var(--text);
-  will-change: transform;
 }
 .theme-toggle:hover {
   background: var(--toggle-hover);
@@ -107,12 +107,17 @@ body {
   z-index: 99;
   backdrop-filter: blur(12px);
   transform: translateY(-100%);
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   box-shadow: 0 2px 12px rgba(0,0,0,0.1), 0 1px 4px rgba(0,0,0,0.06);
   pointer-events: none;
-  will-change: transform;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 0 24px;
+}
+.sticky-nav.visible {
+  transform: translateY(0);
+  pointer-events: auto;
 }
 .sticky-nav-title {
   font-family: var(--font-title);
@@ -121,7 +126,6 @@ body {
   color: var(--text);
   white-space: nowrap;
   line-height: 1.2;
-  display: none;
 }
 .sticky-nav-title .highlight {
   font-weight: 700;
@@ -130,14 +134,22 @@ body {
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-
-/* Title animation state */
-.page-title.animating {
-  position: fixed;
-  z-index: 101;
-  margin: 0;
-  pointer-events: none;
-  line-height: 1.2;
+.sticky-nav .theme-toggle-nav {
+  background: var(--toggle-bg);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--text);
+  transition: background 0.2s ease;
+}
+.sticky-nav .theme-toggle-nav:hover {
+  background: var(--toggle-hover);
 }
 
 /* ── HEADER ── */
@@ -658,7 +670,10 @@ tbody td:nth-child(4) li::before {
   <i class="theme-icon ri-moon-line"></i>
 </button>
 
-<nav class="sticky-nav" id="sticky-nav"><span class="sticky-nav-title">The <span class="highlight">GRC Engineering</span> Cheat Sheet</span></nav>
+<nav class="sticky-nav" id="sticky-nav">
+  <span class="sticky-nav-title">The <span class="highlight">GRC Engineering</span> Cheat Sheet</span>
+  <button class="theme-toggle-nav" onclick="toggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode"><i class="theme-icon ri-moon-line"></i></button>
+</nav>
 
 <header class="page-header">
   <a href="https://grc.engineering" class="back-link">&larr; grc.engineering</a>
@@ -980,8 +995,10 @@ function toggleTheme() {
   updateIcon(next);
 }
 function updateIcon(theme) {
-  var icon = document.querySelector('.theme-icon');
-  icon.className = theme === 'dark' ? 'theme-icon ri-sun-line' : 'theme-icon ri-moon-line';
+  var icons = document.querySelectorAll('.theme-icon');
+  for (var i = 0; i < icons.length; i++) {
+    icons[i].className = theme === 'dark' ? 'theme-icon ri-sun-line' : 'theme-icon ri-moon-line';
+  }
 }
 (function() {
   var saved = localStorage.getItem('cheatsheet-theme');
@@ -1005,180 +1022,26 @@ function updateIcon(theme) {
   }
   requestAnimationFrame(rotate);
 }());
-/* Scroll-driven title shrink + navbar slide-down */
+/* Sticky navbar — slides down when title scrolls off, up when it reappears */
 (function() {
   var nav = document.getElementById('sticky-nav');
   var title = document.querySelector('.page-title');
-  var toggle = document.querySelector('.theme-toggle');
-  if (!nav || !title || !toggle) return;
+  if (!nav || !title) return;
 
-  var placeholder = document.createElement('div');
-  placeholder.style.visibility = 'hidden';
-  placeholder.style.pointerEvents = 'none';
-  placeholder.setAttribute('aria-hidden', 'true');
-
-  var NAV_H = 52;
-  var NAV_PAD = 24;
-  var TARGET_FONT_SIZE = 18;
-  var TOGGLE_FINAL_SIZE = 36;
-  var TOGGLE_NAV_RIGHT = 12;
-  var TOGGLE_NAV_TOP = 8;
-  var EASE = function(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; };
-
-  var m = {};
+  var threshold = 0;
   function measure() {
-    title.classList.remove('animating');
-    title.style.transform = '';
-    title.style.left = '';
-    title.style.top = '';
-    title.style.width = '';
-    title.style.fontSize = '';
-    title.style.textAlign = '';
-    toggle.style.transform = '';
-    toggle.style.top = '';
-    toggle.style.right = '';
-    nav.style.transform = '';
-    if (placeholder.parentNode) placeholder.parentNode.removeChild(placeholder);
-
-    var flowRect = title.getBoundingClientRect();
-    var cs = getComputedStyle(title);
-    m.titleFontSize = parseFloat(cs.fontSize);
-    m.titleDocTop = flowRect.top + window.scrollY;
-    m.titleFlowW = flowRect.width;
-    m.titleH = flowRect.height;
-
-    // Measure intrinsic (single-line) width at final font size
-    // to know the final width the title needs
-    title.classList.add('animating');
-    title.style.left = '0px';
-    title.style.top = '0px';
-    title.style.transform = 'none';
-    title.style.fontSize = TARGET_FONT_SIZE + 'px';
-    title.style.width = 'auto';
-    title.style.textAlign = 'left';
-    var finalRect = title.getBoundingClientRect();
-    m.titleFinalW = finalRect.width;
-    m.titleFinalH = finalRect.height;
-
-    // Also measure intrinsic width at original font size
-    title.style.fontSize = '';
-    var intrinsicRect = title.getBoundingClientRect();
-    m.titleIntrinsicW = intrinsicRect.width;
-
-    title.classList.remove('animating');
-    title.style.left = '';
-    title.style.top = '';
-    title.style.transform = '';
-    title.style.fontSize = '';
-    title.style.width = '';
-    title.style.textAlign = '';
-
-    // Starting X: visual text center offset within full-width block
-    // For centered multi-line text, the block starts at flowRect.left
-    // The visual text is centered, so offset = (blockWidth - intrinsicWidth) / 2
-    // But if intrinsic is wider than block (text wraps), text starts at block left
-    var textOffsetX = Math.max(0, (m.titleFlowW - m.titleIntrinsicW) / 2);
-    m.titleStartX = flowRect.left + textOffsetX;
-    m.titleStartY = flowRect.top + window.scrollY;
-    m.titleFinalX = NAV_PAD;
-
-    // Final Y: vertically centered in navbar
-    m.titleFinalY_viewport = (NAV_H - m.titleFinalH) / 2;
-
-    // Toggle
-    var toggleRect = toggle.getBoundingClientRect();
-    m.toggleStartTop = toggleRect.top;
-    m.toggleStartRight = window.innerWidth - toggleRect.right;
-    m.toggleW = toggleRect.width;
-    m.toggleScale = TOGGLE_FINAL_SIZE / m.toggleW;
-
-    // Animation range: starts when title top reaches viewport top,
-    // ends when title would be fully scrolled off
-    m.animStart = m.titleDocTop;
-    m.animEnd = m.titleDocTop + m.titleH + 60;
-
-    placeholder.style.width = m.titleFlowW + 'px';
-    placeholder.style.height = m.titleH + 'px';
-    placeholder.style.margin = cs.margin;
+    threshold = title.offsetTop + title.offsetHeight;
   }
 
-  var wasAnimating = false;
-
   function onScroll() {
-    var scrollY = window.scrollY;
-
-    var raw = (scrollY - m.animStart) / (m.animEnd - m.animStart);
-    var progress = Math.min(Math.max(raw, 0), 1);
-    var eased = EASE(progress);
-
-    if (progress <= 0) {
-      if (wasAnimating) {
-        title.classList.remove('animating');
-        title.style.transform = '';
-        title.style.left = '';
-        title.style.top = '';
-        title.style.width = '';
-        title.style.fontSize = '';
-        title.style.textAlign = '';
-        if (placeholder.parentNode) placeholder.parentNode.removeChild(placeholder);
-        toggle.style.transform = '';
-        toggle.style.top = '';
-        toggle.style.right = '';
-        nav.style.transform = 'translateY(-100%)';
-        nav.style.pointerEvents = 'none';
-        wasAnimating = false;
-      }
-      return;
+    if (window.scrollY >= threshold) {
+      nav.classList.add('visible');
+    } else {
+      nav.classList.remove('visible');
     }
-
-    if (!wasAnimating) {
-      title.parentNode.insertBefore(placeholder, title);
-      title.classList.add('animating');
-      wasAnimating = true;
-    }
-
-    // --- TITLE ---
-    var currentFontSize = m.titleFontSize + eased * (TARGET_FONT_SIZE - m.titleFontSize);
-    // Interpolate width from flow width to final intrinsic width
-    var currentW = m.titleFlowW + eased * (m.titleFinalW - m.titleFlowW);
-    // Interpolate text-align: start centered, end left
-    // We keep centered until 70% through, then snap to left
-    var alignLeft = eased > 0.7;
-
-    // Y: interpolate current height for vertical centering
-    var currentH = m.titleH + eased * (m.titleFinalH - m.titleH);
-    var finalY = (NAV_H - currentH) / 2;
-    var startViewportY = m.titleStartY - scrollY;
-    var currentX = m.titleStartX + eased * (m.titleFinalX - m.titleStartX);
-    var currentY = startViewportY + eased * (finalY - startViewportY);
-
-    title.style.fontSize = currentFontSize + 'px';
-    title.style.width = currentW + 'px';
-    title.style.textAlign = alignLeft ? 'left' : 'center';
-    title.style.left = '0px';
-    title.style.top = '0px';
-    title.style.transform = 'translate(' + currentX + 'px,' + currentY + 'px)';
-    title.style.transformOrigin = 'left top';
-
-    // --- TOGGLE ---
-    var toggleCurrentTop = m.toggleStartTop + eased * (TOGGLE_NAV_TOP - m.toggleStartTop);
-    var toggleCurrentRight = m.toggleStartRight + eased * (TOGGLE_NAV_RIGHT - m.toggleStartRight);
-    var toggleCurrentScale = 1 + eased * (m.toggleScale - 1);
-
-    toggle.style.top = toggleCurrentTop + 'px';
-    toggle.style.right = toggleCurrentRight + 'px';
-    toggle.style.transform = 'scale(' + toggleCurrentScale + ')';
-    toggle.style.transformOrigin = 'top right';
-
-    // --- NAVBAR ---
-    var navRaw = Math.min(Math.max((progress - 0.8) / 0.2, 0), 1);
-    var navEased = EASE(navRaw);
-    nav.style.transform = 'translateY(' + (-100 + navEased * 100) + '%)';
-    nav.style.pointerEvents = progress >= 1 ? 'auto' : 'none';
   }
 
   measure();
-  nav.style.transform = 'translateY(-100%)';
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', function() { measure(); onScroll(); });
   onScroll();
