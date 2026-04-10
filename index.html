@@ -130,9 +130,6 @@ body {
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-@media (max-width: 768px) {
-  .sticky-nav-title { display: block; }
-}
 
 /* Title animation state */
 .page-title.animating {
@@ -186,6 +183,7 @@ body {
   line-height: 1.2;
 }
 .page-title .highlight {
+  font-size: inherit;
   font-weight: 700;
   background: linear-gradient(135deg, var(--orange-bright), var(--blue-bright));
   -webkit-background-clip: text;
@@ -1094,10 +1092,10 @@ function updateIcon(theme) {
     m.toggleW = toggleRect.width;
     m.toggleScale = TOGGLE_FINAL_SIZE / m.toggleW;
 
-    // Animation range
-    m.animStart = m.titleDocTop - 80;
-    if (m.animStart < 0) m.animStart = 0;
-    m.animEnd = m.titleDocTop + m.titleH;
+    // Animation range: starts when title top reaches viewport top,
+    // ends when title would be fully scrolled off
+    m.animStart = m.titleDocTop;
+    m.animEnd = m.titleDocTop + m.titleH + 60;
 
     placeholder.style.width = m.titleFlowW + 'px';
     placeholder.style.height = m.titleH + 'px';
