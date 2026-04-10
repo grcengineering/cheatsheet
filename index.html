@@ -524,7 +524,7 @@ tbody td:nth-child(4) li::before {
 
 /* ── REFERENCE TABLES ── */
 .ref-tables {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto 60px;
   padding: 0 24px;
 }
@@ -546,90 +546,63 @@ tbody td:nth-child(4) li::before {
   background: var(--bg);
   padding: 12px 0;
 }
-/* Term/Tool/TTP name column */
+/* Ref table name column — sticky like main table */
 .ref-tables thead th:first-child,
 .ref-tables tbody td:first-child {
-  width: 220px;
+  position: sticky;
+  left: 0;
+  z-index: 10;
+  min-width: 160px;
+  max-width: 200px;
   white-space: normal;
   word-wrap: break-word;
   vertical-align: top;
+  background: var(--bg-row-header);
+  border-right: 2px solid var(--border);
+}
+.ref-tables thead th:first-child {
+  z-index: 30;
+  border-right: 2px solid var(--border-header);
+}
+.ref-tables tbody tr:nth-child(even) td:first-child {
+  background: var(--bg-card);
 }
 .ref-tables tbody td:first-child strong {
-  font-family: var(--font-mono);
+  font-family: var(--font-title);
+  font-weight: 700;
   font-size: 0.85rem;
   color: var(--orange);
 }
 .ref-tables table {
   width: 100%;
-  min-width: 0;
+  min-width: 500px;
   table-layout: auto;
 }
 /* Per-table header colors */
-#terms-table thead th {
-  background: linear-gradient(135deg, #2d6a4f, #40916c);
-  color: #fff;
-  border-bottom-color: rgba(0,0,0,0.15);
-}
-#tools-table thead th {
-  background: linear-gradient(135deg, #1b4965, #5fa8d3);
-  color: #fff;
-  border-bottom-color: rgba(0,0,0,0.15);
-}
-#ttps-table thead th {
-  background: linear-gradient(135deg, #7b2d8e, #b185db);
-  color: #fff;
-  border-bottom-color: rgba(0,0,0,0.15);
-}
-#teachings-table thead th {
-  background: linear-gradient(135deg, #b45309, #f59e0b);
-  color: #fff;
-  border-bottom-color: rgba(0,0,0,0.15);
-}
-[data-theme="dark"] #terms-table thead th {
-  background: linear-gradient(135deg, #1b3d2f, #2d6a4f);
-}
-[data-theme="dark"] #tools-table thead th {
-  background: linear-gradient(135deg, #0d2a3a, #1b4965);
-}
-[data-theme="dark"] #ttps-table thead th {
-  background: linear-gradient(135deg, #4a1a5e, #7b2d8e);
-}
-[data-theme="dark"] #teachings-table thead th {
-  background: linear-gradient(135deg, #78350f, #b45309);
-}
-/* Responsive: stack ref-table cells on small screens */
-@media (max-width: 600px) {
-  .ref-tables thead {
-    display: none;
-  }
-  .ref-tables tbody tr {
-    display: block;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .ref-tables tbody tr:last-child {
-    border-bottom: none;
-  }
-  .ref-tables tbody td {
-    display: block;
-    width: 100% !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
-    padding: 2px 12px !important;
-    border-bottom: none;
-  }
-  .ref-tables tbody td:first-child {
-    padding-top: 8px !important;
-  }
-  .ref-tables tbody td:last-child {
-    padding-bottom: 8px !important;
-    opacity: 0.85;
-  }
-  /* Category separator rows in Teachings */
-  .ref-tables tbody td[colspan] {
-    padding: 10px 12px !important;
-  }
-}
+#terms-table thead tr { background: linear-gradient(135deg, #2d6a4f, #40916c); }
+#terms-table thead th { background: transparent; color: #fff; border-bottom-color: rgba(0,0,0,0.15); }
+#terms-table thead th:first-child { background: #2d6a4f; }
+
+#tools-table thead tr { background: linear-gradient(135deg, #1b4965, #5fa8d3); }
+#tools-table thead th { background: transparent; color: #fff; border-bottom-color: rgba(0,0,0,0.15); }
+#tools-table thead th:first-child { background: #1b4965; }
+
+#ttps-table thead tr { background: linear-gradient(135deg, #7b2d8e, #b185db); }
+#ttps-table thead th { background: transparent; color: #fff; border-bottom-color: rgba(0,0,0,0.15); }
+#ttps-table thead th:first-child { background: #7b2d8e; }
+
+#teachings-table thead tr { background: linear-gradient(135deg, #b45309, #f59e0b); }
+#teachings-table thead th { background: transparent; color: #fff; border-bottom-color: rgba(0,0,0,0.15); }
+#teachings-table thead th:first-child { background: #b45309; }
+
+[data-theme="dark"] #terms-table thead tr { background: linear-gradient(135deg, #1b3d2f, #2d6a4f); }
+[data-theme="dark"] #terms-table thead th:first-child { background: #1b3d2f; }
+[data-theme="dark"] #tools-table thead tr { background: linear-gradient(135deg, #0d2a3a, #1b4965); }
+[data-theme="dark"] #tools-table thead th:first-child { background: #0d2a3a; }
+[data-theme="dark"] #ttps-table thead tr { background: linear-gradient(135deg, #4a1a5e, #7b2d8e); }
+[data-theme="dark"] #ttps-table thead th:first-child { background: #4a1a5e; }
+[data-theme="dark"] #teachings-table thead tr { background: linear-gradient(135deg, #78350f, #b45309); }
+[data-theme="dark"] #teachings-table thead th:first-child { background: #78350f; }
 
 /* ── FOOTER ── */
 .page-footer {
