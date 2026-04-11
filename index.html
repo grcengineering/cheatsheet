@@ -350,7 +350,7 @@ body {
     0 4px 24px var(--shadow),
     0 1px 4px var(--shadow);
   border: 1px solid var(--border);
-  overflow: hidden;
+  overflow: clip;
   background: var(--bg-card);
 }
 .table-container {
@@ -539,7 +539,7 @@ tbody td:nth-child(4) li::before {
   max-width: 1200px;
   margin: 0 auto 60px;
   padding: 0 24px;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 .ref-section {
   margin-bottom: 48px;
@@ -561,7 +561,7 @@ tbody td:nth-child(4) li::before {
 }
 /* Ref table: no horizontal scroll, fully responsive */
 .ref-tables .table-outer {
-  overflow: hidden;
+  overflow: clip;
   border-radius: 0;
 }
 .ref-tables .table-container {
