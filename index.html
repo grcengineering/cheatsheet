@@ -381,7 +381,9 @@ thead th {
   white-space: nowrap;
 }
 .table-wrapper thead th {
-  background: linear-gradient(135deg, var(--orange-bright), var(--blue-bright));
+  background: linear-gradient(to right, var(--orange-bright), var(--blue-bright));
+  background-size: 100vw 100%;
+  background-position: left center;
   color: #000;
   border-bottom-color: rgba(0,0,0,0.15);
 }
@@ -390,11 +392,10 @@ thead th {
   border-bottom-color: var(--border-header);
 }
 [data-theme="dark"] .table-wrapper thead th {
-  background: linear-gradient(135deg, var(--orange-bright), var(--blue-bright));
+  background: linear-gradient(to right, var(--orange-bright), var(--blue-bright));
+  background-size: 100vw 100%;
+  background-position: left center;
   opacity: 0.9;
-}
-[data-theme="dark"] .table-wrapper thead th:first-child {
-  background: var(--orange-bright);
 }
 thead th:first-child {
   position: sticky;
@@ -404,7 +405,9 @@ thead th:first-child {
   background: var(--bg-header);
 }
 .table-wrapper thead th:first-child {
-  background: var(--orange-bright);
+  background: linear-gradient(to right, var(--orange-bright), var(--blue-bright));
+  background-size: 100vw 100%;
+  background-position: left center;
   border-right: 2px solid var(--border-header);
 }
 
@@ -416,11 +419,13 @@ tbody td:first-child {
   left: 0;
   z-index: 10;
   background: var(--bg-row-header);
-  font-weight: 400;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1rem;
   text-align: center;
   vertical-align: middle;
   white-space: nowrap;
-  color: var(--text-row-header);
+  color: #000;
   border-right: 2px solid var(--border);
   min-width: 120px;
 }
@@ -517,7 +522,7 @@ tbody td:nth-child(4) li::before {
 
 /* Program labels */
 .program-label {
-  font-size: 0.95rem;
+  font-size: inherit;
   letter-spacing: 0.5px;
 }
 .program-label em {
@@ -569,17 +574,19 @@ tbody td:nth-child(4) li::before {
 .ref-tables tbody td:first-child {
   vertical-align: top;
   background: var(--bg-row-header);
-  font-weight: 400;
-  color: var(--text-row-header);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1rem;
+  color: #000;
   border-right: 2px solid var(--border);
 }
 .ref-tables tbody tr:nth-child(even) td:first-child {
   background: var(--bg-card);
 }
 .ref-tables tbody td:first-child strong {
-  font-family: var(--font-title);
-  font-weight: 700;
-  font-size: 0.85rem;
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
   color: var(--orange);
 }
 .ref-tables tbody td:last-child {
@@ -648,6 +655,7 @@ tbody td:nth-child(4) li::before {
   .def-equation-top { flex-direction: column; gap: 0; }
   .def-operator { width: auto; height: 32px; font-size: 1.3rem; }
   .table-wrapper { padding: 0 12px; }
+  .table-wrapper .table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   table { font-size: 0.82rem; }
   thead th { padding: 8px 14px; font-size: 0.9rem; }
   tbody td { padding: 12px 14px; }
@@ -719,7 +727,7 @@ tbody td:nth-child(4) li::before {
       </thead>
       <tbody>
         <tr>
-          <td><span class="program-label"><em>All</em></span></td>
+          <td><span class="program-label">All</span></td>
           <td>
             <ul>
               <li>Framework-first focus</li>
