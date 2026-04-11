@@ -7,7 +7,9 @@
 <meta name="description" content="Legacy GRC vs. GRC Engineering in practice — a side-by-side comparison across Governance, Risk, Compliance, and Trust & Assurance.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Vend+Sans:wght@400;500;600;700&display=swap" as="style">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Vend+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" as="style" crossorigin="anonymous">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet" integrity="sha384-yvnQ71IHGvMhr6ThVxOD5GNlmL3ABiJHVLg8erJYIEXJm/I6whbQfRNJvsVitGBm" crossorigin="anonymous">
 <style>
 :root {
@@ -348,11 +350,8 @@ body {
     0 4px 24px var(--shadow),
     0 1px 4px var(--shadow);
   border: 1px solid var(--border);
-  overflow: clip;
+  overflow: hidden;
   background: var(--bg-card);
-}
-.table-wrapper .table-outer {
-  border-top: none;
 }
 .table-container {
   overflow: visible;
@@ -382,6 +381,7 @@ thead th {
   text-align: left;
   border-bottom: 2px solid var(--border-header);
   white-space: nowrap;
+  will-change: transform;
 }
 .table-wrapper thead th {
   background: linear-gradient(to right, var(--orange-bright), var(--blue-bright));
@@ -421,6 +421,7 @@ tbody td:first-child {
   position: sticky;
   left: 0;
   z-index: 10;
+  will-change: transform;
   background: var(--bg-row-header);
   font-family: var(--font-body);
   font-weight: 700;
@@ -538,7 +539,7 @@ tbody td:nth-child(4) li::before {
   max-width: 1200px;
   margin: 0 auto 60px;
   padding: 0 24px;
-  overflow-x: clip;
+  overflow-x: hidden;
 }
 .ref-section {
   margin-bottom: 48px;
@@ -560,7 +561,7 @@ tbody td:nth-child(4) li::before {
 }
 /* Ref table: no horizontal scroll, fully responsive */
 .ref-tables .table-outer {
-  overflow: clip;
+  overflow: hidden;
   border-radius: 0;
 }
 .ref-tables .table-container {
@@ -658,7 +659,7 @@ tbody td:nth-child(4) li::before {
   .def-equation-top { flex-direction: column; gap: 0; }
   .def-operator { width: auto; height: 32px; font-size: 1.3rem; }
   .table-wrapper { padding: 0 12px; }
-  .table-wrapper .table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .table-wrapper .table-container { overflow-x: auto; }
   table { font-size: 0.82rem; }
   thead th { padding: 8px 14px; font-size: 0.9rem; top: 0; }
   tbody td { padding: 12px 14px; }
@@ -1022,20 +1023,32 @@ function updateIcon(theme) {
   document.documentElement.setAttribute('data-theme', theme);
   updateIcon(theme);
 })();
-/* Rotating gradient border for GRC Engineering card */
+/* Rotating gradient border for GRC Engineering card — pauses when off-screen */
 (function() {
   var card = document.querySelector('.def-card-grc-eng');
   if (!card) return;
   var angle = 0;
   var last = performance.now();
+  var visible = false;
+  var rafId = null;
   function rotate(now) {
     var dt = (now - last) / 1000;
     last = now;
     angle = (angle + 45 * dt) % 360;
     card.style.setProperty('--border-angle', angle + 'deg');
-    requestAnimationFrame(rotate);
+    if (visible) rafId = requestAnimationFrame(rotate);
   }
-  requestAnimationFrame(rotate);
+  var observer = new IntersectionObserver(function(entries) {
+    visible = entries[0].isIntersecting;
+    if (visible && !rafId) {
+      last = performance.now();
+      rafId = requestAnimationFrame(rotate);
+    } else if (!visible && rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+  }, { threshold: 0 });
+  observer.observe(card);
 }());
 /* Sticky navbar — slides down when title scrolls off, up when it reappears */
 (function() {
