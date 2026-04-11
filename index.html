@@ -569,10 +569,10 @@ tbody td:nth-child(4) li::before {
 .ref-tables table {
   width: 100%;
   min-width: 0;
-  table-layout: fixed;
+  table-layout: auto;
 }
 .ref-tables thead th:first-child {
-  width: 180px;
+  white-space: nowrap;
 }
 .ref-tables tbody td:first-child {
   vertical-align: middle;
@@ -582,10 +582,8 @@ tbody td:nth-child(4) li::before {
   font-weight: 700;
   color: #000;
   border-right: 2px solid var(--border);
-  white-space: normal;
+  white-space: nowrap;
   position: static;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
 }
 .ref-tables tbody tr:nth-child(even) td:first-child {
   background: var(--bg-card);
@@ -668,8 +666,9 @@ tbody td:nth-child(4) li::before {
   tbody td { padding: 12px 14px; }
   .theme-toggle { top: 12px; right: 12px; width: 38px; height: 38px; font-size: 1rem; }
   .ref-tables { padding: 0 12px; }
-  .ref-tables thead th:first-child { width: 120px; }
   .ref-tables tbody td { padding: 10px 12px; }
+  .ref-tables tbody td:first-child { white-space: normal; max-width: 40vw; }
+  .ref-tables thead th:first-child { white-space: normal; max-width: 40vw; }
 }
 @media (max-width: 480px) {
   .page-header { padding: 50px 12px 32px; }
@@ -678,7 +677,6 @@ tbody td:nth-child(4) li::before {
   tbody td { padding: 10px 10px; }
   tbody ul { padding-left: 14px; }
   .ref-tables { padding: 0 8px; }
-  .ref-tables thead th:first-child { width: 100px; }
   .ref-tables tbody td { padding: 8px 8px; }
 }
 </style>
