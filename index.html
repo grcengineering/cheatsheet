@@ -626,6 +626,191 @@ tbody td:nth-child(4) li::before {
 [data-theme="dark"] #teachings-table thead th { background: linear-gradient(135deg, #78350f, #b45309); }
 [data-theme="dark"] #teachings-table thead th:first-child { background: #78350f; }
 
+/* ── TIMELINE ── */
+.timeline-section {
+  max-width: 1200px;
+  margin: 0 auto 60px;
+  padding: 0 24px;
+}
+.timeline-section-title {
+  font-family: var(--font-title);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+}
+.timeline-outer {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-card);
+  box-shadow: 0 4px 24px var(--shadow), 0 1px 4px var(--shadow);
+  overflow: hidden;
+}
+.timeline-scroll {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
+  padding: 0 40px;
+  height: 320px;
+  position: relative;
+  -webkit-overflow-scrolling: touch;
+}
+.timeline-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+.timeline-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.timeline-scroll::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+/* Connector line */
+.timeline-track {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(to right, var(--orange-bright), var(--blue-bright));
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 0;
+}
+/* Arrow at end of connector */
+.timeline-track::after {
+  content: '';
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 16px solid var(--blue-bright);
+}
+/* Fade edges to hint at scrollability */
+.timeline-outer::before,
+.timeline-outer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  z-index: 2;
+  pointer-events: none;
+}
+.timeline-outer::before {
+  left: 0;
+  background: linear-gradient(to right, var(--bg-card), transparent);
+}
+.timeline-outer::after {
+  right: 0;
+  background: linear-gradient(to left, var(--bg-card), transparent);
+}
+/* Individual event */
+.tl-event {
+  flex-shrink: 0;
+  width: 140px;
+  scroll-snap-align: center;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 10px;
+}
+/* Alternating: odd events above, even events below */
+.tl-event:nth-child(odd) {
+  align-self: flex-start;
+  padding-top: 20px;
+  padding-bottom: 0;
+}
+.tl-event:nth-child(odd) .tl-content {
+  order: 1;
+  margin-bottom: 12px;
+}
+.tl-event:nth-child(odd) .tl-stem {
+  order: 2;
+}
+.tl-event:nth-child(odd) .tl-marker {
+  order: 3;
+}
+.tl-event:nth-child(even) {
+  align-self: flex-end;
+  padding-bottom: 20px;
+  padding-top: 0;
+}
+.tl-event:nth-child(even) .tl-content {
+  order: 3;
+  margin-top: 12px;
+}
+.tl-event:nth-child(even) .tl-stem {
+  order: 2;
+}
+.tl-event:nth-child(even) .tl-marker {
+  order: 1;
+}
+/* Marker dot */
+.tl-marker {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 3px solid var(--orange-bright);
+  flex-shrink: 0;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+.tl-event:hover .tl-marker {
+  transform: scale(1.3);
+  border-color: var(--blue-bright);
+  box-shadow: 0 0 8px rgba(0, 168, 232, 0.4);
+}
+/* Stem connecting marker to content */
+.tl-stem {
+  width: 2px;
+  height: 40px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+/* Content label */
+.tl-content {
+  text-align: center;
+}
+.tl-year {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--orange);
+  display: block;
+  margin-bottom: 2px;
+}
+.tl-label {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  line-height: 1.3;
+}
+/* Dark mode tweaks */
+[data-theme="dark"] .tl-marker {
+  background: var(--bg-card);
+  border-color: var(--orange);
+}
+[data-theme="dark"] .tl-event:hover .tl-marker {
+  border-color: var(--blue-bright);
+  box-shadow: 0 0 12px rgba(0, 168, 232, 0.5);
+}
+[data-theme="dark"] .tl-stem {
+  background: rgba(255, 168, 79, 0.2);
+}
+
 /* ── FOOTER ── */
 .page-footer {
   text-align: center;
@@ -669,6 +854,12 @@ tbody td:nth-child(4) li::before {
   .ref-tables tbody td { padding: 10px 12px; }
   .ref-tables tbody td:first-child { white-space: normal; max-width: 40vw; }
   .ref-tables thead th:first-child { white-space: normal; max-width: 40vw; }
+  .timeline-section { padding: 0 12px; }
+  .timeline-scroll { height: 280px; padding: 0 24px; }
+  .tl-event { width: 110px; margin: 0 6px; }
+  .tl-year { font-size: 0.88rem; }
+  .tl-label { font-size: 0.72rem; }
+  .tl-stem { height: 30px; }
 }
 @media (max-width: 480px) {
   .page-header { padding: 50px 12px 32px; }
@@ -829,6 +1020,101 @@ tbody td:nth-child(4) li::before {
   </div>
   </div>
 </main>
+
+<!-- ── TIMELINE ── -->
+<section class="timeline-section">
+  <h2 class="timeline-section-title">Timeline</h2>
+  <div class="timeline-outer">
+    <div class="timeline-scroll">
+      <div class="timeline-track"></div>
+
+      <div class="tl-event">
+        <div class="tl-content"><span class="tl-year">1972</span><span class="tl-label">FIPS 31</span></div>
+        <div class="tl-stem"></div>
+        <div class="tl-marker"></div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-content"><span class="tl-year">1977</span><span class="tl-label">Control Objectives</span></div>
+        <div class="tl-stem"></div>
+        <div class="tl-marker"></div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-content"><span class="tl-year">1979</span><span class="tl-label">FIPS 65</span></div>
+        <div class="tl-stem"></div>
+        <div class="tl-marker"></div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-content"><span class="tl-year">1985</span><span class="tl-label">The Orange Book</span></div>
+        <div class="tl-stem"></div>
+        <div class="tl-marker"></div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-content"><span class="tl-year">1992</span><span class="tl-label">SAS 70 &amp; COSO</span></div>
+        <div class="tl-stem"></div>
+        <div class="tl-marker"></div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-content"><span class="tl-year">1995</span><span class="tl-label">BS 7799</span></div>
+        <div class="tl-stem"></div>
+        <div class="tl-marker"></div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-content"><span class="tl-year">1996</span><span class="tl-label">HIPAA &amp; COBIT</span></div>
+        <div class="tl-stem"></div>
+        <div class="tl-marker"></div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-content"><span class="tl-year">2002</span><span class="tl-label">SOX &amp; FISMA</span></div>
+        <div class="tl-stem"></div>
+        <div class="tl-marker"></div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-content"><span class="tl-year">2003</span><span class="tl-label">OCEG &amp; The Red Book</span></div>
+        <div class="tl-stem"></div>
+        <div class="tl-marker"></div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-content"><span class="tl-year">2005</span><span class="tl-label">ISO 27001</span></div>
+        <div class="tl-stem"></div>
+        <div class="tl-marker"></div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-content"><span class="tl-year">2011</span><span class="tl-label">SSAE 16 &amp; SOC</span></div>
+        <div class="tl-stem"></div>
+        <div class="tl-marker"></div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-content"><span class="tl-year">2014</span><span class="tl-label">NIST CSF</span></div>
+        <div class="tl-stem"></div>
+        <div class="tl-marker"></div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-content"><span class="tl-year">2018</span><span class="tl-label">GDPR</span></div>
+        <div class="tl-stem"></div>
+        <div class="tl-marker"></div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-content"><span class="tl-year">2022&ndash;Now</span><span class="tl-label">EU goes absolutely <em>ham</em></span></div>
+        <div class="tl-stem"></div>
+        <div class="tl-marker"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
 <div class="ref-tables">
 
