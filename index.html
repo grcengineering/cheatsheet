@@ -651,50 +651,42 @@ tbody td:nth-child(4) li::before {
 }
 .timeline-scroll {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
+  scroll-snap-type: x proximity;
   scroll-behavior: smooth;
   overscroll-behavior-x: contain;
-  padding: 0 40px;
-  height: 320px;
+  padding: 0 48px;
+  height: 280px;
   position: relative;
-  -webkit-overflow-scrolling: touch;
 }
-.timeline-scroll::-webkit-scrollbar {
-  height: 6px;
-}
-.timeline-scroll::-webkit-scrollbar-track {
-  background: transparent;
-}
-.timeline-scroll::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 3px;
-}
-/* Connector line */
+.timeline-scroll::-webkit-scrollbar { height: 4px; }
+.timeline-scroll::-webkit-scrollbar-track { background: transparent; }
+.timeline-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+/* Connector line — spans the full scroll width */
 .timeline-track {
   position: absolute;
   top: 50%;
   left: 0;
-  right: 0;
-  height: 4px;
+  width: 100%;
+  height: 3px;
   background: linear-gradient(to right, var(--orange-bright), var(--blue-bright));
   transform: translateY(-50%);
   pointer-events: none;
   z-index: 0;
 }
-/* Arrow at end of connector */
-.timeline-track::after {
-  content: '';
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
+/* Arrow at the very end of the scrollable track */
+.timeline-arrow {
+  flex-shrink: 0;
   width: 0;
   height: 0;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-left: 16px solid var(--blue-bright);
+  align-self: center;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 14px solid var(--blue-bright);
+  margin-left: -4px;
+  position: relative;
+  z-index: 1;
 }
 /* Fade edges to hint at scrollability */
 .timeline-outer::before,
@@ -703,7 +695,7 @@ tbody td:nth-child(4) li::before {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 40px;
+  width: 32px;
   z-index: 2;
   pointer-events: none;
 }
@@ -715,90 +707,82 @@ tbody td:nth-child(4) li::before {
   right: 0;
   background: linear-gradient(to left, var(--bg-card), transparent);
 }
-/* Individual event */
+/* Each event is full-height, marker absolutely pinned at 50% */
 .tl-event {
   flex-shrink: 0;
-  width: 140px;
+  width: 120px;
   scroll-snap-align: center;
   position: relative;
   z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 10px;
 }
-/* Alternating: odd events above, even events below */
-.tl-event:nth-child(odd) {
-  align-self: flex-start;
-  padding-top: 20px;
-  padding-bottom: 0;
-}
-.tl-event:nth-child(odd) .tl-content {
-  order: 1;
-  margin-bottom: 12px;
-}
-.tl-event:nth-child(odd) .tl-stem {
-  order: 2;
-}
-.tl-event:nth-child(odd) .tl-marker {
-  order: 3;
-}
-.tl-event:nth-child(even) {
-  align-self: flex-end;
-  padding-bottom: 20px;
-  padding-top: 0;
-}
-.tl-event:nth-child(even) .tl-content {
-  order: 3;
-  margin-top: 12px;
-}
-.tl-event:nth-child(even) .tl-stem {
-  order: 2;
-}
-.tl-event:nth-child(even) .tl-marker {
-  order: 1;
-}
-/* Marker dot */
+/* Marker — absolutely centered on the track */
 .tl-marker {
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background: var(--bg-card);
-  border: 3px solid var(--orange-bright);
-  flex-shrink: 0;
+  border: 2.5px solid var(--orange-bright);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
   transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 .tl-event:hover .tl-marker {
-  transform: scale(1.3);
+  transform: translate(-50%, -50%) scale(1.4);
   border-color: var(--blue-bright);
-  box-shadow: 0 0 8px rgba(0, 168, 232, 0.4);
+  box-shadow: 0 0 10px rgba(0, 168, 232, 0.5);
 }
-/* Stem connecting marker to content */
+/* Stem — absolutely positioned, connects marker to content */
 .tl-stem {
-  width: 2px;
-  height: 40px;
+  width: 1.5px;
   background: var(--border);
-  flex-shrink: 0;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
-/* Content label */
+/* Content (year + label) */
 .tl-content {
   text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
 }
 .tl-year {
   font-family: var(--font-title);
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.92rem;
   color: var(--orange);
   display: block;
-  margin-bottom: 2px;
+  line-height: 1.2;
 }
 .tl-label {
   font-family: var(--font-body);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   color: var(--text-dim);
   line-height: 1.3;
+  margin-top: 1px;
 }
-/* Dark mode tweaks */
+/* Odd events: content ABOVE the line */
+.tl-event:nth-child(odd) .tl-stem {
+  bottom: 50%;
+  height: 32px;
+  margin-bottom: 6px;
+}
+.tl-event:nth-child(odd) .tl-content {
+  bottom: calc(50% + 38px);
+}
+/* Even events: content BELOW the line */
+.tl-event:nth-child(even) .tl-stem {
+  top: 50%;
+  height: 32px;
+  margin-top: 6px;
+}
+.tl-event:nth-child(even) .tl-content {
+  top: calc(50% + 38px);
+}
+/* Dark mode */
 [data-theme="dark"] .tl-marker {
   background: var(--bg-card);
   border-color: var(--orange);
@@ -808,7 +792,7 @@ tbody td:nth-child(4) li::before {
   box-shadow: 0 0 12px rgba(0, 168, 232, 0.5);
 }
 [data-theme="dark"] .tl-stem {
-  background: rgba(255, 168, 79, 0.2);
+  background: rgba(255, 168, 79, 0.25);
 }
 
 /* ── FOOTER ── */
@@ -855,11 +839,11 @@ tbody td:nth-child(4) li::before {
   .ref-tables tbody td:first-child { white-space: normal; max-width: 40vw; }
   .ref-tables thead th:first-child { white-space: normal; max-width: 40vw; }
   .timeline-section { padding: 0 12px; }
-  .timeline-scroll { height: 280px; padding: 0 24px; }
-  .tl-event { width: 110px; margin: 0 6px; }
-  .tl-year { font-size: 0.88rem; }
-  .tl-label { font-size: 0.72rem; }
-  .tl-stem { height: 30px; }
+  .timeline-scroll { height: 240px; padding: 0 24px; }
+  .tl-event { width: 100px; }
+  .tl-year { font-size: 0.82rem; }
+  .tl-label { font-size: 0.68rem; }
+  .tl-stem { height: 20px; }
 }
 @media (max-width: 480px) {
   .page-header { padding: 50px 12px 32px; }
@@ -1025,8 +1009,8 @@ tbody td:nth-child(4) li::before {
 <section class="timeline-section">
   <h2 class="timeline-section-title">Timeline</h2>
   <div class="timeline-outer">
+    <div class="timeline-track"></div>
     <div class="timeline-scroll">
-      <div class="timeline-track"></div>
 
       <div class="tl-event">
         <div class="tl-content"><span class="tl-year">1972</span><span class="tl-label">FIPS 31</span></div>
@@ -1112,6 +1096,7 @@ tbody td:nth-child(4) li::before {
         <div class="tl-marker"></div>
       </div>
 
+      <div class="timeline-arrow"></div>
     </div>
   </div>
 </section>
