@@ -90,7 +90,7 @@ body {
   justify-content: center;
   cursor: pointer;
   font-size: 1.2rem;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, width 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), height 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), top 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), right 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), font-size 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   backdrop-filter: blur(10px);
   color: var(--text);
 }
@@ -98,9 +98,11 @@ body {
   background: var(--toggle-hover);
 }
 body:has(.sticky-nav.visible) .theme-toggle {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
+  top: 8px;
+  right: 24px;
+  width: 36px;
+  height: 36px;
+  font-size: 1rem;
 }
 
 /* ── STICKY NAVBAR ── */
@@ -141,24 +143,6 @@ body:has(.sticky-nav.visible) .theme-toggle {
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-.sticky-nav .theme-toggle-nav {
-  background: var(--toggle-bg);
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 1rem;
-  color: var(--text);
-  transition: background 0.2s ease;
-}
-.sticky-nav .theme-toggle-nav:hover {
-  background: var(--toggle-hover);
-}
-
 /* ── HEADER ── */
 .page-header {
   text-align: center;
@@ -869,7 +853,6 @@ tbody td:nth-child(4) li::before {
 
 <nav class="sticky-nav" id="sticky-nav">
   <span class="sticky-nav-title">The <span class="highlight">GRC Engineering</span> Cheat Sheet</span>
-  <button class="theme-toggle-nav" onclick="toggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode"><i class="theme-icon ri-moon-line"></i></button>
 </nav>
 
 <header class="page-header">
