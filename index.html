@@ -121,8 +121,14 @@ body:has(.sticky-nav.visible) .theme-toggle {
   pointer-events: none;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 24px;
+  justify-content: center;
+  padding: 0 64px;
+}
+.sticky-nav-title {
+  text-align: center;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .sticky-nav.visible {
   transform: translateY(0);
@@ -541,10 +547,7 @@ tbody td:nth-child(4) li::before {
   text-transform: uppercase;
   color: var(--text-dim);
   margin-bottom: 16px;
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  background: var(--bg);
+  text-align: center;
   padding: 12px 0;
 }
 /* Ref table: no horizontal scroll, fully responsive */
@@ -629,6 +632,8 @@ tbody td:nth-child(4) li::before {
   text-transform: uppercase;
   color: var(--text-dim);
   margin-bottom: 16px;
+  text-align: center;
+  padding: 12px 0;
 }
 .timeline-outer {
   position: relative;
@@ -1310,29 +1315,75 @@ function updateIcon(theme) {
   }, { threshold: 0 });
   observer.observe(card);
 }());
-/* Sticky navbar — slides down when title scrolls off, up when it reappears */
+/* Sticky navbar — slides down when title scrolls off, swaps title to current section */
 (function() {
   var nav = document.getElementById('sticky-nav');
-  var title = document.querySelector('.page-title');
-  if (!nav || !title) return;
+  var navTitle = nav && nav.querySelector('.sticky-nav-title');
+  var pageTitle = document.querySelector('.page-title');
+  if (!nav || !navTitle || !pageTitle) return;
+
+  var defaultFragment = document.createDocumentFragment();
+  for (var i = 0; i < navTitle.childNodes.length; i++) {
+    defaultFragment.appendChild(navTitle.childNodes[i].cloneNode(true));
+  }
+  var navHeight = 52;
+
+  var sectionDefs = [
+    { sel: '.page-subtitle', title: 'Legacy GRC vs. GRC Engineering at a glance' },
+    { sel: '.timeline-section-title', title: 'Timeline' },
+    { sel: '#terms-table .ref-section-title', title: 'Terms' },
+    { sel: '#tools-table .ref-section-title', title: 'Tools' },
+    { sel: '#ttps-table .ref-section-title', title: 'TTPs' },
+    { sel: '#teachings-table .ref-section-title', title: 'Teachings' }
+  ];
+  var sections = sectionDefs
+    .map(function(s) { return { el: document.querySelector(s.sel), title: s.title }; })
+    .filter(function(s) { return s.el; });
 
   var threshold = 0;
   function measure() {
-    threshold = title.offsetTop + title.offsetHeight;
+    threshold = pageTitle.offsetTop + pageTitle.offsetHeight;
   }
 
-  function onScroll() {
+  function findCurrentSection() {
+    var current = null;
+    for (var i = 0; i < sections.length; i++) {
+      var rect = sections[i].el.getBoundingClientRect();
+      if (rect.top <= navHeight) current = sections[i];
+      else break;
+    }
+    return current;
+  }
+
+  function clearNavTitle() {
+    while (navTitle.firstChild) navTitle.removeChild(navTitle.firstChild);
+  }
+
+  var lastKey = null;
+  function update() {
     if (window.scrollY >= threshold) {
       nav.classList.add('visible');
+      var section = findCurrentSection();
+      var key = section ? section.title : '__default__';
+      if (key !== lastKey) {
+        clearNavTitle();
+        if (section) {
+          navTitle.appendChild(document.createTextNode(section.title));
+        } else {
+          var clone = defaultFragment.cloneNode(true);
+          navTitle.appendChild(clone);
+        }
+        lastKey = key;
+      }
     } else {
       nav.classList.remove('visible');
     }
   }
 
   measure();
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', function() { measure(); onScroll(); });
-  onScroll();
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', function() { measure(); update(); });
+  update();
 }());
 </script>
 
