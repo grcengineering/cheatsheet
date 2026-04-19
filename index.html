@@ -97,6 +97,11 @@ body {
 .theme-toggle:hover {
   background: var(--toggle-hover);
 }
+body:has(.sticky-nav.visible) .theme-toggle {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
 
 /* ── STICKY NAVBAR ── */
 .sticky-nav {
