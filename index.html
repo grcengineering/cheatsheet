@@ -121,14 +121,8 @@ body:has(.sticky-nav.visible) .theme-toggle {
   pointer-events: none;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 0 64px;
-}
-.sticky-nav-title {
-  text-align: center;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  justify-content: flex-start;
+  padding: 0 24px;
 }
 .sticky-nav.visible {
   transform: translateY(0);
@@ -328,9 +322,14 @@ body:has(.sticky-nav.visible) .theme-toggle {
   font-weight: 700;
   font-size: 0.9rem;
   color: var(--text-dim);
-  position: relative;
-  z-index: 1;
   letter-spacing: 0.5px;
+  text-align: center;
+  position: sticky;
+  top: 14px;
+  z-index: 100;
+}
+.comparison-section {
+  position: relative;
 }
 
 /* ── TABLE CONTAINER ── */
@@ -549,6 +548,9 @@ tbody td:nth-child(4) li::before {
   margin-bottom: 16px;
   text-align: center;
   padding: 12px 0;
+  position: sticky;
+  top: 10px;
+  z-index: 100;
 }
 /* Ref table: no horizontal scroll, fully responsive */
 .ref-tables .table-outer {
@@ -634,6 +636,9 @@ tbody td:nth-child(4) li::before {
   margin-bottom: 16px;
   text-align: center;
   padding: 12px 0;
+  position: sticky;
+  top: 10px;
+  z-index: 100;
 }
 .timeline-outer {
   position: relative;
@@ -828,6 +833,7 @@ tbody td:nth-child(4) li::before {
   thead th { padding: 8px 14px; font-size: 0.9rem; top: 0; }
   tbody td { padding: 12px 14px; }
   .theme-toggle { top: 12px; right: 12px; width: 38px; height: 38px; font-size: 1rem; }
+  .sticky-nav-title { display: none; }
   .ref-tables { padding: 0 12px; }
   .ref-tables tbody td { padding: 10px 12px; }
   .ref-tables tbody td:first-child { white-space: normal; max-width: 40vw; }
@@ -884,9 +890,10 @@ tbody td:nth-child(4) li::before {
       </div>
     </div>
   </div>
-  <h2 class="page-subtitle" style="font-size: 1.15rem; margin-top: 32px;">Legacy GRC vs. GRC Engineering at a glance</h2>
 </header>
 
+<section class="comparison-section">
+<h2 class="page-subtitle" style="font-size: 1.15rem; margin-top: 32px;">Legacy GRC vs. GRC Engineering at a glance</h2>
 <main class="table-wrapper">
   <div class="table-outer">
   <div class="table-container">
@@ -997,6 +1004,7 @@ tbody td:nth-child(4) li::before {
   </div>
   </div>
 </main>
+</section>
 
 <!-- ── TIMELINE ── -->
 <section class="timeline-section">
@@ -1315,75 +1323,26 @@ function updateIcon(theme) {
   }, { threshold: 0 });
   observer.observe(card);
 }());
-/* Sticky navbar — slides down when title scrolls off, swaps title to current section */
+/* Sticky navbar — slides down once user scrolls past the page title */
 (function() {
   var nav = document.getElementById('sticky-nav');
-  var navTitle = nav && nav.querySelector('.sticky-nav-title');
-  var pageTitle = document.querySelector('.page-title');
-  if (!nav || !navTitle || !pageTitle) return;
-
-  var defaultFragment = document.createDocumentFragment();
-  for (var i = 0; i < navTitle.childNodes.length; i++) {
-    defaultFragment.appendChild(navTitle.childNodes[i].cloneNode(true));
-  }
-  var navHeight = 52;
-
-  var sectionDefs = [
-    { sel: '.page-subtitle', title: 'Legacy GRC vs. GRC Engineering at a glance' },
-    { sel: '.timeline-section-title', title: 'Timeline' },
-    { sel: '#terms-table .ref-section-title', title: 'Terms' },
-    { sel: '#tools-table .ref-section-title', title: 'Tools' },
-    { sel: '#ttps-table .ref-section-title', title: 'TTPs' },
-    { sel: '#teachings-table .ref-section-title', title: 'Teachings' }
-  ];
-  var sections = sectionDefs
-    .map(function(s) { return { el: document.querySelector(s.sel), title: s.title }; })
-    .filter(function(s) { return s.el; });
+  var title = document.querySelector('.page-title');
+  if (!nav || !title) return;
 
   var threshold = 0;
   function measure() {
-    threshold = pageTitle.offsetTop + pageTitle.offsetHeight;
+    threshold = title.offsetTop + title.offsetHeight;
   }
 
-  function findCurrentSection() {
-    var current = null;
-    for (var i = 0; i < sections.length; i++) {
-      var rect = sections[i].el.getBoundingClientRect();
-      if (rect.top <= navHeight) current = sections[i];
-      else break;
-    }
-    return current;
-  }
-
-  function clearNavTitle() {
-    while (navTitle.firstChild) navTitle.removeChild(navTitle.firstChild);
-  }
-
-  var lastKey = null;
-  function update() {
-    if (window.scrollY >= threshold) {
-      nav.classList.add('visible');
-      var section = findCurrentSection();
-      var key = section ? section.title : '__default__';
-      if (key !== lastKey) {
-        clearNavTitle();
-        if (section) {
-          navTitle.appendChild(document.createTextNode(section.title));
-        } else {
-          var clone = defaultFragment.cloneNode(true);
-          navTitle.appendChild(clone);
-        }
-        lastKey = key;
-      }
-    } else {
-      nav.classList.remove('visible');
-    }
+  function onScroll() {
+    if (window.scrollY >= threshold) nav.classList.add('visible');
+    else nav.classList.remove('visible');
   }
 
   measure();
-  window.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', function() { measure(); update(); });
-  update();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function() { measure(); onScroll(); });
+  onScroll();
 }());
 </script>
 
