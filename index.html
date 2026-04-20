@@ -327,9 +327,13 @@ body:has(.sticky-nav.visible) .theme-toggle {
   position: sticky;
   top: 14px;
   z-index: 100;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
 }
 .comparison-section {
   position: relative;
+  overflow-x: clip;
 }
 
 /* ── TABLE CONTAINER ── */
@@ -551,6 +555,9 @@ tbody td:nth-child(4) li::before {
   position: sticky;
   top: 10px;
   z-index: 100;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
 }
 /* Ref table: no horizontal scroll, fully responsive */
 .ref-tables .table-outer {
@@ -639,6 +646,12 @@ tbody td:nth-child(4) li::before {
   position: sticky;
   top: 10px;
   z-index: 100;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+.timeline-section {
+  overflow-x: clip;
 }
 .timeline-outer {
   position: relative;
