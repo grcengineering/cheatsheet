@@ -845,7 +845,23 @@ tbody td:nth-child(4) li::before {
   thead th { padding: 8px 14px; font-size: 0.9rem; top: 0; }
   tbody td { padding: 12px 14px; }
   .theme-toggle { top: 12px; right: 12px; width: 38px; height: 38px; font-size: 1rem; }
-  .sticky-nav-title { display: none; }
+  .sticky-nav { padding: 0 12px; }
+  .sticky-nav-title { font-size: 0.95rem; max-width: 60%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  /* On mobile, pinned section titles cover the full nav width (over the nav-title) */
+  .page-subtitle,
+  .ref-section-title,
+  .timeline-section-title {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    background: var(--bg);
+    padding: 0 56px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .page-subtitle { font-size: 0.8rem; letter-spacing: 0.3px; }
+  .page-subtitle > * { overflow: hidden; text-overflow: ellipsis; }
   .ref-tables { padding: 0 12px; }
   .ref-tables tbody td { padding: 10px 12px; }
   .ref-tables tbody td:first-child { white-space: normal; max-width: 40vw; }
