@@ -846,22 +846,35 @@ tbody td:nth-child(4) li::before {
   tbody td { padding: 12px 14px; }
   .theme-toggle { top: 12px; right: 12px; width: 38px; height: 38px; font-size: 1rem; }
   .sticky-nav { padding: 0 12px; }
-  .sticky-nav-title { font-size: 0.95rem; max-width: 60%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  /* On mobile, pinned section titles cover the full nav width (over the nav-title) */
+  .sticky-nav-title {
+    font-size: 0.72rem;
+    line-height: 1.1;
+    max-width: 38%;
+    white-space: normal;
+  }
+  .sticky-nav-title .snt-line2 { display: block; }
+  /* Mobile section titles: transparent overlay, smaller font, so nav-title stays visible */
   .page-subtitle,
   .ref-section-title,
   .timeline-section-title {
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
-    background: var(--bg);
-    padding: 0 56px;
+    background: transparent;
+  }
+  .ref-section-title,
+  .timeline-section-title {
+    font-size: 0.95rem;
+    letter-spacing: 2px;
+  }
+  .page-subtitle {
+    font-size: 0.7rem;
+    letter-spacing: 0.2px;
+  }
+  .page-subtitle .ps-text {
+    max-width: 50vw;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: inline-block;
   }
-  .page-subtitle { font-size: 0.8rem; letter-spacing: 0.3px; }
-  .page-subtitle > * { overflow: hidden; text-overflow: ellipsis; }
   .ref-tables { padding: 0 12px; }
   .ref-tables tbody td { padding: 10px 12px; }
   .ref-tables tbody td:first-child { white-space: normal; max-width: 40vw; }
@@ -891,7 +904,7 @@ tbody td:nth-child(4) li::before {
 </button>
 
 <nav class="sticky-nav" id="sticky-nav">
-  <span class="sticky-nav-title">The <span class="highlight">GRC Engineering</span> Cheat Sheet</span>
+  <span class="sticky-nav-title"><span class="snt-line1">The <span class="highlight">GRC Engineering</span></span><span class="snt-line2"> Cheat Sheet</span></span>
 </nav>
 
 <header class="page-header">
@@ -921,7 +934,7 @@ tbody td:nth-child(4) li::before {
 </header>
 
 <section class="comparison-section">
-<h2 class="page-subtitle" style="font-size: 1.15rem; margin-top: 32px;">Legacy GRC vs. GRC Engineering at a glance</h2>
+<h2 class="page-subtitle" style="font-size: 1.15rem; margin-top: 32px;"><span class="ps-text">Legacy GRC vs. GRC Engineering at a glance</span></h2>
 <main class="table-wrapper">
   <div class="table-outer">
   <div class="table-container">
