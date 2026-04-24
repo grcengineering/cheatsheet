@@ -98,11 +98,14 @@ body {
   background: var(--toggle-hover);
 }
 body:has(.sticky-nav.visible) .theme-toggle {
-  top: 8px;
+  top: 12px;
   right: 24px;
   width: 36px;
   height: 36px;
   font-size: 1rem;
+}
+body:has(.sticky-nav.with-section) .theme-toggle {
+  top: 25px;
 }
 
 /* ── STICKY NAVBAR ── */
@@ -111,30 +114,41 @@ body:has(.sticky-nav.visible) .theme-toggle {
   top: 0;
   left: 0;
   right: 0;
-  height: 52px;
+  height: 60px;
   background: var(--bg);
   z-index: 99;
   backdrop-filter: blur(12px);
   transform: translateY(-100%);
-  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              height 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   box-shadow: 0 2px 12px rgba(0,0,0,0.1), 0 1px 4px rgba(0,0,0,0.06);
   pointer-events: none;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding: 0 24px;
+  justify-content: center;
+  padding: 6px 72px;
+  gap: 2px;
 }
 .sticky-nav.visible {
   transform: translateY(0);
   pointer-events: auto;
 }
+.sticky-nav.with-section {
+  height: 86px;
+}
 .sticky-nav-title {
   font-family: var(--font-title);
-  font-size: 1.125rem;
+  font-size: 1.35rem;
   font-weight: 700;
   color: var(--text);
   white-space: nowrap;
   line-height: 1.2;
+  text-align: center;
+  transition: font-size 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.sticky-nav.with-section .sticky-nav-title {
+  font-size: 1rem;
 }
 .sticky-nav-title .highlight {
   font-weight: 700;
@@ -142,6 +156,28 @@ body:has(.sticky-nav.visible) .theme-toggle {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+.sticky-nav-section {
+  font-family: var(--font-title);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  white-space: nowrap;
+  line-height: 1.2;
+  opacity: 0;
+  max-height: 0;
+  transform: translateY(8px);
+  overflow: hidden;
+  transition: opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              max-height 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.sticky-nav.with-section .sticky-nav-section {
+  opacity: 1;
+  max-height: 28px;
+  transform: translateY(0);
 }
 /* ── HEADER ── */
 .page-header {
@@ -323,21 +359,9 @@ body:has(.sticky-nav.visible) .theme-toggle {
   font-size: 1.15rem;
   color: var(--text-dim);
   letter-spacing: 0.5px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   text-align: center;
-}
-.page-subtitle .ps-text {
-  max-width: calc(100vw - 660px);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: inline-block;
+  margin-bottom: 16px;
+  padding: 12px 0;
 }
 .comparison-section {
   position: relative;
@@ -558,13 +582,7 @@ tbody td:nth-child(4) li::before {
   color: var(--text-dim);
   margin-bottom: 16px;
   text-align: center;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 12px 0;
 }
 /* Ref table: no horizontal scroll, fully responsive */
 .ref-tables .table-outer {
@@ -652,13 +670,7 @@ tbody td:nth-child(4) li::before {
   color: var(--text-dim);
   margin-bottom: 16px;
   text-align: center;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 12px 0;
 }
 .timeline-section {
 }
@@ -855,38 +867,24 @@ tbody td:nth-child(4) li::before {
   thead th { padding: 8px 14px; font-size: 0.9rem; top: 0; }
   tbody td { padding: 12px 14px; }
   .theme-toggle { top: 12px; right: 12px; width: 38px; height: 38px; font-size: 1rem; }
-  .sticky-nav { padding: 0 12px; }
+  .sticky-nav { padding: 6px 56px; height: 52px; }
+  .sticky-nav.with-section { height: 72px; }
   .sticky-nav-title {
-    font-size: 0.72rem;
-    line-height: 1.1;
-    max-width: 38%;
-    white-space: normal;
+    font-size: 1rem;
   }
-  .sticky-nav-title .snt-line2 { display: block; }
-  /* Mobile section titles: transparent overlay, smaller font, so nav-title stays visible */
-  .page-subtitle,
-  .ref-section-title,
-  .timeline-section-title {
-    background: transparent;
+  .sticky-nav.with-section .sticky-nav-title {
+    font-size: 0.8rem;
   }
-  .ref-section-title,
-  .timeline-section-title {
-    font-size: 0.85rem;
-    letter-spacing: 1.5px;
-    line-height: 1.15;
-    white-space: normal;
-    padding: 0 8px;
+  .sticky-nav-section {
+    font-size: 0.75rem;
+    letter-spacing: 2px;
   }
   .page-subtitle {
-    font-size: 0.65rem;
-    letter-spacing: 0.1px;
-    line-height: 1.15;
+    font-size: 0.95rem;
   }
-  .page-subtitle .ps-text {
-    max-width: 40vw;
-    white-space: normal;
-    display: inline-block;
-    text-align: center;
+  .ref-section-title,
+  .timeline-section-title {
+    font-size: 1rem;
   }
   .ref-tables { padding: 0 12px; }
   .ref-tables tbody td { padding: 10px 12px; }
@@ -917,7 +915,8 @@ tbody td:nth-child(4) li::before {
 </button>
 
 <nav class="sticky-nav" id="sticky-nav">
-  <span class="sticky-nav-title"><span class="snt-line1">The <span class="highlight">GRC Engineering</span></span><span class="snt-line2"> Cheat Sheet</span></span>
+  <span class="sticky-nav-title">The <span class="highlight">GRC Engineering</span> Cheat Sheet</span>
+  <span class="sticky-nav-section" id="sticky-nav-section"></span>
 </nav>
 
 <header class="page-header">
@@ -947,7 +946,7 @@ tbody td:nth-child(4) li::before {
 </header>
 
 <section class="comparison-section">
-<h2 class="page-subtitle" style="margin-top: 32px;"><span class="ps-text">Legacy GRC vs. GRC Engineering at a glance</span></h2>
+<h2 class="page-subtitle" style="margin-top: 32px;">Legacy GRC vs. GRC Engineering at a glance</h2>
 <main class="table-wrapper">
   <div class="table-outer">
   <div class="table-container">
@@ -1377,20 +1376,59 @@ function updateIcon(theme) {
   }, { threshold: 0 });
   observer.observe(card);
 }());
-/* Sticky navbar — slides down once user scrolls past the page title */
+/* Sticky navbar — slides down once user scrolls past the page title.
+   When a content section is in view, its name slides into the nav below the title. */
 (function() {
   var nav = document.getElementById('sticky-nav');
+  var navSection = document.getElementById('sticky-nav-section');
   var title = document.querySelector('.page-title');
-  if (!nav || !title) return;
+  if (!nav || !navSection || !title) return;
+
+  var sections = [
+    { sel: '.comparison-section', name: 'Legacy vs. Engineering' },
+    { sel: '.timeline-section', name: 'Timeline' },
+    { sel: '#terms-table', name: 'Terms' },
+    { sel: '#tools-table', name: 'Tools' },
+    { sel: '#ttps-table', name: 'TTPs' },
+    { sel: '#teachings-table', name: 'Teachings' }
+  ];
 
   var threshold = 0;
   function measure() {
     threshold = title.offsetTop + title.offsetHeight;
   }
 
+  function findActiveSection(navBottomY) {
+    var active = null;
+    for (var i = 0; i < sections.length; i++) {
+      var el = document.querySelector(sections[i].sel);
+      if (!el) continue;
+      var r = el.getBoundingClientRect();
+      if (r.top < navBottomY && r.bottom > navBottomY) {
+        active = sections[i];
+      }
+    }
+    return active;
+  }
+
   function onScroll() {
-    if (window.scrollY >= threshold) nav.classList.add('visible');
-    else nav.classList.remove('visible');
+    var navVisible = window.scrollY >= threshold;
+    nav.classList.toggle('visible', navVisible);
+
+    if (!navVisible) {
+      nav.classList.remove('with-section');
+      return;
+    }
+
+    var active = findActiveSection(nav.offsetHeight + 8);
+    if (active) {
+      if (navSection.textContent !== active.name) {
+        navSection.textContent = active.name;
+      }
+      nav.classList.add('with-section');
+    } else {
+      nav.classList.remove('with-section');
+    }
   }
 
   measure();
