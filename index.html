@@ -320,7 +320,7 @@ body:has(.sticky-nav.visible) .theme-toggle {
 .page-subtitle {
   font-family: var(--font-title);
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 1.15rem;
   color: var(--text-dim);
   letter-spacing: 0.5px;
   position: sticky;
@@ -871,19 +871,22 @@ tbody td:nth-child(4) li::before {
   }
   .ref-section-title,
   .timeline-section-title {
-    font-size: 0.95rem;
-    letter-spacing: 2px;
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+    line-height: 1.15;
+    white-space: normal;
+    padding: 0 8px;
   }
   .page-subtitle {
-    font-size: 0.7rem;
-    letter-spacing: 0.2px;
+    font-size: 0.65rem;
+    letter-spacing: 0.1px;
+    line-height: 1.15;
   }
   .page-subtitle .ps-text {
-    max-width: 50vw;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    max-width: 40vw;
+    white-space: normal;
     display: inline-block;
+    text-align: center;
   }
   .ref-tables { padding: 0 12px; }
   .ref-tables tbody td { padding: 10px 12px; }
@@ -944,7 +947,7 @@ tbody td:nth-child(4) li::before {
 </header>
 
 <section class="comparison-section">
-<h2 class="page-subtitle" style="font-size: 1.15rem; margin-top: 32px;"><span class="ps-text">Legacy GRC vs. GRC Engineering at a glance</span></h2>
+<h2 class="page-subtitle" style="margin-top: 32px;"><span class="ps-text">Legacy GRC vs. GRC Engineering at a glance</span></h2>
 <main class="table-wrapper">
   <div class="table-outer">
   <div class="table-container">
