@@ -870,10 +870,10 @@ tbody td:nth-child(4) li::before {
   .sticky-nav { padding: 6px 56px; height: 52px; }
   .sticky-nav.with-section { height: 72px; }
   .sticky-nav-title {
-    font-size: 1rem;
+    font-size: clamp(1rem, calc(0.6rem + 2vw), 1.2rem);
   }
   .sticky-nav.with-section .sticky-nav-title {
-    font-size: 0.8rem;
+    font-size: clamp(0.85rem, calc(0.55rem + 1.5vw), 1rem);
   }
   .sticky-nav-section {
     font-size: 0.75rem;
