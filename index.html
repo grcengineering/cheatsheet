@@ -864,7 +864,9 @@ tbody td:nth-child(4) li::before {
   .table-wrapper { padding: 0 12px; }
   .table-wrapper .table-container { overflow-x: auto; }
   table { font-size: 0.82rem; }
-  thead th { padding: 8px 14px; font-size: 0.9rem; top: 0; }
+  thead th { padding: 8px 14px; font-size: 0.9rem; top: 0; transition: top 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+  body:has(.sticky-nav.visible) thead th { top: 52px; }
+  body:has(.sticky-nav.with-section) thead th { top: 72px; }
   tbody td { padding: 12px 14px; }
   .theme-toggle { top: 12px; right: 12px; width: 38px; height: 38px; font-size: 1rem; }
   .sticky-nav { padding: 6px 56px; height: 52px; }
