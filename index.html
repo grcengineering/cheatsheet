@@ -694,14 +694,16 @@ tbody td:nth-child(4) li::before {
   margin-top: 3px;
 }
 #teachings-table tbody td a {
-  color: inherit;
+  color: var(--blue);
   text-decoration: none;
-  border-bottom: 1px dotted transparent;
-  transition: color 0.15s ease, border-color 0.15s ease;
+  border-bottom: 1px dotted var(--blue);
+  transition: opacity 0.15s ease;
 }
 #teachings-table tbody td a:hover {
-  color: var(--blue);
-  border-bottom-color: var(--blue);
+  opacity: 0.75;
+}
+#teachings-table tbody td:not(.teaching-type) strong {
+  font-weight: 400;
 }
 
 /* ── TIMELINE ── */
