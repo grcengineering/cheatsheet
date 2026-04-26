@@ -658,6 +658,42 @@ tbody td:nth-child(4) li::before {
 [data-theme="dark"] #teachings-table thead th { background: linear-gradient(135deg, #78350f, #b45309); }
 [data-theme="dark"] #teachings-table thead th:first-child { background: #78350f; }
 
+/* Teachings table — Type column uses rowspan; data continuation rows have only the Teaching cell */
+#teachings-table tbody td.teaching-type {
+  vertical-align: middle;
+  text-align: left;
+  background: var(--bg-row-header);
+  font-family: var(--font-body);
+  font-weight: 700;
+  color: var(--text-row-header);
+  border-right: 2px solid var(--border);
+  white-space: normal;
+  width: 22%;
+}
+#teachings-table tbody td:first-child:not(.teaching-type) {
+  vertical-align: top;
+  text-align: left;
+  background: var(--bg-card);
+  font-family: var(--font-body);
+  font-weight: 400;
+  color: var(--text);
+  border-right: none;
+  width: auto;
+}
+#teachings-table tbody tr:nth-child(odd) td:first-child:not(.teaching-type) {
+  background: var(--bg-row-alt);
+}
+#teachings-table tbody tr:hover td:first-child:not(.teaching-type) {
+  background: var(--bg-row-hover);
+}
+#teachings-table .teaching-author {
+  display: block;
+  color: var(--text-dim);
+  font-size: 0.88em;
+  font-weight: 400;
+  margin-top: 3px;
+}
+
 /* ── TIMELINE ── */
 .timeline-section {
   max-width: 1200px;
@@ -1290,46 +1326,60 @@ tbody td:nth-child(4) li::before {
     <table>
       <thead>
         <tr>
+          <th>Type</th>
           <th>Teaching</th>
-          <th>Description</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td colspan="2" style="background: var(--bg-row-header); font-weight: 400; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);">Books</td></tr>
-        <tr><td><strong>GRC Engineering for AWS</strong></td><td>AJ Yawn</td></tr>
-        <tr><td><strong>How to Measure Anything in Cybersecurity Risk</strong></td><td>Richard Seiersen, Doug Hubbard</td></tr>
-        <tr><td><strong>Measuring and Managing Information Risk: A FAIR Approach</strong></td><td>Jack Jones, Jack Freund</td></tr>
-        <tr><td colspan="2" style="background: var(--bg-row-header); font-weight: 400; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);">Courses</td></tr>
-        <tr><td><strong>GRC for the Cloud-Native Revolution</strong></td><td>Ayoub Fandi</td></tr>
-        <tr><td><strong>Cybersecurity Foundations: GRC</strong></td><td>AJ Yawn</td></tr>
-        <tr><td><strong>Leveraging AI for GRC</strong></td><td>Terra Cooke</td></tr>
-        <tr><td colspan="2" style="background: var(--bg-row-header); font-weight: 400; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);">Labs</td></tr>
-        <tr><td><strong>GRC Playground</strong></td><td>Ashley Pearce</td></tr>
-        <tr><td><strong>GRC Portfolio Labs</strong></td><td>AJ Yawn</td></tr>
-        <tr><td colspan="2" style="background: var(--bg-row-header); font-weight: 400; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);">Podcasts</td></tr>
-        <tr><td><strong>GRC Engineer Podcast</strong></td><td>Ayoub Fandi</td></tr>
-        <tr><td><strong>Cyber Stories &mdash; GRC Engineering</strong></td><td>Day Johnson (feat. Ayoub Fandi)</td></tr>
-        <tr><td><strong>Resilient Cyber &mdash; Transforming Compliance</strong></td><td>Chris Hughes (feat. AJ Yawn)</td></tr>
-        <tr><td><strong>MYGRCPOV &mdash; Rise of GRC Engineering</strong></td><td>Monica Reagor (feat. AJ Yawn)</td></tr>
-        <tr><td colspan="2" style="background: var(--bg-row-header); font-weight: 400; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);">Talks &amp; Interviews</td></tr>
-        <tr><td><strong>BSidesSF 2024 &mdash; GRC Engineering in Repository</strong></td><td>Varun Gurnaney</td></tr>
-        <tr><td><strong>BSidesSF 2025 &mdash; Compliance in DevOps Pipeline</strong></td><td>Varun Gurnaney</td></tr>
-        <tr><td><strong>Netflix Security &mdash; Risk-based Decision Making</strong></td><td>Prashanthi Koutha, Shannon Morrison</td></tr>
-        <tr><td><strong>fwd:cloudsec 2025 &mdash; GRC Engineering for AWS</strong></td><td>AJ Yawn</td></tr>
-        <tr><td><strong>What is GRC Engineering?</strong></td><td>Lloyd Evans</td></tr>
-        <tr><td><strong>Automating Compliance Processes</strong></td><td>Lloyd Evans</td></tr>
-        <tr><td><strong>CPA to Cybersecurity Pivot</strong></td><td>Steve McMichael (feat. Ayoub Fandi)</td></tr>
-        <tr><td><strong>FAIRCon 2022 &mdash; Five Objections to FAIR</strong></td><td>Tony Martin-Vegue, Prashanthi Koutha</td></tr>
-        <tr><td><strong>Simply Cyber &mdash; Cyber Risk Quantification</strong></td><td>Steve McMichael (feat. Richard Seiersen)</td></tr>
-        <tr><td colspan="2" style="background: var(--bg-row-header); font-weight: 400; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);">Blogs &amp; Newsletters</td></tr>
-        <tr><td><strong>The GRC Engineer Newsletter</strong></td><td>Ayoub Fandi</td></tr>
-        <tr><td><strong>From Heatmaps to Histograms</strong></td><td>Tony Martin-Vegue</td></tr>
-        <tr><td><strong>Varun Gurnaney&rsquo;s Medium</strong></td><td>Varun Gurnaney</td></tr>
-        <tr><td><strong>Netflix TechBlog &mdash; Open-Sourcing riskquant</strong></td><td>Markus De Shon, Shannon Morrison</td></tr>
-        <tr><td colspan="2" style="background: var(--bg-row-header); font-weight: 400; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);">Community</td></tr>
-        <tr><td><strong>GRC Engineering Discord</strong></td><td>Community Discord server</td></tr>
-        <tr><td><strong>GRC Engineering LinkedIn Group</strong></td><td>Community LinkedIn group</td></tr>
-        <tr><td><strong>GRC Engineering Club</strong></td><td>Patreon community</td></tr>
+        <tr>
+          <td rowspan="3" class="teaching-type">Books</td>
+          <td><strong>GRC Engineering for AWS</strong><span class="teaching-author">AJ Yawn</span></td>
+        </tr>
+        <tr><td><strong>How to Measure Anything in Cybersecurity Risk</strong><span class="teaching-author">Richard Seiersen, Doug Hubbard</span></td></tr>
+        <tr><td><strong>Measuring and Managing Information Risk: A FAIR Approach</strong><span class="teaching-author">Jack Jones, Jack Freund</span></td></tr>
+        <tr>
+          <td rowspan="3" class="teaching-type">Courses</td>
+          <td><strong>GRC for the Cloud-Native Revolution</strong><span class="teaching-author">Ayoub Fandi</span></td>
+        </tr>
+        <tr><td><strong>Cybersecurity Foundations: GRC</strong><span class="teaching-author">AJ Yawn</span></td></tr>
+        <tr><td><strong>Leveraging AI for GRC</strong><span class="teaching-author">Terra Cooke</span></td></tr>
+        <tr>
+          <td rowspan="2" class="teaching-type">Labs</td>
+          <td><strong>GRC Playground</strong><span class="teaching-author">Ashley Pearce</span></td>
+        </tr>
+        <tr><td><strong>GRC Portfolio Labs</strong><span class="teaching-author">AJ Yawn</span></td></tr>
+        <tr>
+          <td rowspan="4" class="teaching-type">Podcasts</td>
+          <td><strong>GRC Engineer Podcast</strong><span class="teaching-author">Ayoub Fandi</span></td>
+        </tr>
+        <tr><td><strong>Cyber Stories &mdash; GRC Engineering</strong><span class="teaching-author">Day Johnson (feat. Ayoub Fandi)</span></td></tr>
+        <tr><td><strong>Resilient Cyber &mdash; Transforming Compliance</strong><span class="teaching-author">Chris Hughes (feat. AJ Yawn)</span></td></tr>
+        <tr><td><strong>MYGRCPOV &mdash; Rise of GRC Engineering</strong><span class="teaching-author">Monica Reagor (feat. AJ Yawn)</span></td></tr>
+        <tr>
+          <td rowspan="9" class="teaching-type">Talks &amp; Interviews</td>
+          <td><strong>BSidesSF 2024 &mdash; GRC Engineering in Repository</strong><span class="teaching-author">Varun Gurnaney</span></td>
+        </tr>
+        <tr><td><strong>BSidesSF 2025 &mdash; Compliance in DevOps Pipeline</strong><span class="teaching-author">Varun Gurnaney</span></td></tr>
+        <tr><td><strong>Netflix Security &mdash; Risk-based Decision Making</strong><span class="teaching-author">Prashanthi Koutha, Shannon Morrison</span></td></tr>
+        <tr><td><strong>fwd:cloudsec 2025 &mdash; GRC Engineering for AWS</strong><span class="teaching-author">AJ Yawn</span></td></tr>
+        <tr><td><strong>What is GRC Engineering?</strong><span class="teaching-author">Lloyd Evans</span></td></tr>
+        <tr><td><strong>Automating Compliance Processes</strong><span class="teaching-author">Lloyd Evans</span></td></tr>
+        <tr><td><strong>CPA to Cybersecurity Pivot</strong><span class="teaching-author">Steve McMichael (feat. Ayoub Fandi)</span></td></tr>
+        <tr><td><strong>FAIRCon 2022 &mdash; Five Objections to FAIR</strong><span class="teaching-author">Tony Martin-Vegue, Prashanthi Koutha</span></td></tr>
+        <tr><td><strong>Simply Cyber &mdash; Cyber Risk Quantification</strong><span class="teaching-author">Steve McMichael (feat. Richard Seiersen)</span></td></tr>
+        <tr>
+          <td rowspan="4" class="teaching-type">Blogs &amp; Newsletters</td>
+          <td><strong>The GRC Engineer Newsletter</strong><span class="teaching-author">Ayoub Fandi</span></td>
+        </tr>
+        <tr><td><strong>From Heatmaps to Histograms</strong><span class="teaching-author">Tony Martin-Vegue</span></td></tr>
+        <tr><td><strong>Varun Gurnaney&rsquo;s Medium</strong><span class="teaching-author">Varun Gurnaney</span></td></tr>
+        <tr><td><strong>Netflix TechBlog &mdash; Open-Sourcing riskquant</strong><span class="teaching-author">Markus De Shon, Shannon Morrison</span></td></tr>
+        <tr>
+          <td rowspan="3" class="teaching-type">Community</td>
+          <td><strong>GRC Engineering Discord</strong><span class="teaching-author">Community Discord server</span></td>
+        </tr>
+        <tr><td><strong>GRC Engineering LinkedIn Group</strong><span class="teaching-author">Community LinkedIn group</span></td></tr>
+        <tr><td><strong>GRC Engineering Club</strong><span class="teaching-author">Patreon community</span></td></tr>
       </tbody>
     </table>
   </div>
