@@ -693,13 +693,15 @@ tbody td:nth-child(4) li::before {
   font-weight: 400;
   margin-top: 3px;
 }
-#teachings-table tbody td a {
+#teachings-table tbody td a,
+#tools-table tbody td a {
   color: var(--blue);
   text-decoration: none;
   border-bottom: 1px dotted var(--blue);
   transition: opacity 0.15s ease;
 }
-#teachings-table tbody td a:hover {
+#teachings-table tbody td a:hover,
+#tools-table tbody td a:hover {
   opacity: 0.75;
 }
 #teachings-table tbody td:not(.teaching-type) strong {
@@ -1282,15 +1284,15 @@ tbody td:nth-child(4) li::before {
         </tr>
       </thead>
       <tbody>
-        <tr><td><strong>OPA / Rego</strong></td><td>General-purpose policy engine using the Rego declarative language. Enables Policy-as-Code in CI/CD pipelines.</td></tr>
-        <tr><td><strong>Kyverno / Kubewarden</strong></td><td>Kubernetes-native policy engines that validate, mutate, and generate resource configurations at admission time.</td></tr>
-        <tr><td><strong>Backstage</strong></td><td>Open-source internal developer portal. Reconciles docs &harr; controls via living, system-coupled documentation.</td></tr>
-        <tr><td><strong>FAIR / OpenFAIR</strong></td><td>Open standard decomposing risk into measurable factors (threat event frequency, vulnerability, loss magnitude).</td></tr>
-        <tr><td><strong>MITRE ATT&amp;CK</strong></td><td>Open knowledge base of real-world adversary tactics, techniques, and procedures for threat-informed risk scenarios.</td></tr>
-        <tr><td><strong>Monte Carlo Simulation Tools</strong></td><td>Probabilistic simulations producing distributions and histograms instead of single-point estimates and heatmaps.</td></tr>
-        <tr><td><strong>Steampipe</strong></td><td>Cloud APIs as SQL tables. Full-state infrastructure queries for evidence populations across 100+ services.</td></tr>
-        <tr><td><strong>CloudQuery</strong></td><td>Infrastructure-as-data platform syncing cloud and SaaS configurations into queryable databases for evidence pipelines.</td></tr>
-        <tr><td><strong>ScoutSuite / Prowler</strong></td><td>Cloud security posture assessment tools. Active testing against CIS, PCI DSS, and HIPAA benchmarks.</td></tr>
+        <tr><td><strong><a href="https://www.openpolicyagent.org/" target="_blank" rel="noopener noreferrer">OPA / Rego</a></strong></td><td>General-purpose policy engine using the Rego declarative language. Enables Policy-as-Code in CI/CD pipelines.</td></tr>
+        <tr><td><strong><a href="https://kyverno.io/" target="_blank" rel="noopener noreferrer">Kyverno</a> / <a href="https://www.kubewarden.io/" target="_blank" rel="noopener noreferrer">Kubewarden</a></strong></td><td>Kubernetes-native policy engines that validate, mutate, and generate resource configurations at admission time.</td></tr>
+        <tr><td><strong><a href="https://backstage.io/" target="_blank" rel="noopener noreferrer">Backstage</a></strong></td><td>Open-source internal developer portal. Reconciles docs &harr; controls via living, system-coupled documentation.</td></tr>
+        <tr><td><strong><a href="https://www.fairinstitute.org/" target="_blank" rel="noopener noreferrer">FAIR</a> / <a href="https://www.opengroup.org/open-fair" target="_blank" rel="noopener noreferrer">OpenFAIR</a></strong></td><td>Open standard decomposing risk into measurable factors (threat event frequency, vulnerability, loss magnitude).</td></tr>
+        <tr><td><strong><a href="https://attack.mitre.org/" target="_blank" rel="noopener noreferrer">MITRE ATT&amp;CK</a></strong></td><td>Open knowledge base of real-world adversary tactics, techniques, and procedures for threat-informed risk scenarios.</td></tr>
+        <tr><td><strong><a href="https://en.wikipedia.org/wiki/Monte_Carlo_method" target="_blank" rel="noopener noreferrer">Monte Carlo Simulation Tools</a></strong></td><td>Probabilistic simulations producing distributions and histograms instead of single-point estimates and heatmaps.</td></tr>
+        <tr><td><strong><a href="https://steampipe.io/" target="_blank" rel="noopener noreferrer">Steampipe</a></strong></td><td>Cloud APIs as SQL tables. Full-state infrastructure queries for evidence populations across 100+ services.</td></tr>
+        <tr><td><strong><a href="https://www.cloudquery.io/" target="_blank" rel="noopener noreferrer">CloudQuery</a></strong></td><td>Infrastructure-as-data platform syncing cloud and SaaS configurations into queryable databases for evidence pipelines.</td></tr>
+        <tr><td><strong><a href="https://github.com/nccgroup/ScoutSuite" target="_blank" rel="noopener noreferrer">ScoutSuite</a> / <a href="https://prowler.com/" target="_blank" rel="noopener noreferrer">Prowler</a></strong></td><td>Cloud security posture assessment tools. Active testing against CIS, PCI DSS, and HIPAA benchmarks.</td></tr>
       </tbody>
     </table>
   </div>
