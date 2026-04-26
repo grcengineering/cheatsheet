@@ -870,6 +870,12 @@ tbody td:nth-child(4) li::before {
   thead th { padding: 8px 14px; font-size: 0.9rem; top: 0; }
   body:has(.sticky-nav.visible) thead th { top: 52px; }
   body:has(.sticky-nav.with-section) thead th { top: 72px; }
+  /* .table-wrapper .table-container has overflow-x:auto here, making it the
+     sticky scroll container for its thead. Reset top to 0 so the thead stays
+     pinned to the top of the (horizontally) scrolling table instead of being
+     pushed 52/72px inside it (which would overlap body cells). */
+  body:has(.sticky-nav.visible) .table-wrapper thead th,
+  body:has(.sticky-nav.with-section) .table-wrapper thead th { top: 0; }
   tbody td { padding: 12px 14px; }
   .theme-toggle { top: 12px; right: 12px; width: 38px; height: 38px; font-size: 1rem; }
   .sticky-nav { padding: 6px 56px; height: 52px; }
