@@ -693,6 +693,16 @@ tbody td:nth-child(4) li::before {
   font-weight: 400;
   margin-top: 3px;
 }
+#teachings-table tbody td a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dotted transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+#teachings-table tbody td a:hover {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+}
 
 /* ── TIMELINE ── */
 .timeline-section {
@@ -1333,53 +1343,53 @@ tbody td:nth-child(4) li::before {
       <tbody>
         <tr>
           <td rowspan="3" class="teaching-type">Books</td>
-          <td><strong>GRC Engineering for AWS</strong><span class="teaching-author">AJ Yawn</span></td>
+          <td><a href="https://www.amazon.com/GRC-ENGINEERING-AWS-Hands-Engineering/dp/B0FDLZX4BP" target="_blank" rel="noopener noreferrer"><strong>GRC Engineering for AWS</strong></a><span class="teaching-author">AJ Yawn</span></td>
         </tr>
-        <tr><td><strong>How to Measure Anything in Cybersecurity Risk</strong><span class="teaching-author">Richard Seiersen, Doug Hubbard</span></td></tr>
-        <tr><td><strong>Measuring and Managing Information Risk: A FAIR Approach</strong><span class="teaching-author">Jack Jones, Jack Freund</span></td></tr>
+        <tr><td><a href="https://www.wiley.com/en-us/How+to+Measure+Anything+in+Cybersecurity+Risk,+2nd+Edition-p-9781119892304" target="_blank" rel="noopener noreferrer"><strong>How to Measure Anything in Cybersecurity Risk</strong></a><span class="teaching-author">Richard Seiersen, Doug Hubbard</span></td></tr>
+        <tr><td><a href="https://www.fairinstitute.org/fair-book" target="_blank" rel="noopener noreferrer"><strong>Measuring and Managing Information Risk: A FAIR Approach</strong></a><span class="teaching-author">Jack Jones, Jack Freund</span></td></tr>
         <tr>
           <td rowspan="3" class="teaching-type">Courses</td>
-          <td><strong>GRC for the Cloud-Native Revolution</strong><span class="teaching-author">Ayoub Fandi</span></td>
+          <td><a href="https://www.linkedin.com/learning/governance-risk-and-compliance-grc-for-the-cloud-native-revolution" target="_blank" rel="noopener noreferrer"><strong>GRC for the Cloud-Native Revolution</strong></a><span class="teaching-author">Ayoub Fandi</span></td>
         </tr>
-        <tr><td><strong>Cybersecurity Foundations: GRC</strong><span class="teaching-author">AJ Yawn</span></td></tr>
-        <tr><td><strong>Leveraging AI for GRC</strong><span class="teaching-author">Terra Cooke</span></td></tr>
+        <tr><td><a href="https://www.linkedin.com/learning/cybersecurity-foundations-governance-risk-and-compliance-grc" target="_blank" rel="noopener noreferrer"><strong>Cybersecurity Foundations: GRC</strong></a><span class="teaching-author">AJ Yawn</span></td></tr>
+        <tr><td><a href="https://www.linkedin.com/learning/leveraging-ai-for-governance-risk-and-compliance" target="_blank" rel="noopener noreferrer"><strong>Leveraging AI for GRC</strong></a><span class="teaching-author">Terra Cooke</span></td></tr>
         <tr>
           <td rowspan="2" class="teaching-type">Labs</td>
-          <td><strong>GRC Playground</strong><span class="teaching-author">Ashley Pearce</span></td>
+          <td><a href="https://github.com/ashpearce/GRC-Playground" target="_blank" rel="noopener noreferrer"><strong>GRC Playground</strong></a><span class="teaching-author">Ashley Pearce</span></td>
         </tr>
-        <tr><td><strong>GRC Portfolio Labs</strong><span class="teaching-author">AJ Yawn</span></td></tr>
+        <tr><td><a href="https://github.com/ajy0127/grc_portfolio" target="_blank" rel="noopener noreferrer"><strong>GRC Portfolio Labs</strong></a><span class="teaching-author">AJ Yawn</span></td></tr>
         <tr>
           <td rowspan="4" class="teaching-type">Podcasts</td>
-          <td><strong>GRC Engineer Podcast</strong><span class="teaching-author">Ayoub Fandi</span></td>
+          <td><a href="https://grcengineer.com/" target="_blank" rel="noopener noreferrer"><strong>GRC Engineer Podcast</strong></a><span class="teaching-author">Ayoub Fandi</span></td>
         </tr>
-        <tr><td><strong>Cyber Stories &mdash; GRC Engineering</strong><span class="teaching-author">Day Johnson (feat. Ayoub Fandi)</span></td></tr>
-        <tr><td><strong>Resilient Cyber &mdash; Transforming Compliance</strong><span class="teaching-author">Chris Hughes (feat. AJ Yawn)</span></td></tr>
-        <tr><td><strong>MYGRCPOV &mdash; Rise of GRC Engineering</strong><span class="teaching-author">Monica Reagor (feat. AJ Yawn)</span></td></tr>
+        <tr><td><a href="https://www.cyberstoriespodcast.com/p/governance-risk-and-compliance-grc-3bd" target="_blank" rel="noopener noreferrer"><strong>Cyber Stories &mdash; GRC Engineering</strong></a><span class="teaching-author">Day Johnson (feat. Ayoub Fandi)</span></td></tr>
+        <tr><td><a href="https://www.resilientcyber.io/p/resilient-cyber-w-aj-yawn-transforming" target="_blank" rel="noopener noreferrer"><strong>Resilient Cyber &mdash; Transforming Compliance</strong></a><span class="teaching-author">Chris Hughes (feat. AJ Yawn)</span></td></tr>
+        <tr><td><a href="https://www.mygrcpov.com/the-rise-of-grc-engineering-with-aj-yawn/" target="_blank" rel="noopener noreferrer"><strong>MYGRCPOV &mdash; Rise of GRC Engineering</strong></a><span class="teaching-author">Monica Reagor (feat. AJ Yawn)</span></td></tr>
         <tr>
           <td rowspan="9" class="teaching-type">Talks &amp; Interviews</td>
-          <td><strong>BSidesSF 2024 &mdash; GRC Engineering in Repository</strong><span class="teaching-author">Varun Gurnaney</span></td>
+          <td><a href="https://www.youtube.com/watch?v=gtnP68wosHo" target="_blank" rel="noopener noreferrer"><strong>BSidesSF 2024 &mdash; GRC Engineering in Repository</strong></a><span class="teaching-author">Varun Gurnaney</span></td>
         </tr>
-        <tr><td><strong>BSidesSF 2025 &mdash; Compliance in DevOps Pipeline</strong><span class="teaching-author">Varun Gurnaney</span></td></tr>
-        <tr><td><strong>Netflix Security &mdash; Risk-based Decision Making</strong><span class="teaching-author">Prashanthi Koutha, Shannon Morrison</span></td></tr>
-        <tr><td><strong>fwd:cloudsec 2025 &mdash; GRC Engineering for AWS</strong><span class="teaching-author">AJ Yawn</span></td></tr>
-        <tr><td><strong>What is GRC Engineering?</strong><span class="teaching-author">Lloyd Evans</span></td></tr>
-        <tr><td><strong>Automating Compliance Processes</strong><span class="teaching-author">Lloyd Evans</span></td></tr>
-        <tr><td><strong>CPA to Cybersecurity Pivot</strong><span class="teaching-author">Steve McMichael (feat. Ayoub Fandi)</span></td></tr>
-        <tr><td><strong>FAIRCon 2022 &mdash; Five Objections to FAIR</strong><span class="teaching-author">Tony Martin-Vegue, Prashanthi Koutha</span></td></tr>
-        <tr><td><strong>Simply Cyber &mdash; Cyber Risk Quantification</strong><span class="teaching-author">Steve McMichael (feat. Richard Seiersen)</span></td></tr>
+        <tr><td><a href="https://securityboulevard.com/2025/07/bsidessf-2025-compliance-without-the-chaos-building-it-right-into-your-devops-pipeline/" target="_blank" rel="noopener noreferrer"><strong>BSidesSF 2025 &mdash; Compliance in DevOps Pipeline</strong></a><span class="teaching-author">Varun Gurnaney</span></td></tr>
+        <tr><td><a href="https://www.youtube.com/watch?v=wgQkqPmDIAQ" target="_blank" rel="noopener noreferrer"><strong>Netflix Security &mdash; Risk-based Decision Making</strong></a><span class="teaching-author">Prashanthi Koutha, Shannon Morrison</span></td></tr>
+        <tr><td><a href="https://pretalx.com/fwd-cloudsec-2025/talk/GRRE3N/" target="_blank" rel="noopener noreferrer"><strong>fwd:cloudsec 2025 &mdash; GRC Engineering for AWS</strong></a><span class="teaching-author">AJ Yawn</span></td></tr>
+        <tr><td><a href="https://www.youtube.com/watch?v=cR3x4YBTPdQ" target="_blank" rel="noopener noreferrer"><strong>What is GRC Engineering?</strong></a><span class="teaching-author">Lloyd Evans</span></td></tr>
+        <tr><td><a href="https://www.youtube.com/watch?v=eQGz8USfn8s" target="_blank" rel="noopener noreferrer"><strong>Automating Compliance Processes</strong></a><span class="teaching-author">Lloyd Evans</span></td></tr>
+        <tr><td><a href="https://www.cpatocybersecurity.com/p/study-grc-engineering" target="_blank" rel="noopener noreferrer"><strong>CPA to Cybersecurity Pivot</strong></a><span class="teaching-author">Steve McMichael (feat. Ayoub Fandi)</span></td></tr>
+        <tr><td><a href="https://www.fairinstitute.org/faircon22-agenda" target="_blank" rel="noopener noreferrer"><strong>FAIRCon 2022 &mdash; Five Objections to FAIR</strong></a><span class="teaching-author">Tony Martin-Vegue, Prashanthi Koutha</span></td></tr>
+        <tr><td><a href="https://www.youtube.com/watch?v=8ZvBfKiCMD8" target="_blank" rel="noopener noreferrer"><strong>Simply Cyber &mdash; Cyber Risk Quantification</strong></a><span class="teaching-author">Steve McMichael (feat. Richard Seiersen)</span></td></tr>
         <tr>
           <td rowspan="4" class="teaching-type">Blogs &amp; Newsletters</td>
-          <td><strong>The GRC Engineer Newsletter</strong><span class="teaching-author">Ayoub Fandi</span></td>
+          <td><a href="https://grcengineer.com/" target="_blank" rel="noopener noreferrer"><strong>The GRC Engineer Newsletter</strong></a><span class="teaching-author">Ayoub Fandi</span></td>
         </tr>
-        <tr><td><strong>From Heatmaps to Histograms</strong><span class="teaching-author">Tony Martin-Vegue</span></td></tr>
-        <tr><td><strong>Varun Gurnaney&rsquo;s Medium</strong><span class="teaching-author">Varun Gurnaney</span></td></tr>
-        <tr><td><strong>Netflix TechBlog &mdash; Open-Sourcing riskquant</strong><span class="teaching-author">Markus De Shon, Shannon Morrison</span></td></tr>
+        <tr><td><a href="https://newsletter.heatmapstohistograms.com/" target="_blank" rel="noopener noreferrer"><strong>From Heatmaps to Histograms</strong></a><span class="teaching-author">Tony Martin-Vegue</span></td></tr>
+        <tr><td><a href="https://medium.com/@varungurnaney" target="_blank" rel="noopener noreferrer"><strong>Varun Gurnaney&rsquo;s Medium</strong></a><span class="teaching-author">Varun Gurnaney</span></td></tr>
+        <tr><td><a href="https://medium.com/@NetflixTechBlog/open-sourcing-riskquant-a-library-for-quantifying-risk-6720cc1e4968" target="_blank" rel="noopener noreferrer"><strong>Netflix TechBlog &mdash; Open-Sourcing riskquant</strong></a><span class="teaching-author">Markus De Shon, Shannon Morrison</span></td></tr>
         <tr>
           <td rowspan="3" class="teaching-type">Community</td>
-          <td><strong>GRC Engineering Discord</strong><span class="teaching-author">Community Discord server</span></td>
+          <td><a href="https://discord.gg/CG6EDDbG4B" target="_blank" rel="noopener noreferrer"><strong>GRC Engineering Discord</strong></a><span class="teaching-author">Community Discord server</span></td>
         </tr>
-        <tr><td><strong>GRC Engineering LinkedIn Group</strong><span class="teaching-author">Community LinkedIn group</span></td></tr>
-        <tr><td><strong>GRC Engineering Club</strong><span class="teaching-author">Patreon community</span></td></tr>
+        <tr><td><a href="https://www.linkedin.com/groups/12997229/" target="_blank" rel="noopener noreferrer"><strong>GRC Engineering LinkedIn Group</strong></a><span class="teaching-author">Community LinkedIn group</span></td></tr>
+        <tr><td><a href="https://www.patreon.com/cw/GRCEngineeringClub" target="_blank" rel="noopener noreferrer"><strong>GRC Engineering Club</strong></a><span class="teaching-author">Patreon community</span></td></tr>
       </tbody>
     </table>
   </div>
