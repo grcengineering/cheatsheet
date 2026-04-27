@@ -1139,6 +1139,18 @@ tbody td:nth-child(4) li::before {
   font-weight: 700;
   text-align: left;
   white-space: nowrap;
+  /* Re-apply the same orange→blue gradient as the in-table thead cells
+     (the clone lives outside .table-wrapper, so its own .table-wrapper
+     thead th rule doesn't match). */
+  background: linear-gradient(to right, var(--orange-bright), var(--blue-bright));
+  background-size: 100vw 100%;
+  background-position: left center;
+  color: #000;
+  border-bottom: 2px solid rgba(0,0,0,0.15);
+}
+.comparison-thead-clone thead th:first-child {
+  text-align: center;
+  border-right: 2px solid var(--border-header);
 }
 </style>
 </head>
