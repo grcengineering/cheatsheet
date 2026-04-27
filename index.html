@@ -759,18 +759,20 @@ tbody td:nth-child(4) li::before {
   pointer-events: none;
   z-index: 0;
 }
-/* Arrow at the very end of the scrollable track */
+/* Arrow at the very end of the scrollable track — pinned to track centerline */
 .timeline-arrow {
   flex-shrink: 0;
   width: 0;
   height: 0;
-  align-self: center;
-  border-top: 8px solid transparent;
-  border-bottom: 8px solid transparent;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
   border-left: 14px solid var(--blue-bright);
   margin-left: -4px;
-  position: relative;
-  z-index: 1;
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  z-index: 3;
 }
 /* Fade edges to hint at scrollability */
 .timeline-outer::before,
@@ -836,18 +838,127 @@ tbody td:nth-child(4) li::before {
 .tl-year {
   font-family: var(--font-title);
   font-weight: 700;
-  font-size: 0.92rem;
+  font-size: 1.05rem;
   color: var(--orange);
   display: block;
   line-height: 1.2;
 }
 .tl-label {
   font-family: var(--font-body);
-  font-size: 0.75rem;
+  font-size: 0.88rem;
   color: var(--text-dim);
   line-height: 1.3;
-  margin-top: 1px;
+  margin-top: 2px;
 }
+.tl-event { cursor: pointer; }
+/* GRC Engineering era divider on the timeline */
+.tl-era-marker {
+  flex-shrink: 0;
+  width: 130px;
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+.tl-era-marker::before {
+  content: '';
+  position: absolute;
+  top: 16px;
+  bottom: 16px;
+  left: 50%;
+  width: 3px;
+  background: var(--blue-bright);
+  transform: translateX(-50%);
+  z-index: 1;
+  box-shadow: 0 0 8px rgba(27,149,193,0.4);
+}
+.tl-era-label {
+  font-family: var(--font-title);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--blue-bright);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-align: center;
+  background: var(--bg-card);
+  padding: 6px 8px;
+  position: relative;
+  z-index: 2;
+  line-height: 1.3;
+  border: 1px solid var(--blue-bright);
+  border-radius: 4px;
+}
+/* Timeline event modal */
+.tl-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+.tl-modal.visible { display: flex; }
+.tl-modal-content {
+  background: var(--bg-card);
+  color: var(--text);
+  border-radius: 12px;
+  max-width: 520px;
+  width: 100%;
+  padding: 28px 28px 24px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  border: 1px solid var(--border);
+}
+.tl-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--text-dim);
+  padding: 4px 8px;
+}
+.tl-modal-close:hover { color: var(--text); }
+.tl-modal-year {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--orange);
+  letter-spacing: 1px;
+  margin: 0 0 4px 0;
+}
+.tl-modal-title {
+  font-family: var(--font-title);
+  margin: 0 0 12px 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text);
+}
+.tl-modal-actor {
+  display: inline-block;
+  background: var(--bg-row-header);
+  color: var(--text-row-header);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+}
+.tl-modal p { margin: 10px 0; line-height: 1.55; font-size: 0.95rem; }
+.tl-modal-label { font-weight: 700; color: var(--text); font-family: var(--font-title); }
 /* Odd events: content ABOVE the line */
 .tl-event:nth-child(odd) .tl-stem {
   bottom: 50%;
@@ -940,8 +1051,8 @@ tbody td:nth-child(4) li::before {
   .timeline-section { padding: 0 12px; }
   .timeline-scroll { height: 240px; padding: 0 24px; }
   .tl-event { width: 100px; }
-  .tl-year { font-size: 0.82rem; }
-  .tl-label { font-size: 0.68rem; }
+  .tl-year { font-size: 0.95rem; }
+  .tl-label { font-size: 0.8rem; }
   .tl-stem { height: 20px; }
 }
 @media (max-width: 480px) {
@@ -1137,94 +1248,185 @@ tbody td:nth-child(4) li::before {
     <div class="timeline-track"></div>
     <div class="timeline-scroll">
 
-      <div class="tl-event">
+      <div class="tl-event" tabindex="0" role="button" aria-label="1972: FIPS 31"
+           data-year="1972" data-title="FIPS 31"
+           data-actor="Government &middot; NIST"
+           data-summary="Federal Information Processing Standard 31 &mdash; the first US government guideline on automatic data processing physical security and risk management."
+           data-relevance="Established the foundational pattern of government-issued standards driving organizational security practice.">
         <div class="tl-content"><span class="tl-year">1972</span><span class="tl-label">FIPS 31</span></div>
         <div class="tl-stem"></div>
         <div class="tl-marker"></div>
       </div>
 
-      <div class="tl-event">
+      <div class="tl-event" tabindex="0" role="button" aria-label="1977: Control Objectives"
+           data-year="1977" data-title="Control Objectives"
+           data-actor="Auditor &middot; IIA"
+           data-summary="The Institute of Internal Auditors&rsquo; Systems Auditability and Control study formalized the concept of &ldquo;control objectives&rdquo; for IT."
+           data-relevance="Created the auditor-centric vocabulary that still dominates traditional GRC.">
         <div class="tl-content"><span class="tl-year">1977</span><span class="tl-label">Control Objectives</span></div>
         <div class="tl-stem"></div>
         <div class="tl-marker"></div>
       </div>
 
-      <div class="tl-event">
+      <div class="tl-event" tabindex="0" role="button" aria-label="1979: FIPS 65"
+           data-year="1979" data-title="FIPS 65"
+           data-actor="Government &middot; NIST"
+           data-summary="First federal risk analysis methodology &mdash; a quantitative annualized loss expectancy (ALE) approach to IT risk."
+           data-relevance="Predecessor to all modern quantitative cyber risk methods (FAIR, ALE, Monte Carlo simulations).">
         <div class="tl-content"><span class="tl-year">1979</span><span class="tl-label">FIPS 65</span></div>
         <div class="tl-stem"></div>
         <div class="tl-marker"></div>
       </div>
 
-      <div class="tl-event">
+      <div class="tl-event" tabindex="0" role="button" aria-label="1985: The Orange Book"
+           data-year="1985" data-title="The Orange Book"
+           data-actor="Government &middot; DoD"
+           data-summary="DoD&rsquo;s Trusted Computer System Evaluation Criteria &mdash; defined assurance levels (C1, C2, B1, B2, A1) for trusted systems."
+           data-relevance="First formal criteria-based certification regime; precursor to Common Criteria and FedRAMP.">
         <div class="tl-content"><span class="tl-year">1985</span><span class="tl-label">The Orange Book</span></div>
         <div class="tl-stem"></div>
         <div class="tl-marker"></div>
       </div>
 
-      <div class="tl-event">
+      <div class="tl-event" tabindex="0" role="button" aria-label="1992: SAS 70 and COSO"
+           data-year="1992" data-title="SAS 70 &amp; COSO"
+           data-actor="Auditor &middot; AICPA + COSO"
+           data-summary="AICPA&rsquo;s Statement on Auditing Standards 70 enabled service-organization audits; COSO published its Internal Control Integrated Framework."
+           data-relevance="Introduced third-party assurance reporting &mdash; the direct ancestor of SOC 2.">
         <div class="tl-content"><span class="tl-year">1992</span><span class="tl-label">SAS 70 &amp; COSO</span></div>
         <div class="tl-stem"></div>
         <div class="tl-marker"></div>
       </div>
 
-      <div class="tl-event">
+      <div class="tl-event" tabindex="0" role="button" aria-label="1995: BS 7799"
+           data-year="1995" data-title="BS 7799"
+           data-actor="Government &middot; BSI"
+           data-summary="British Standards Institution code of practice for information security management."
+           data-relevance="Direct ancestor of ISO 27001, the global ISMS standard.">
         <div class="tl-content"><span class="tl-year">1995</span><span class="tl-label">BS 7799</span></div>
         <div class="tl-stem"></div>
         <div class="tl-marker"></div>
       </div>
 
-      <div class="tl-event">
+      <div class="tl-event" tabindex="0" role="button" aria-label="1996: HIPAA and COBIT"
+           data-year="1996" data-title="HIPAA &amp; COBIT"
+           data-actor="Government + Auditor &middot; HHS / ISACA"
+           data-summary="US healthcare privacy and security law (HIPAA); ISACA&rsquo;s Control Objectives for Information and Related Technologies (COBIT) framework."
+           data-relevance="Established sector-specific compliance regulation and an IT governance framework still widely audited against.">
         <div class="tl-content"><span class="tl-year">1996</span><span class="tl-label">HIPAA &amp; COBIT</span></div>
         <div class="tl-stem"></div>
         <div class="tl-marker"></div>
       </div>
 
-      <div class="tl-event">
+      <div class="tl-event" tabindex="0" role="button" aria-label="2002: SOX and FISMA"
+           data-year="2002" data-title="SOX &amp; FISMA"
+           data-actor="Government &middot; US Congress"
+           data-summary="Sarbanes-Oxley imposed financial reporting controls on public companies; FISMA mandated security programs across federal agencies."
+           data-relevance="Birth of the modern compliance industry &mdash; created enormous demand for control documentation and audit work.">
         <div class="tl-content"><span class="tl-year">2002</span><span class="tl-label">SOX &amp; FISMA</span></div>
         <div class="tl-stem"></div>
         <div class="tl-marker"></div>
       </div>
 
-      <div class="tl-event">
+      <div class="tl-event" tabindex="0" role="button" aria-label="2003: OCEG and The Red Book"
+           data-year="2003" data-title="OCEG &amp; The Red Book"
+           data-actor="Analyst &middot; OCEG"
+           data-summary="The Open Compliance and Ethics Group was founded and published its Red Book GRC Capability Model."
+           data-relevance="Coined the umbrella term &ldquo;GRC&rdquo; itself.">
         <div class="tl-content"><span class="tl-year">2003</span><span class="tl-label">OCEG &amp; The Red Book</span></div>
         <div class="tl-stem"></div>
         <div class="tl-marker"></div>
       </div>
 
-      <div class="tl-event">
+      <div class="tl-event" tabindex="0" role="button" aria-label="2005: ISO 27001"
+           data-year="2005" data-title="ISO 27001"
+           data-actor="Government &middot; ISO/IEC"
+           data-summary="International standard for information security management systems, evolving from BS 7799."
+           data-relevance="Became the de facto global ISMS certification.">
         <div class="tl-content"><span class="tl-year">2005</span><span class="tl-label">ISO 27001</span></div>
         <div class="tl-stem"></div>
         <div class="tl-marker"></div>
       </div>
 
-      <div class="tl-event">
+      <div class="tl-event" tabindex="0" role="button" aria-label="2011: SSAE 16 and SOC"
+           data-year="2011" data-title="SSAE 16 &amp; SOC"
+           data-actor="Auditor &middot; AICPA"
+           data-summary="AICPA replaced SAS 70 with SSAE 16, introducing SOC 1, SOC 2, and SOC 3 reports."
+           data-relevance="SOC 2 became the dominant trust signal for SaaS vendors.">
         <div class="tl-content"><span class="tl-year">2011</span><span class="tl-label">SSAE 16 &amp; SOC</span></div>
         <div class="tl-stem"></div>
         <div class="tl-marker"></div>
       </div>
 
-      <div class="tl-event">
+      <div class="tl-event" tabindex="0" role="button" aria-label="2014: NIST CSF"
+           data-year="2014" data-title="NIST CSF"
+           data-actor="Government &middot; NIST"
+           data-summary="Cybersecurity Framework v1.0 &mdash; voluntary risk-based framework with Identify / Protect / Detect / Respond / Recover functions."
+           data-relevance="Most widely adopted cybersecurity framework outside of regulated sectors.">
         <div class="tl-content"><span class="tl-year">2014</span><span class="tl-label">NIST CSF</span></div>
         <div class="tl-stem"></div>
         <div class="tl-marker"></div>
       </div>
 
-      <div class="tl-event">
+      <div class="tl-event" tabindex="0" role="button" aria-label="2018: GDPR"
+           data-year="2018" data-title="GDPR"
+           data-actor="Government &middot; EU"
+           data-summary="General Data Protection Regulation &mdash; comprehensive EU privacy law with global extraterritorial reach."
+           data-relevance="Reset the bar for privacy controls and triggered a wave of similar legislation worldwide.">
         <div class="tl-content"><span class="tl-year">2018</span><span class="tl-label">GDPR</span></div>
         <div class="tl-stem"></div>
         <div class="tl-marker"></div>
       </div>
 
-      <div class="tl-event">
+      <div class="tl-era-marker" aria-label="GRC Engineering era begins">
+        <span class="tl-era-label">GRC Engineering<br>era begins</span>
+      </div>
+
+      <div class="tl-event" tabindex="0" role="button" aria-label="2021: Netflix begins hiring GRC Engineers"
+           data-year="2021" data-title="Netflix begins hiring GRC Engineers"
+           data-actor="Engineer &middot; Netflix"
+           data-summary="Netflix posted some of the first job descriptions explicitly titled &ldquo;GRC Engineer,&rdquo; applying engineering practices to compliance."
+           data-relevance="Marked the emergence of GRC as an engineering discipline rather than a purely auditor-driven function.">
+        <div class="tl-content"><span class="tl-year">2021</span><span class="tl-label">Netflix hires GRC Engineers</span></div>
+        <div class="tl-stem"></div>
+        <div class="tl-marker"></div>
+      </div>
+
+      <div class="tl-event" tabindex="0" role="button" aria-label="2022 to now: EU regulatory wave"
+           data-year="2022&ndash;Now" data-title="EU goes absolutely ham"
+           data-actor="Government &middot; EU"
+           data-summary="NIS2, DORA, the AI Act, the Cyber Resilience Act, and more &mdash; a sustained legislative push across cybersecurity, resilience, and AI."
+           data-relevance="Multiplied compliance scope and accelerated the case for engineering-grade automation.">
         <div class="tl-content"><span class="tl-year">2022&ndash;Now</span><span class="tl-label">EU goes absolutely <em>ham</em></span></div>
         <div class="tl-stem"></div>
         <div class="tl-marker"></div>
       </div>
 
-      <div class="timeline-arrow"></div>
+      <div class="tl-event" tabindex="0" role="button" aria-label="2024: GRC Engineering Manifesto published"
+           data-year="2024" data-title="GRC Engineering Manifesto published"
+           data-actor="Engineer &middot; Community"
+           data-summary="A community-authored manifesto codifying the principles of GRC Engineering at grc.engineering."
+           data-relevance="Crystallized the discipline&rsquo;s values &mdash; engineering practices, automation, design thinking &mdash; into a shared artifact.">
+        <div class="tl-content"><span class="tl-year">2024</span><span class="tl-label">GRC Engineering Manifesto</span></div>
+        <div class="tl-stem"></div>
+        <div class="tl-marker"></div>
+      </div>
+
     </div>
+    <div class="timeline-arrow"></div>
   </div>
 </section>
+
+<div class="tl-modal" id="tl-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="tl-modal-title">
+  <div class="tl-modal-content">
+    <button class="tl-modal-close" type="button" aria-label="Close">&times;</button>
+    <p class="tl-modal-year"></p>
+    <h3 class="tl-modal-title" id="tl-modal-title"></h3>
+    <span class="tl-modal-actor"></span>
+    <p class="tl-modal-summary"></p>
+    <p class="tl-modal-relevance"><span class="tl-modal-label">GRC relevance:</span> <span class="tl-modal-relevance-text"></span></p>
+  </div>
+</div>
 
 <div class="ref-tables">
 
@@ -1443,6 +1645,49 @@ function updateIcon(theme) {
     }
   }, { threshold: 0 });
   observer.observe(card);
+}());
+/* Timeline event modal — click/tap an event to view its details. */
+(function() {
+  var modal = document.getElementById('tl-modal');
+  if (!modal) return;
+  var yearEl = modal.querySelector('.tl-modal-year');
+  var titleEl = modal.querySelector('.tl-modal-title');
+  var actorEl = modal.querySelector('.tl-modal-actor');
+  var summaryEl = modal.querySelector('.tl-modal-summary');
+  var relevanceTextEl = modal.querySelector('.tl-modal-relevance-text');
+  var closeBtn = modal.querySelector('.tl-modal-close');
+  var lastFocused = null;
+
+  function show(ev) {
+    yearEl.textContent = ev.dataset.year || '';
+    titleEl.textContent = ev.dataset.title || '';
+    actorEl.textContent = ev.dataset.actor || '';
+    summaryEl.textContent = ev.dataset.summary || '';
+    relevanceTextEl.textContent = ev.dataset.relevance || '';
+    lastFocused = document.activeElement;
+    modal.classList.add('visible');
+    modal.setAttribute('aria-hidden', 'false');
+    closeBtn.focus();
+  }
+  function hide() {
+    modal.classList.remove('visible');
+    modal.setAttribute('aria-hidden', 'true');
+    if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+  }
+
+  document.querySelectorAll('.tl-event').forEach(function(ev) {
+    ev.addEventListener('click', function() { show(ev); });
+    ev.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(ev); }
+    });
+  });
+  closeBtn.addEventListener('click', hide);
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) hide();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && modal.classList.contains('visible')) hide();
+  });
 }());
 /* Sticky navbar — slides down once user scrolls past the page title.
    When a content section is in view, its name slides into the nav below the title. */
