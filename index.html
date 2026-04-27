@@ -459,10 +459,12 @@ tbody td:first-child {
   font-weight: 700;
   text-align: center;
   vertical-align: middle;
-  white-space: nowrap;
+  /* Allow wrapping at word boundaries so multi-word labels (e.g. "Trust &
+     Assurance") break at spaces; column shrinks to longest single word. */
+  white-space: normal;
   color: var(--text-row-header);
   border-right: 2px solid var(--border);
-  min-width: 120px;
+  width: 1%;
 }
 [data-theme="dark"] tbody td:first-child {
   background: var(--bg-row-header);
@@ -601,13 +603,13 @@ tbody td:nth-child(4) li::before {
   table-layout: auto;
 }
 .ref-tables thead th:first-child {
-  text-align: left;
-  width: 22%;
+  text-align: center;
+  width: 1%;
   white-space: normal;
 }
 .ref-tables tbody td:first-child {
   vertical-align: middle;
-  text-align: left;
+  text-align: center;
   background: var(--bg-row-header);
   font-family: var(--font-body);
   font-weight: 700;
@@ -615,7 +617,7 @@ tbody td:nth-child(4) li::before {
   border-right: 2px solid var(--border);
   white-space: normal;
   position: static;
-  width: 22%;
+  width: 1%;
 }
 .ref-tables tbody tr:nth-child(even) td:first-child {
   background: var(--bg-card);
@@ -657,14 +659,14 @@ tbody td:nth-child(4) li::before {
 /* Teachings table — Type column uses rowspan; data continuation rows have only the Teaching cell */
 #teachings-table tbody td.teaching-type {
   vertical-align: middle;
-  text-align: left;
+  text-align: center;
   background: var(--bg-row-header);
   font-family: var(--font-body);
   font-weight: 700;
   color: var(--text-row-header);
   border-right: 2px solid var(--border);
   white-space: normal;
-  width: 22%;
+  width: 1%;
 }
 #teachings-table tbody td:first-child:not(.teaching-type) {
   vertical-align: top;
@@ -935,8 +937,6 @@ tbody td:nth-child(4) li::before {
   }
   .ref-tables { padding: 0 12px; }
   .ref-tables tbody td { padding: 10px 12px; }
-  .ref-tables tbody td:first-child { white-space: normal; max-width: 40vw; }
-  .ref-tables thead th:first-child { white-space: normal; max-width: 40vw; }
   .timeline-section { padding: 0 12px; }
   .timeline-scroll { height: 240px; padding: 0 24px; }
   .tl-event { width: 100px; }
@@ -1243,11 +1243,11 @@ tbody td:nth-child(4) li::before {
       <tbody>
         <tr><td><strong>Systems Thinking</strong></td><td>Examining how components interrelate and work together over time within larger systems. Applied across governance, risk analysis, and control modeling.</td></tr>
         <tr><td><strong>Design Thinking</strong></td><td>Human-centered problem-solving methodology. Harnessed to make the right thing to do the easy thing to do.</td></tr>
-        <tr><td><strong>Threat-Informed</strong></td><td>Grounding policies, controls, and trainings in real-world threat intelligence rather than abstract framework checklists.</td></tr>
+        <tr><td><strong>Threat&#8209;Informed</strong></td><td>Grounding policies, controls, and trainings in real-world threat intelligence rather than abstract framework checklists.</td></tr>
         <tr><td><strong>GRC as a Product</strong></td><td>Treating GRC programs as products serving internal and external customers, with user research, feedback loops, and measurable outcomes.</td></tr>
-        <tr><td><strong>Policy-as-Code (PaC)</strong></td><td>Policies written as executable code; the code <em>is</em> the source of truth, enabling version control, testing, and deterministic enforcement.</td></tr>
-        <tr><td><strong>Policy-to-Code</strong></td><td>Translating human-readable policy documents into executable code, bridging policy authors and enforcement systems.</td></tr>
-        <tr><td><strong>Policy-from-Code</strong></td><td>Deriving policy documentation from code, configurations, or runtime behavior. Closes the gap between docs and control reality.</td></tr>
+        <tr><td><strong>Policy&#8209;as&#8209;Code (PaC)</strong></td><td>Policies written as executable code; the code <em>is</em> the source of truth, enabling version control, testing, and deterministic enforcement.</td></tr>
+        <tr><td><strong>Policy&#8209;to&#8209;Code</strong></td><td>Translating human-readable policy documents into executable code, bridging policy authors and enforcement systems.</td></tr>
+        <tr><td><strong>Policy&#8209;from&#8209;Code</strong></td><td>Deriving policy documentation from code, configurations, or runtime behavior. Closes the gap between docs and control reality.</td></tr>
         <tr><td><strong>Scientific Pedagogy</strong></td><td>Evidence-based learning science&mdash;spaced repetition, scenario-based exercises, measurable retention&mdash;applied to security training.</td></tr>
         <tr><td><strong>TPCM</strong></td><td>Third-party compliance management. Legacy questionnaire-focused approach that conflates compliance with risk.</td></tr>
         <tr><td><strong>TPRM</strong></td><td>Third-party risk management. Balanced third + first-party focus, evaluating real-world threat scenarios and value-at-risk.</td></tr>
