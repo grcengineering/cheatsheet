@@ -1103,11 +1103,42 @@ tbody td:nth-child(4) li::before {
      the base tbody td:first-child rule, so it stays pinned during scroll.
      With overflow-x:auto, .table-container becomes the sticky context for
      thead — reset its top to 0 so it stays pinned to the top of the
-     horizontally-scrolling table (instead of being pushed inside it). */
+     horizontally-scrolling table (instead of being pushed inside it).
+     A JS-driven cloned thead handles the viewport-pinned sticky behavior
+     (see the comparison-thead-clone styles + script below). */
   .table-wrapper table { min-width: 700px; }
   .table-wrapper .table-container { overflow-x: auto; }
   body:has(.sticky-nav.visible) .table-wrapper thead th,
   body:has(.sticky-nav.with-section) .table-wrapper thead th { top: 0; }
+}
+/* Cloned thead overlay for the comparison table on portrait mobile —
+   pinned under the sticky nav, stays visible as the user scrolls past the
+   original thead. Horizontal position is synced via translateX. */
+.comparison-thead-clone {
+  position: fixed;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  z-index: 50;
+  display: none;
+  background: var(--bg-card);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 0 12px;
+}
+.comparison-thead-clone.active { display: block; }
+.comparison-thead-clone table {
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+.comparison-thead-clone thead th {
+  position: static;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  font-family: var(--font-title);
+  font-weight: 700;
+  text-align: left;
+  white-space: nowrap;
 }
 </style>
 </head>
@@ -1669,6 +1700,103 @@ function updateIcon(theme) {
     }
   }, { threshold: 0 });
   observer.observe(card);
+}());
+/* Comparison table — pinned thead clone for portrait mobile.
+   The .table-container has overflow-x:auto so it becomes the sticky
+   scroll context for the real thead (which then can only stick within
+   the table, not the page viewport). Clone the thead, position-fix it
+   under the sticky nav, and sync its horizontal scroll. */
+(function() {
+  var section = document.querySelector('.comparison-section');
+  if (!section) return;
+  var origTable = section.querySelector('table');
+  var origThead = origTable && origTable.querySelector('thead');
+  var container = section.querySelector('.table-container');
+  if (!origTable || !origThead || !container) return;
+
+  var clone = null;
+  var cloneTable = null;
+  var cloneInner = null;
+
+  function isPortraitMobile() {
+    return window.matchMedia('(max-width: 768px) and (orientation: portrait)').matches;
+  }
+  function navHeight() {
+    var nav = document.getElementById('sticky-nav');
+    if (!nav || !nav.classList.contains('visible')) return 0;
+    return nav.getBoundingClientRect().height;
+  }
+  function ensureClone() {
+    if (clone) return;
+    clone = document.createElement('div');
+    clone.className = 'comparison-thead-clone';
+    cloneInner = document.createElement('div');
+    cloneInner.style.overflow = 'hidden';
+    cloneTable = document.createElement('table');
+    cloneTable.appendChild(origThead.cloneNode(true));
+    cloneInner.appendChild(cloneTable);
+    clone.appendChild(cloneInner);
+    document.body.appendChild(clone);
+    syncWidths();
+  }
+  function syncWidths() {
+    if (!clone) return;
+    var rect = container.getBoundingClientRect();
+    clone.style.left = rect.left + 'px';
+    clone.style.right = (window.innerWidth - rect.right) + 'px';
+    clone.style.padding = '0';
+    cloneTable.style.width = origTable.offsetWidth + 'px';
+    cloneTable.style.minWidth = origTable.offsetWidth + 'px';
+    var origThs = origThead.querySelectorAll('th');
+    var cloneThs = cloneTable.querySelectorAll('th');
+    origThs.forEach(function(th, i) {
+      if (cloneThs[i]) cloneThs[i].style.width = th.offsetWidth + 'px';
+    });
+  }
+  function syncScroll() {
+    if (!clone || !cloneTable) return;
+    cloneTable.style.transform = 'translateX(' + -container.scrollLeft + 'px)';
+  }
+  function update() {
+    if (!isPortraitMobile()) {
+      if (clone) clone.classList.remove('active');
+      return;
+    }
+    var nh = navHeight();
+    if (nh === 0) {
+      if (clone) clone.classList.remove('active');
+      return;
+    }
+    var theadRect = origThead.getBoundingClientRect();
+    var sectionRect = section.getBoundingClientRect();
+    var shouldShow = theadRect.top < nh && sectionRect.bottom > nh + theadRect.height;
+    if (shouldShow) {
+      ensureClone();
+      clone.style.top = nh + 'px';
+      clone.classList.add('active');
+      syncScroll();
+    } else if (clone) {
+      clone.classList.remove('active');
+    }
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', function() {
+    if (clone) syncWidths();
+    update();
+  }, { passive: true });
+  container.addEventListener('scroll', syncScroll, { passive: true });
+  document.addEventListener('DOMContentLoaded', update);
+  setTimeout(update, 100);
+  // Nav class flips trigger height changes after scroll fires; observe and re-run.
+  var nav = document.getElementById('sticky-nav');
+  if (nav && 'MutationObserver' in window) {
+    new MutationObserver(function() {
+      // Wait for the height transition to settle so we read the final height.
+      setTimeout(update, 350);
+      update();
+    }).observe(nav, { attributes: true, attributeFilter: ['class'] });
+  }
 }());
 /* Animated text highlight — wiz.io-style marker pen that draws across
    the phrase the first time it scrolls into view. */
