@@ -977,6 +977,16 @@ tbody td:nth-child(4) li::before {
   .theme-toggle { top: 14px; right: 14px; width: 32px; height: 32px; font-size: 0.85rem; }
   body:has(.sticky-nav.visible) .theme-toggle { top: 14px; right: 16px; width: 30px; height: 30px; font-size: 0.85rem; }
   body:has(.sticky-nav.with-section) .theme-toggle { top: 22px; }
+  /* Portrait mobile: restore horizontal scroll on the comparison table so
+     all 3 columns remain readable. The Program column is sticky-left from
+     the base tbody td:first-child rule, so it stays pinned during scroll.
+     With overflow-x:auto, .table-container becomes the sticky context for
+     thead — reset its top to 0 so it stays pinned to the top of the
+     horizontally-scrolling table (instead of being pushed inside it). */
+  .table-wrapper table { min-width: 700px; }
+  .table-wrapper .table-container { overflow-x: auto; }
+  body:has(.sticky-nav.visible) .table-wrapper thead th,
+  body:has(.sticky-nav.with-section) .table-wrapper thead th { top: 0; }
 }
 </style>
 </head>
