@@ -357,25 +357,23 @@ body:has(.sticky-nav.with-section) .theme-toggle {
   font-size: 0.95rem;
 }
 .def-card a:hover { text-decoration: underline; }
-/* Wiz.io-style animated marker highlight: a faint colored band that draws
-   left-to-right across a phrase the first time it scrolls into view. */
+/* Animated underline: a thin opaque line that draws left-to-right across
+   a phrase the first time it scrolls into view. */
 .text-highlight {
-  background-image: linear-gradient(120deg, var(--hl-color), var(--hl-color));
+  background-image: linear-gradient(to right, var(--hl-color), var(--hl-color));
   background-repeat: no-repeat;
-  background-size: 0% 78%;
-  background-position: 0 60%;
+  background-size: 0% 2px;
+  background-position: 0 100%;
   transition: background-size 1.4s cubic-bezier(0.65, 0, 0.35, 1);
-  padding: 0 3px;
-  margin: 0 -3px;
-  border-radius: 1px;
+  padding-bottom: 2px;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
-.text-highlight.visible { background-size: 100% 78%; }
-.text-highlight-orange { --hl-color: rgba(255, 140, 0, 0.18); }
-.text-highlight-blue { --hl-color: rgba(0, 168, 232, 0.16); }
+.text-highlight.visible { background-size: 100% 2px; }
+.text-highlight-orange { --hl-color: var(--orange-bright); }
+.text-highlight-blue { --hl-color: var(--blue-bright); }
 @media (prefers-reduced-motion: reduce) {
-  .text-highlight { transition: none; background-size: 100% 78%; }
+  .text-highlight { transition: none; background-size: 100% 2px; }
 }
 .page-subtitle {
   font-family: var(--font-title);
