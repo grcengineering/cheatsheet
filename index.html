@@ -357,30 +357,6 @@ body:has(.sticky-nav.with-section) .theme-toggle {
   font-size: 0.95rem;
 }
 .def-card a:hover { text-decoration: underline; }
-/* Animated text recolor: the phrase's text fills in from default colour
-   to the highlight colour left-to-right when it first scrolls into view.
-   Two-stop gradient is masked to the text via background-clip:text; the
-   boundary between colours is animated across by sliding background-
-   position. */
-.text-highlight {
-  background-image: linear-gradient(to right, var(--hl-color) 50%, var(--text) 50%);
-  background-size: 200% 100%;
-  background-position: 100% 0;
-  background-repeat: no-repeat;
-  -webkit-background-clip: text;
-          background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  transition: background-position 1.4s cubic-bezier(0.65, 0, 0.35, 1);
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
-}
-.text-highlight.visible { background-position: 0 0; }
-.text-highlight-orange { --hl-color: var(--orange-bright); }
-.text-highlight-blue { --hl-color: var(--blue-bright); }
-@media (prefers-reduced-motion: reduce) {
-  .text-highlight { transition: none; background-position: 0 0; }
-}
 .page-subtitle {
   font-family: var(--font-title);
   font-weight: 700;
@@ -1813,25 +1789,6 @@ function updateIcon(theme) {
       update();
     }).observe(nav, { attributes: true, attributeFilter: ['class'] });
   }
-}());
-/* Animated text highlight — wiz.io-style marker pen that draws across
-   the phrase the first time it scrolls into view. */
-(function() {
-  var els = document.querySelectorAll('.text-highlight');
-  if (!els.length) return;
-  if (!('IntersectionObserver' in window)) {
-    els.forEach(function(el) { el.classList.add('visible'); });
-    return;
-  }
-  var observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.35 });
-  els.forEach(function(el) { observer.observe(el); });
 }());
 /* Timeline event modal — click/tap an event to view its details. */
 (function() {
