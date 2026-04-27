@@ -357,37 +357,34 @@ body:has(.sticky-nav.with-section) .theme-toggle {
   font-size: 0.95rem;
 }
 .def-card a:hover { text-decoration: underline; }
-/* Hand-drawn marker highlight: two stacked gradients at slightly different
-   angles + asymmetric border-radius give the band an uneven, marker-bleed
-   feel. Both gradients animate together when the phrase scrolls into view. */
+/* Hand-drawn marker highlight: a single solid-color band masked into a
+   wavy shape via inline SVG, so the top and bottom edges look bent like
+   a real marker pass instead of a clean rectangle. */
 .text-highlight {
-  background-image:
-    linear-gradient(107deg, transparent 0%, var(--hl-color) 3%, var(--hl-color) 97%, transparent 100%),
-    linear-gradient(93deg, transparent 1%, var(--hl-color-soft) 5%, var(--hl-color-soft) 95%, transparent 99%);
-  background-repeat: no-repeat;
-  background-size: 0% 62%, 0% 86%;
-  background-position: 0 82%, 0 48%;
-  transition: background-size 1.6s cubic-bezier(0.65, 0, 0.35, 1);
+  background-color: var(--hl-color);
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 24' preserveAspectRatio='none'%3E%3Cpath d='M1,6 Q14,3 28,5 Q44,8 60,4 Q78,1 99,6 L99,19 Q86,22 72,19 Q56,16 38,20 Q20,23 1,19 Z' fill='black'/%3E%3C/svg%3E");
+          mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 24' preserveAspectRatio='none'%3E%3Cpath d='M1,6 Q14,3 28,5 Q44,8 60,4 Q78,1 99,6 L99,19 Q86,22 72,19 Q56,16 38,20 Q20,23 1,19 Z' fill='black'/%3E%3C/svg%3E");
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+  -webkit-mask-position: 0 50%;
+          mask-position: 0 50%;
+  -webkit-mask-size: 0% 110%;
+          mask-size: 0% 110%;
+  transition: -webkit-mask-size 1.6s cubic-bezier(0.65, 0, 0.35, 1),
+                      mask-size 1.6s cubic-bezier(0.65, 0, 0.35, 1);
   padding: 0 5px;
   margin: 0 -5px;
-  /* Asymmetric corner radii — each corner slightly different = hand-drawn. */
-  border-radius: 5px 2px 7px 3px / 8px 4px 2px 6px;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
-.text-highlight.visible { background-size: 100% 62%, 100% 86%; }
-/* Orange (GRC) — main band slightly stronger than the underlay */
-.text-highlight-orange {
-  --hl-color: rgba(255, 140, 0, 0.40);
-  --hl-color-soft: rgba(255, 140, 0, 0.18);
+.text-highlight.visible {
+  -webkit-mask-size: 100% 110%;
+          mask-size: 100% 110%;
 }
-/* Blue (Engineering) */
-.text-highlight-blue {
-  --hl-color: rgba(0, 168, 232, 0.36);
-  --hl-color-soft: rgba(0, 168, 232, 0.16);
-}
+.text-highlight-orange { --hl-color: rgba(255, 140, 0, 0.42); }
+.text-highlight-blue { --hl-color: rgba(0, 168, 232, 0.38); }
 @media (prefers-reduced-motion: reduce) {
-  .text-highlight { transition: none; background-size: 100% 62%, 100% 86%; }
+  .text-highlight { transition: none; -webkit-mask-size: 100% 110%; mask-size: 100% 110%; }
 }
 .page-subtitle {
   font-family: var(--font-title);
