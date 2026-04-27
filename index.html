@@ -114,6 +114,9 @@ body:has(.sticky-nav.with-section) .theme-toggle {
 
 /* ── STICKY NAVBAR ── */
 .sticky-nav {
+  /* Single source of truth — section font size is always derived as
+     (--nav-title-size - 0.2rem), so the 0.2rem gap holds at every viewport. */
+  --nav-title-size: 1.35rem;
   position: fixed;
   top: 0;
   left: 0;
@@ -143,7 +146,7 @@ body:has(.sticky-nav.with-section) .theme-toggle {
 }
 .sticky-nav-title {
   font-family: var(--font-title);
-  font-size: 1.35rem;
+  font-size: var(--nav-title-size);
   font-weight: 700;
   color: var(--text);
   white-space: nowrap;
@@ -160,7 +163,7 @@ body:has(.sticky-nav.with-section) .theme-toggle {
 }
 .sticky-nav-section {
   font-family: var(--font-title);
-  font-size: 1.2rem;
+  font-size: calc(var(--nav-title-size) - 0.2rem);
   font-weight: 700;
   letter-spacing: 3px;
   text-transform: uppercase;
@@ -1037,9 +1040,7 @@ tbody td:nth-child(4) li::before {
   .theme-toggle { top: 12px; right: 12px; width: 38px; height: 38px; font-size: 1rem; }
   .sticky-nav { padding: 6px 56px; height: 52px; }
   .sticky-nav.with-section { height: 84px; }
-  .sticky-nav-title {
-    font-size: clamp(1rem, calc(0.4rem + 3vw), 1.35rem);
-  }
+  .sticky-nav { --nav-title-size: clamp(1rem, calc(0.4rem + 3vw), 1.35rem); }
   .sticky-nav-section {
     letter-spacing: 2px;
   }
