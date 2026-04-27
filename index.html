@@ -151,9 +151,6 @@ body:has(.sticky-nav.with-section) .theme-toggle {
   text-align: center;
   transition: font-size 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
-.sticky-nav.with-section .sticky-nav-title {
-  font-size: 1rem;
-}
 .sticky-nav-title .highlight {
   font-weight: 700;
   background: linear-gradient(135deg, var(--orange-bright), var(--blue-bright));
@@ -163,7 +160,7 @@ body:has(.sticky-nav.with-section) .theme-toggle {
 }
 .sticky-nav-section {
   font-family: var(--font-title);
-  font-size: 0.95rem;
+  font-size: 1.2rem;
   font-weight: 700;
   letter-spacing: 3px;
   text-transform: uppercase;
@@ -360,7 +357,7 @@ body:has(.sticky-nav.with-section) .theme-toggle {
 .page-subtitle {
   font-family: var(--font-title);
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   color: var(--text-dim);
   letter-spacing: 0.5px;
   text-align: center;
@@ -922,25 +919,17 @@ tbody td:nth-child(4) li::before {
   table { font-size: 0.82rem; }
   thead th { padding: 8px 14px; font-size: 0.9rem; top: 0; }
   body:has(.sticky-nav.visible) thead th { top: 52px; }
-  body:has(.sticky-nav.with-section) thead th { top: 72px; }
+  body:has(.sticky-nav.with-section) thead th { top: 84px; }
   tbody td { padding: 12px 14px; }
   .theme-toggle { top: 12px; right: 12px; width: 38px; height: 38px; font-size: 1rem; }
   .sticky-nav { padding: 6px 56px; height: 52px; }
-  .sticky-nav.with-section { height: 72px; }
+  .sticky-nav.with-section { height: 84px; }
   .sticky-nav-title {
-    font-size: clamp(1rem, calc(0.4rem + 3vw), 1.3rem);
-  }
-  .sticky-nav.with-section .sticky-nav-title {
-    font-size: clamp(0.85rem, calc(0.35rem + 2.5vw), 1.1rem);
+    font-size: clamp(1rem, calc(0.4rem + 3vw), 1.35rem);
   }
   .sticky-nav-section {
-    font-size: 0.75rem;
     letter-spacing: 2px;
   }
-  .page-subtitle {
-    font-size: 0.95rem;
-  }
-  .ref-section-title,
   .timeline-section-title {
     font-size: 1rem;
   }
