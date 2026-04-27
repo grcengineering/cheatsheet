@@ -357,6 +357,26 @@ body:has(.sticky-nav.with-section) .theme-toggle {
   font-size: 0.95rem;
 }
 .def-card a:hover { text-decoration: underline; }
+/* Wiz.io-style animated marker highlight: a faint colored band that draws
+   left-to-right across a phrase the first time it scrolls into view. */
+.text-highlight {
+  background-image: linear-gradient(120deg, var(--hl-color, rgba(255,140,0,0.35)), var(--hl-color, rgba(255,140,0,0.35)));
+  background-repeat: no-repeat;
+  background-size: 0% 78%;
+  background-position: 0 60%;
+  transition: background-size 1.4s cubic-bezier(0.65, 0, 0.35, 1);
+  padding: 0 3px;
+  margin: 0 -3px;
+  border-radius: 1px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.text-highlight.visible { background-size: 100% 78%; }
+.text-highlight-orange { --hl-color: rgba(255, 140, 0, 0.32); }
+.text-highlight-blue { --hl-color: rgba(0, 168, 232, 0.28); }
+@media (prefers-reduced-motion: reduce) {
+  .text-highlight { transition: none; background-size: 100% 78%; }
+}
 .page-subtitle {
   font-family: var(--font-title);
   font-weight: 700;
@@ -1110,12 +1130,12 @@ tbody td:nth-child(4) li::before {
     <div class="def-equation-top">
       <div class="def-card">
         <span class="def-term">GRC</span>
-        <p><em>&ldquo;Governance, risk, and compliance (GRC) are three related facets that aim to assure an organization reliably achieves objectives, addresses uncertainty and acts with integrity.&rdquo;</em><br>&mdash; <a href="https://en.wikipedia.org/wiki/Governance,_risk,_and_compliance" target="_blank" rel="noopener">Wikipedia</a></p>
+        <p><em>&ldquo;Governance, risk, and compliance (GRC) are three related facets that aim to <span class="text-highlight text-highlight-orange">assure an organization reliably achieves objectives, addresses uncertainty and acts with integrity</span>.&rdquo;</em><br>&mdash; <a href="https://en.wikipedia.org/wiki/Governance,_risk,_and_compliance" target="_blank" rel="noopener">Wikipedia</a></p>
       </div>
       <span class="def-operator">+</span>
       <div class="def-card">
         <span class="def-term" style="color: var(--blue);">Engineering</span>
-        <p><em>&ldquo;Engineering is the practice of using natural science, mathematics, and the engineering design process to solve problems within technology, increase efficiency and productivity, and improve systems.&rdquo;</em><br>&mdash; <a href="https://en.wikipedia.org/wiki/Engineering" target="_blank" rel="noopener">Wikipedia</a></p>
+        <p><em>&ldquo;Engineering is the practice of using natural <span class="text-highlight text-highlight-blue">science</span>, <span class="text-highlight text-highlight-blue">mathematics</span>, and the <span class="text-highlight text-highlight-blue">engineering design process</span> to <span class="text-highlight text-highlight-blue">solve problems within technology, increase efficiency and productivity, and improve systems</span>.&rdquo;</em><br>&mdash; <a href="https://en.wikipedia.org/wiki/Engineering" target="_blank" rel="noopener">Wikipedia</a></p>
       </div>
     </div>
     <span class="def-operator">=</span>
@@ -1649,6 +1669,25 @@ function updateIcon(theme) {
     }
   }, { threshold: 0 });
   observer.observe(card);
+}());
+/* Animated text highlight — wiz.io-style marker pen that draws across
+   the phrase the first time it scrolls into view. */
+(function() {
+  var els = document.querySelectorAll('.text-highlight');
+  if (!els.length) return;
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(function(el) { el.classList.add('visible'); });
+    return;
+  }
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.35 });
+  els.forEach(function(el) { observer.observe(el); });
 }());
 /* Timeline event modal — click/tap an event to view its details. */
 (function() {
