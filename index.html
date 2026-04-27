@@ -357,23 +357,29 @@ body:has(.sticky-nav.with-section) .theme-toggle {
   font-size: 0.95rem;
 }
 .def-card a:hover { text-decoration: underline; }
-/* Animated underline: a thin opaque line that draws left-to-right across
-   a phrase the first time it scrolls into view. */
+/* Animated text recolor: the phrase's text fills in from default colour
+   to the highlight colour left-to-right when it first scrolls into view.
+   Two-stop gradient is masked to the text via background-clip:text; the
+   boundary between colours is animated across by sliding background-
+   position. */
 .text-highlight {
-  background-image: linear-gradient(to right, var(--hl-color), var(--hl-color));
+  background-image: linear-gradient(to right, var(--hl-color) 50%, var(--text) 50%);
+  background-size: 200% 100%;
+  background-position: 100% 0;
   background-repeat: no-repeat;
-  background-size: 0% 2px;
-  background-position: 0 100%;
-  transition: background-size 1.4s cubic-bezier(0.65, 0, 0.35, 1);
-  padding-bottom: 2px;
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  transition: background-position 1.4s cubic-bezier(0.65, 0, 0.35, 1);
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
-.text-highlight.visible { background-size: 100% 2px; }
+.text-highlight.visible { background-position: 0 0; }
 .text-highlight-orange { --hl-color: var(--orange-bright); }
 .text-highlight-blue { --hl-color: var(--blue-bright); }
 @media (prefers-reduced-motion: reduce) {
-  .text-highlight { transition: none; background-size: 100% 2px; }
+  .text-highlight { transition: none; background-position: 0 0; }
 }
 .page-subtitle {
   font-family: var(--font-title);
