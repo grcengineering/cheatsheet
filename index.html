@@ -646,8 +646,6 @@ tbody td:nth-child(4) li::before {
 #tools-table thead th { background: linear-gradient(135deg, #1b4965, #5fa8d3); color: #fff; border-bottom-color: rgba(0,0,0,0.15); }
 #tools-table thead th:first-child { background: #1b4965; }
 
-#ttps-table thead th { background: linear-gradient(135deg, #7b2d8e, #b185db); color: #fff; border-bottom-color: rgba(0,0,0,0.15); }
-#ttps-table thead th:first-child { background: #7b2d8e; }
 
 #teachings-table thead th { background: linear-gradient(135deg, #b45309, #f59e0b); color: #fff; border-bottom-color: rgba(0,0,0,0.15); }
 #teachings-table thead th:first-child { background: #b45309; }
@@ -656,8 +654,6 @@ tbody td:nth-child(4) li::before {
 [data-theme="dark"] #terms-table thead th:first-child { background: #1b3d2f; }
 [data-theme="dark"] #tools-table thead th { background: linear-gradient(135deg, #0d2a3a, #1b4965); }
 [data-theme="dark"] #tools-table thead th:first-child { background: #0d2a3a; }
-[data-theme="dark"] #ttps-table thead th { background: linear-gradient(135deg, #4a1a5e, #7b2d8e); }
-[data-theme="dark"] #ttps-table thead th:first-child { background: #4a1a5e; }
 [data-theme="dark"] #teachings-table thead th { background: linear-gradient(135deg, #78350f, #b45309); }
 [data-theme="dark"] #teachings-table thead th:first-child { background: #78350f; }
 
@@ -1302,39 +1298,6 @@ tbody td:nth-child(4) li::before {
   </div>
 </section>
 
-<!-- ── TTPs TABLE ── -->
-<section class="ref-section" id="ttps-table">
-  <h2 class="ref-section-title">TTPs</h2>
-  <div class="table-outer">
-  <div class="table-container">
-    <table>
-      <thead>
-        <tr>
-          <th>TTP</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td><strong>GitOps for Policy</strong></td><td>Version-controlled policy lifecycle with PR reviews, audit trails, and automated deployment. Replaces shared drives.</td></tr>
-        <tr><td><strong>Pre-deploy Policy Gates</strong></td><td>CI/CD checks that block deployments violating governance policies (missing encryption, unapproved regions, etc.).</td></tr>
-        <tr><td><strong>Nudge Engineering</strong></td><td>Real-time behavioral interventions&mdash;context-aware prompts, guardrails, and defaults making the right action easy.</td></tr>
-        <tr><td><strong>Spaced Repetition Training</strong></td><td>Scenario-based exercises at increasing intervals. Proven retention over annual checkbox courses.</td></tr>
-        <tr><td><strong>Scenario-based Risk Quantification</strong></td><td>Holistic risk scenarios (threat + vector + asset + impact) fed through Monte Carlo simulations for loss distributions.</td></tr>
-        <tr><td><strong>Risk-as-Data Pipelines</strong></td><td>ETL from threat intel, vulnerability scanners, and asset inventory into unified risk models for continuous quantification.</td></tr>
-        <tr><td><strong>First-party Hardening over Third-party Questionnaires</strong></td><td>Configuring your own blast-radius controls rather than relying on vendor compliance attestations.</td></tr>
-        <tr><td><strong>Decision Briefings over Risk Registers</strong></td><td>Data-driven options and trade-off analysis for stakeholders, replacing static registers that don&rsquo;t drive action.</td></tr>
-        <tr><td><strong>Evidence-as-Code</strong></td><td>Programmatic evidence collection via APIs and infrastructure queries. Versioned, reproducible, full-population.</td></tr>
-        <tr><td><strong>Continuous Control Regression Testing</strong></td><td>Active tests exercising controls on an ongoing basis&mdash;the compliance equivalent of software regression tests.</td></tr>
-        <tr><td><strong>Full-population Audit</strong></td><td>Querying 100% of control evidence records rather than sampling. Eliminates sampling bias entirely.</td></tr>
-        <tr><td><strong>Trust Center as Product</strong></td><td>Treating your trust page as a product with user research, analytics, and iterative improvement.</td></tr>
-        <tr><td><strong>Auto-populated Questionnaires</strong></td><td>Mapping live control data to common schemas (SIG, CAIQ, VSA) automatically, replacing manual re-answering.</td></tr>
-        <tr><td><strong>Real-time Control Dashboards</strong></td><td>Live, historically queryable views of control effectiveness replacing annual SOC 2 PDFs.</td></tr>
-      </tbody>
-    </table>
-  </div>
-  </div>
-</section>
-
 <!-- ── TEACHINGS TABLE ── -->
 <section class="ref-section" id="teachings-table">
   <h2 class="ref-section-title">Teachings</h2>
@@ -1472,7 +1435,6 @@ function updateIcon(theme) {
     { sel: '.timeline-section', name: 'Timeline' },
     { sel: '#terms-table', name: 'Terms' },
     { sel: '#tools-table', name: 'Tools' },
-    { sel: '#ttps-table', name: 'TTPs' },
     { sel: '#teachings-table', name: 'Teachings' }
   ];
 
