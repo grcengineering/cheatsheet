@@ -357,25 +357,37 @@ body:has(.sticky-nav.with-section) .theme-toggle {
   font-size: 0.95rem;
 }
 .def-card a:hover { text-decoration: underline; }
-/* Wiz.io-style animated marker highlight: a faint colored band that draws
-   left-to-right across a phrase the first time it scrolls into view. */
+/* Hand-drawn marker highlight: two stacked gradients at slightly different
+   angles + asymmetric border-radius give the band an uneven, marker-bleed
+   feel. Both gradients animate together when the phrase scrolls into view. */
 .text-highlight {
-  background-image: linear-gradient(120deg, var(--hl-color, rgba(255,140,0,0.35)), var(--hl-color, rgba(255,140,0,0.35)));
+  background-image:
+    linear-gradient(107deg, transparent 0%, var(--hl-color) 3%, var(--hl-color) 97%, transparent 100%),
+    linear-gradient(93deg, transparent 1%, var(--hl-color-soft) 5%, var(--hl-color-soft) 95%, transparent 99%);
   background-repeat: no-repeat;
-  background-size: 0% 78%;
-  background-position: 0 60%;
-  transition: background-size 1.4s cubic-bezier(0.65, 0, 0.35, 1);
-  padding: 0 3px;
-  margin: 0 -3px;
-  border-radius: 1px;
+  background-size: 0% 62%, 0% 86%;
+  background-position: 0 82%, 0 48%;
+  transition: background-size 1.6s cubic-bezier(0.65, 0, 0.35, 1);
+  padding: 0 5px;
+  margin: 0 -5px;
+  /* Asymmetric corner radii — each corner slightly different = hand-drawn. */
+  border-radius: 5px 2px 7px 3px / 8px 4px 2px 6px;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
-.text-highlight.visible { background-size: 100% 78%; }
-.text-highlight-orange { --hl-color: rgba(255, 140, 0, 0.32); }
-.text-highlight-blue { --hl-color: rgba(0, 168, 232, 0.28); }
+.text-highlight.visible { background-size: 100% 62%, 100% 86%; }
+/* Orange (GRC) — main band slightly stronger than the underlay */
+.text-highlight-orange {
+  --hl-color: rgba(255, 140, 0, 0.40);
+  --hl-color-soft: rgba(255, 140, 0, 0.18);
+}
+/* Blue (Engineering) */
+.text-highlight-blue {
+  --hl-color: rgba(0, 168, 232, 0.36);
+  --hl-color-soft: rgba(0, 168, 232, 0.16);
+}
 @media (prefers-reduced-motion: reduce) {
-  .text-highlight { transition: none; background-size: 100% 78%; }
+  .text-highlight { transition: none; background-size: 100% 62%, 100% 86%; }
 }
 .page-subtitle {
   font-family: var(--font-title);
@@ -1142,7 +1154,7 @@ tbody td:nth-child(4) li::before {
     <div class="def-equation-bottom">
       <div class="def-card def-card-grc-eng">
         <span class="def-term" style="display: inline-block; background: linear-gradient(to right, var(--orange-bright), var(--blue-bright)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">GRC Engineering</span>
-        <p>GRC Engineering is the practice of using science, math, user-centered design, and modern software development to assure an organization reliably achieves objectives, addresses uncertainty, and acts with integrity, all while continuously improving its efficiency, productivity, and systems.</p>
+        <p>GRC Engineering is the practice of using <span class="text-highlight text-highlight-blue">science</span>, <span class="text-highlight text-highlight-blue">math</span>, <span class="text-highlight text-highlight-blue">user-centered design, and modern software development</span> to <span class="text-highlight text-highlight-orange">assure an organization reliably achieves objectives, addresses uncertainty, and acts with integrity</span>, all while <span class="text-highlight text-highlight-blue">continuously improving its efficiency, productivity, and systems</span>.</p>
       </div>
     </div>
   </div>
