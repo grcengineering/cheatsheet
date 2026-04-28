@@ -1113,6 +1113,11 @@ tbody td:nth-child(4) li::before {
 }
 .comparison-thead-clone thead th {
   position: static;
+  /* The body:has(.sticky-nav.*) thead th { top: ... } rules have higher
+     specificity (0,2,3) than this one (0,1,2) and would shift our
+     position:relative first-child cell down by the nav-height offset.
+     !important is the cleanest way to force the reset across the clone. */
+  top: auto !important;
   padding: 8px 14px;
   font-size: 0.9rem;
   font-family: var(--font-title);
@@ -1131,6 +1136,11 @@ tbody td:nth-child(4) li::before {
 .comparison-thead-clone thead th:first-child {
   text-align: center;
   border-right: 2px solid var(--border-header);
+  /* Lift above the other cells so the counter-transform that pins it on
+     horizontal scroll doesn't get hidden behind them. */
+  position: relative;
+  top: auto;
+  z-index: 2;
 }
 </style>
 </head>
@@ -1747,7 +1757,14 @@ function updateIcon(theme) {
   }
   function syncScroll() {
     if (!clone || !cloneTable) return;
-    cloneTable.style.transform = 'translateX(' + -container.scrollLeft + 'px)';
+    var sl = container.scrollLeft;
+    cloneTable.style.transform = 'translateX(' + -sl + 'px)';
+    // Counter-translate the first th by the same amount so it stays pinned
+    // at the left while the rest of the row scrolls — mirrors the
+    // tbody td:first-child {position:sticky; left:0} behavior in the
+    // original table.
+    var firstTh = cloneTable.querySelector('th:first-child');
+    if (firstTh) firstTh.style.transform = 'translateX(' + sl + 'px)';
   }
   function update() {
     if (!isPortraitMobile()) {
