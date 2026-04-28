@@ -872,24 +872,6 @@ tbody td:nth-child(4) li::before {
   border-left: 1px dashed var(--text-dim);
   opacity: 0.45;
 }
-/* Era band labels — float over each era's section of the timeline. They
-   live inside .timeline-scroll so they translate with horizontal scroll,
-   labelling the events of their era as the user scrolls past. */
-.tl-era-band {
-  position: absolute;
-  top: 12px;
-  font-family: var(--font-title);
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 2.5px;
-  white-space: nowrap;
-  pointer-events: none;
-  opacity: 0.7;
-  transform: translateX(-50%);
-  z-index: 0;
-}
 /* Timeline event modal */
 .tl-modal {
   position: fixed;
@@ -1298,8 +1280,6 @@ tbody td:nth-child(4) li::before {
   <div class="timeline-outer">
     <div class="timeline-track"></div>
     <div class="timeline-scroll">
-      <span class="tl-era-band tl-era-band-legacy" aria-hidden="true">Legacy GRC Era</span>
-      <span class="tl-era-band tl-era-band-engineering" aria-hidden="true">GRC Engineering Era</span>
 
       <div class="tl-event" tabindex="0" role="button" aria-label="1972: FIPS 31"
            data-year="1972" data-title="FIPS 31"
@@ -1803,29 +1783,6 @@ function updateIcon(theme) {
       update();
     }).observe(nav, { attributes: true, attributeFilter: ['class'] });
   }
-}());
-/* Position the era band labels at the horizontal midpoint of each era's
-   section of the timeline. Re-run on resize because event widths shift
-   between desktop (120px) and mobile (100px). */
-(function() {
-  var scroll = document.querySelector('.timeline-scroll');
-  var marker = document.querySelector('.tl-era-marker');
-  var legacy = document.querySelector('.tl-era-band-legacy');
-  var eng = document.querySelector('.tl-era-band-engineering');
-  if (!scroll || !marker || !legacy || !eng) return;
-
-  function position() {
-    var events = scroll.querySelectorAll('.tl-event');
-    if (!events.length) return;
-    var first = events[0];
-    var last = events[events.length - 1];
-    var legacyMid = (first.offsetLeft + marker.offsetLeft) / 2;
-    var engMid = (marker.offsetLeft + marker.offsetWidth + last.offsetLeft + last.offsetWidth) / 2;
-    legacy.style.left = legacyMid + 'px';
-    eng.style.left = engMid + 'px';
-  }
-  position();
-  window.addEventListener('resize', position, { passive: true });
 }());
 /* Timeline event modal — click/tap an event to view its details. */
 (function() {
