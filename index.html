@@ -854,44 +854,41 @@ tbody td:nth-child(4) li::before {
   margin-top: 2px;
 }
 .tl-event { cursor: pointer; }
-/* GRC Engineering era divider on the timeline */
+/* Subtle era boundary — a thin dashed vertical line at the 2021 marker. */
 .tl-era-marker {
   flex-shrink: 0;
-  width: 130px;
+  width: 32px;
   position: relative;
   align-self: stretch;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
+  z-index: 0;
 }
 .tl-era-marker::before {
   content: '';
   position: absolute;
-  top: 16px;
-  bottom: 16px;
+  top: 28px;
+  bottom: 28px;
   left: 50%;
-  width: 3px;
-  background: var(--blue-bright);
-  transform: translateX(-50%);
-  z-index: 1;
-  box-shadow: 0 0 8px rgba(27,149,193,0.4);
+  width: 0;
+  border-left: 1px dashed var(--text-dim);
+  opacity: 0.45;
 }
-.tl-era-label {
+/* Era band labels — float over each era's section of the timeline. They
+   live inside .timeline-scroll so they translate with horizontal scroll,
+   labelling the events of their era as the user scrolls past. */
+.tl-era-band {
+  position: absolute;
+  top: 12px;
   font-family: var(--font-title);
   font-size: 0.72rem;
   font-weight: 700;
-  color: var(--blue-bright);
+  color: var(--text-dim);
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  text-align: center;
-  background: var(--bg-card);
-  padding: 6px 8px;
-  position: relative;
-  z-index: 2;
-  line-height: 1.3;
-  border: 1px solid var(--blue-bright);
-  border-radius: 4px;
+  letter-spacing: 2.5px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0.7;
+  transform: translateX(-50%);
+  z-index: 0;
 }
 /* Timeline event modal */
 .tl-modal {
@@ -1301,6 +1298,8 @@ tbody td:nth-child(4) li::before {
   <div class="timeline-outer">
     <div class="timeline-track"></div>
     <div class="timeline-scroll">
+      <span class="tl-era-band tl-era-band-legacy" aria-hidden="true">Legacy GRC Era</span>
+      <span class="tl-era-band tl-era-band-engineering" aria-hidden="true">GRC Engineering Era</span>
 
       <div class="tl-event" tabindex="0" role="button" aria-label="1972: FIPS 31"
            data-year="1972" data-title="FIPS 31"
@@ -1432,9 +1431,7 @@ tbody td:nth-child(4) li::before {
         <div class="tl-marker"></div>
       </div>
 
-      <div class="tl-era-marker" aria-label="GRC Engineering era begins">
-        <span class="tl-era-label">GRC Engineering<br>era begins</span>
-      </div>
+      <div class="tl-era-marker" aria-hidden="true"></div>
 
       <div class="tl-event" tabindex="0" role="button" aria-label="2021: Netflix begins hiring GRC Engineers"
            data-year="2021" data-title="Netflix begins hiring GRC Engineers"
@@ -1806,6 +1803,29 @@ function updateIcon(theme) {
       update();
     }).observe(nav, { attributes: true, attributeFilter: ['class'] });
   }
+}());
+/* Position the era band labels at the horizontal midpoint of each era's
+   section of the timeline. Re-run on resize because event widths shift
+   between desktop (120px) and mobile (100px). */
+(function() {
+  var scroll = document.querySelector('.timeline-scroll');
+  var marker = document.querySelector('.tl-era-marker');
+  var legacy = document.querySelector('.tl-era-band-legacy');
+  var eng = document.querySelector('.tl-era-band-engineering');
+  if (!scroll || !marker || !legacy || !eng) return;
+
+  function position() {
+    var events = scroll.querySelectorAll('.tl-event');
+    if (!events.length) return;
+    var first = events[0];
+    var last = events[events.length - 1];
+    var legacyMid = (first.offsetLeft + marker.offsetLeft) / 2;
+    var engMid = (marker.offsetLeft + marker.offsetWidth + last.offsetLeft + last.offsetWidth) / 2;
+    legacy.style.left = legacyMid + 'px';
+    eng.style.left = engMid + 'px';
+  }
+  position();
+  window.addEventListener('resize', position, { passive: true });
 }());
 /* Timeline event modal — click/tap an event to view its details. */
 (function() {
