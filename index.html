@@ -854,24 +854,6 @@ tbody td:nth-child(4) li::before {
   margin-top: 2px;
 }
 .tl-event { cursor: pointer; }
-/* Subtle era boundary — a thin dashed vertical line at the 2021 marker. */
-.tl-era-marker {
-  flex-shrink: 0;
-  width: 32px;
-  position: relative;
-  align-self: stretch;
-  z-index: 0;
-}
-.tl-era-marker::before {
-  content: '';
-  position: absolute;
-  top: 28px;
-  bottom: 28px;
-  left: 50%;
-  width: 0;
-  border-left: 1px dashed var(--text-dim);
-  opacity: 0.45;
-}
 /* Timeline event modal */
 .tl-modal {
   position: fixed;
@@ -1410,8 +1392,6 @@ tbody td:nth-child(4) li::before {
         <div class="tl-stem"></div>
         <div class="tl-marker"></div>
       </div>
-
-      <div class="tl-era-marker" aria-hidden="true"></div>
 
       <div class="tl-event" tabindex="0" role="button" aria-label="2021: Netflix begins hiring GRC Engineers"
            data-year="2021" data-title="Netflix begins hiring GRC Engineers"
