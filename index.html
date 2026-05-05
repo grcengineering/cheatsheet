@@ -1049,7 +1049,11 @@ tbody td:nth-child(4) li::before {
      A JS-driven cloned thead handles the viewport-pinned sticky behavior
      (see the comparison-thead-clone styles + script below). */
   .table-wrapper table { min-width: 700px; }
-  .table-wrapper .table-container { overflow-x: auto; }
+  .table-wrapper .table-container {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: auto;
+  }
   body:has(.sticky-nav.visible) .table-wrapper thead th,
   body:has(.sticky-nav.with-section) .table-wrapper thead th { top: 0; }
 }
@@ -1610,7 +1614,12 @@ function updateIcon(theme) {
   }
   function syncScroll() {
     if (!clone || !cloneTable) return;
-    var sl = container.scrollLeft;
+    // Clamp to [0, maxScroll] so the cloned thead can't drift past the
+    // table's left/right edges even if the container is being elastically
+    // overscrolled (iOS Safari rubber-band) — keeps the clone visually
+    // locked to the table edges in lockstep with the body.
+    var maxScroll = Math.max(0, container.scrollWidth - container.clientWidth);
+    var sl = Math.max(0, Math.min(maxScroll, container.scrollLeft));
     cloneTable.style.transform = 'translateX(' + -sl + 'px)';
     // Counter-translate the first th by the same amount so it stays pinned
     // at the left while the rest of the row scrolls — mirrors the
