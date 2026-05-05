@@ -243,6 +243,99 @@ body:has(.sticky-nav.with-section) .theme-toggle {
   line-height: 1.7;
   opacity: 0.85;
 }
+/* GitHub repo button — points to awesome-grcengineering, the source-of-truth
+   repo behind the cheat sheet. Stars/forks are populated via the GitHub API
+   with a 30-min localStorage cache. */
+.repo-button-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 28px;
+  position: relative;
+  z-index: 1;
+  padding: 0 16px;
+}
+.repo-button {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-card);
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: inherit;
+  overflow: hidden;
+  box-shadow: 0 2px 10px var(--shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  max-width: 100%;
+}
+.repo-button:hover,
+.repo-button:focus-visible {
+  text-decoration: none;
+  transform: translateY(-1px);
+  border-color: var(--text);
+  box-shadow: 0 6px 18px var(--shadow), 0 1px 4px var(--shadow);
+  outline: none;
+}
+.repo-button-head {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  min-width: 0;
+}
+.repo-button-logo {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: var(--text);
+}
+.repo-button-org {
+  color: var(--text);
+  opacity: 0.7;
+  font-weight: 500;
+}
+.repo-button-sep {
+  opacity: 0.4;
+  margin: 0 1px;
+}
+.repo-button-name {
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.repo-button-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 9px 14px;
+  border-left: 1px solid var(--border);
+  background: var(--bg-page);
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.repo-button-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+.repo-button-icon-star {
+  color: var(--orange);
+}
+.repo-button-value {
+  min-width: 1ch;
+  font-weight: 600;
+}
+@media (max-width: 480px) {
+  .repo-button { font-size: 0.8125rem; }
+  .repo-button-head { padding: 8px 10px; gap: 6px; }
+  .repo-button-stat { padding: 8px 10px; }
+  .repo-button-org,
+  .repo-button-sep { display: none; }
+}
 .definitions {
   display: flex;
   gap: 20px;
@@ -1112,8 +1205,8 @@ tbody td:nth-child(4) li::before {
 </head>
 <body>
 
-<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
-  <i class="theme-icon ri-moon-line"></i>
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="Cycle theme: System / Light / Dark" title="Cycle theme: System / Light / Dark">
+  <i class="theme-icon ri-contrast-2-line"></i>
 </button>
 
 <nav class="sticky-nav" id="sticky-nav">
@@ -1125,6 +1218,24 @@ tbody td:nth-child(4) li::before {
   <a href="https://grc.engineering" class="back-link">&larr; grc.engineering</a>
   <h1 class="page-title">The <span class="highlight">GRC Engineering</span> Cheat Sheet</h1>
   <p class="page-desc" data-awesome="page-desc"></p>
+  <div class="repo-button-wrap">
+    <a class="repo-button" href="https://github.com/grcengineering/awesome-grcengineering" target="_blank" rel="noopener noreferrer" aria-label="awesome-grcengineering on GitHub — the content source for this cheat sheet">
+      <span class="repo-button-head">
+        <svg class="repo-button-logo" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+        <span class="repo-button-org">grcengineering</span><span class="repo-button-sep">/</span><span class="repo-button-name">awesome-grcengineering</span>
+      </span>
+      <span class="repo-button-stat" title="Stars">
+        <i class="ri-star-fill repo-button-icon repo-button-icon-star" aria-hidden="true"></i>
+        <span class="repo-button-value" data-gh="stars">—</span>
+      </span>
+      <span class="repo-button-stat" title="Forks">
+        <i class="ri-git-fork-line repo-button-icon" aria-hidden="true"></i>
+        <span class="repo-button-value" data-gh="forks">—</span>
+      </span>
+    </a>
+  </div>
   <div class="def-equation" data-awesome="first-principles">
     <div class="def-equation-top">
       <div class="def-card" data-fp-card="0">
@@ -1252,27 +1363,95 @@ tbody td:nth-child(4) li::before {
 </footer>
 
 <script>
-function toggleTheme() {
-  var html = document.documentElement;
-  var current = html.getAttribute('data-theme');
-  var next = current === 'dark' ? 'light' : 'dark';
-  html.setAttribute('data-theme', next);
-  localStorage.setItem('cheatsheet-theme', next);
-  updateIcon(next);
+/* Three-state theme: 'system' (follow OS), 'light', 'dark'. The icon shows
+   the CURRENT setting (sun/moon/half-circle). Click cycles forward through
+   the three states. When set to 'system', we also listen for OS theme
+   changes and re-apply automatically. */
+var THEME_CYCLE = ['system', 'light', 'dark'];
+var THEME_ICON = {
+  'system': 'ri-contrast-2-line',
+  'light': 'ri-sun-line',
+  'dark': 'ri-moon-line'
+};
+function getThemePref() {
+  var saved = localStorage.getItem('cheatsheet-theme');
+  return THEME_CYCLE.indexOf(saved) >= 0 ? saved : 'system';
 }
-function updateIcon(theme) {
+function applyTheme(pref) {
+  var resolved;
+  if (pref === 'system') {
+    resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  } else {
+    resolved = pref;
+  }
+  document.documentElement.setAttribute('data-theme', resolved);
+  updateIcon(pref);
+}
+function updateIcon(pref) {
+  var iconClass = THEME_ICON[pref] || THEME_ICON.system;
   var icons = document.querySelectorAll('.theme-icon');
   for (var i = 0; i < icons.length; i++) {
-    icons[i].className = theme === 'dark' ? 'theme-icon ri-sun-line' : 'theme-icon ri-moon-line';
+    icons[i].className = 'theme-icon ' + iconClass;
   }
 }
+function toggleTheme() {
+  var current = getThemePref();
+  var idx = THEME_CYCLE.indexOf(current);
+  var next = THEME_CYCLE[(idx + 1) % THEME_CYCLE.length];
+  if (next === 'system') {
+    localStorage.removeItem('cheatsheet-theme');
+  } else {
+    localStorage.setItem('cheatsheet-theme', next);
+  }
+  applyTheme(next);
+}
 (function() {
-  var saved = localStorage.getItem('cheatsheet-theme');
-  var preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  var theme = saved || preferred;
-  document.documentElement.setAttribute('data-theme', theme);
-  updateIcon(theme);
+  applyTheme(getThemePref());
+  // Re-apply when the OS theme flips, but only if the user is in 'system' mode.
+  var mq = window.matchMedia('(prefers-color-scheme: dark)');
+  var handler = function() { if (getThemePref() === 'system') applyTheme('system'); };
+  if (mq.addEventListener) mq.addEventListener('change', handler);
+  else if (mq.addListener) mq.addListener(handler);
 })();
+/* GitHub stats — populate the stars/forks values on the repo button.
+   Uses a 30-min localStorage cache so navigating around the page doesn't
+   thrash the GitHub API rate limit (60 unauth requests/hr/IP). */
+(function() {
+  var REPO = 'grcengineering/awesome-grcengineering';
+  var CACHE_KEY = 'cheatsheet-gh-stats';
+  var TTL_MS = 30 * 60 * 1000;
+  function setStats(stars, forks) {
+    var fmt = function(n) {
+      if (typeof n !== 'number') return '—';
+      if (n >= 10000) return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+      return String(n);
+    };
+    document.querySelectorAll('[data-gh="stars"]').forEach(function(el) { el.textContent = fmt(stars); });
+    document.querySelectorAll('[data-gh="forks"]').forEach(function(el) { el.textContent = fmt(forks); });
+  }
+  try {
+    var cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
+    if (cached && Date.now() - cached.t < TTL_MS) {
+      setStats(cached.stars, cached.forks);
+      return;
+    }
+    if (cached) setStats(cached.stars, cached.forks); // render stale while we refresh
+  } catch (e) { /* ignore */ }
+  fetch('https://api.github.com/repos/' + REPO, { headers: { 'Accept': 'application/vnd.github+json' } })
+    .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(function(d) {
+      if (typeof d.stargazers_count !== 'number') return;
+      setStats(d.stargazers_count, d.forks_count);
+      try {
+        localStorage.setItem(CACHE_KEY, JSON.stringify({
+          stars: d.stargazers_count,
+          forks: d.forks_count,
+          t: Date.now()
+        }));
+      } catch (e) { /* ignore */ }
+    })
+    .catch(function(err) { if (window.console && console.warn) console.warn('GitHub stats unavailable:', err); });
+}());
 /* Awesome-GRC content loader — fetches the README from the source repo
    at runtime and renders the structured tables into the cheatsheet UI.
    Source: https://github.com/grcengineering/awesome-grcengineering */
@@ -1657,6 +1836,36 @@ function updateIcon(theme) {
     update();
   }, { passive: true });
   container.addEventListener('scroll', syncScroll, { passive: true });
+  /* iOS Safari rubber-band suppression — overscroll-behavior alone doesn't
+     stop the elastic bounce on horizontal scrollables in Safari. Track the
+     touch start position; if the user is at a scroll boundary and dragging
+     further into that boundary, prevent the default to suppress the bounce.
+     Normal scrolling within the table is untouched because the listener
+     only preventDefault's at the boundary AND only when the gesture would
+     overscroll. passive:false is required so preventDefault takes effect. */
+  var touchStartX = 0, touchStartY = 0, touchDecided = false, touchHorizontal = false;
+  container.addEventListener('touchstart', function(e) {
+    if (e.touches.length !== 1) return;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    touchDecided = false;
+    touchHorizontal = false;
+  }, { passive: true });
+  container.addEventListener('touchmove', function(e) {
+    if (e.touches.length !== 1) return;
+    var dx = e.touches[0].clientX - touchStartX;
+    var dy = e.touches[0].clientY - touchStartY;
+    if (!touchDecided && (Math.abs(dx) > 6 || Math.abs(dy) > 6)) {
+      touchHorizontal = Math.abs(dx) > Math.abs(dy);
+      touchDecided = true;
+    }
+    if (!touchHorizontal) return; // let vertical gestures fall through to page scroll
+    var maxScroll = Math.max(0, container.scrollWidth - container.clientWidth);
+    if (maxScroll <= 0) { e.preventDefault(); return; }
+    var atLeft = container.scrollLeft <= 0;
+    var atRight = container.scrollLeft >= maxScroll;
+    if ((atLeft && dx > 0) || (atRight && dx < 0)) e.preventDefault();
+  }, { passive: false });
   document.addEventListener('DOMContentLoaded', update);
   setTimeout(update, 100);
   // Nav class flips trigger height changes after scroll fires; observe and re-run.
