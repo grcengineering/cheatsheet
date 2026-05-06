@@ -851,10 +851,18 @@ tbody td:nth-child(4) li::before {
   padding: 0 48px;
   height: 280px;
   position: relative;
+  /* Hide the horizontal scrollbar so clientHeight === height and the
+     markers' vertical center (anchored at 50% of .tl-event, which fills
+     clientHeight) lines up exactly with the track's vertical center
+     (anchored at 50% of .timeline-outer). The edge-fade gradients and
+     the arrow at the right end already signal scrollability; the
+     scrollbar wasn't carrying its weight as an affordance and was
+     subtracting 4px from clientHeight, pushing the marker center 2px
+     above the track center. */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
-.timeline-scroll::-webkit-scrollbar { height: 4px; }
-.timeline-scroll::-webkit-scrollbar-track { background: transparent; }
-.timeline-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.timeline-scroll::-webkit-scrollbar { display: none; }
 /* Connector line — spans the full scroll width */
 .timeline-track {
   position: absolute;
