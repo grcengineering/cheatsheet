@@ -1004,7 +1004,7 @@ tbody td:nth-child(4) li::before {
   padding: 4px 8px;
 }
 .tl-modal-close:hover { color: var(--text); }
-.tl-modal-year {
+.tl-modal-date {
   font-family: var(--font-title);
   font-weight: 700;
   font-size: 1rem;
@@ -1012,6 +1012,18 @@ tbody td:nth-child(4) li::before {
   letter-spacing: 1px;
   margin: 0 0 4px 0;
 }
+.tl-modal-source {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+.tl-modal-source-link {
+  color: var(--orange);
+  text-decoration: none;
+  word-break: break-all;
+}
+.tl-modal-source-link:hover { text-decoration: underline; }
 .tl-modal-title {
   font-family: var(--font-title);
   margin: 0 0 12px 0;
@@ -1292,11 +1304,12 @@ tbody td:nth-child(4) li::before {
 <div class="tl-modal" id="tl-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="tl-modal-title">
   <div class="tl-modal-content">
     <button class="tl-modal-close" type="button" aria-label="Close">&times;</button>
-    <p class="tl-modal-year"></p>
+    <p class="tl-modal-date"></p>
     <h3 class="tl-modal-title" id="tl-modal-title"></h3>
     <span class="tl-modal-actor"></span>
     <p class="tl-modal-summary"></p>
     <p class="tl-modal-relevance"><span class="tl-modal-label">GRC relevance:</span> <span class="tl-modal-relevance-text"></span></p>
+    <p class="tl-modal-source"><span class="tl-modal-label">Source:</span> <a class="tl-modal-source-link" href="#" target="_blank" rel="noopener noreferrer"></a></p>
   </div>
 </div>
 
@@ -1648,16 +1661,18 @@ function toggleTheme() {
     var html = '';
     for (var i = 0; i < t.rows.length; i++) {
       var r = t.rows[i];
-      var year = r[0] || '', title = r[1] || '', actor = r[2] || '', summary = r[3] || '', relevance = r[4] || '';
+      var year = r[0] || '', dateFull = r[1] || '', title = r[2] || '', actor = r[3] || '', summary = r[4] || '', relevance = r[5] || '', source = r[6] || '';
       var titleHtml = inlineMd(title);
       var titlePlain = stripMd(title);
       var aria = stripMd(year + ': ' + title);
       html += '<div class="tl-event" tabindex="0" role="button" aria-label="' + escAttr(aria) + '"';
       html += ' data-year="' + escAttr(year) + '"';
+      html += ' data-date="' + escAttr(stripMd(dateFull)) + '"';
       html += ' data-title="' + escAttr(titlePlain) + '"';
       html += ' data-actor="' + escAttr(stripMd(actor)) + '"';
       html += ' data-summary="' + escAttr(stripMd(summary)) + '"';
-      html += ' data-relevance="' + escAttr(stripMd(relevance)) + '">';
+      html += ' data-relevance="' + escAttr(stripMd(relevance)) + '"';
+      html += ' data-source="' + escAttr(stripMd(source)) + '">';
       html += '<div class="tl-content"><span class="tl-year">' + year + '</span><span class="tl-label">' + titleHtml + '</span></div>';
       html += '<div class="tl-stem"></div><div class="tl-marker"></div>';
       html += '</div>';
@@ -1910,20 +1925,31 @@ function toggleTheme() {
 (function() {
   var modal = document.getElementById('tl-modal');
   if (!modal) return;
-  var yearEl = modal.querySelector('.tl-modal-year');
+  var dateEl = modal.querySelector('.tl-modal-date');
   var titleEl = modal.querySelector('.tl-modal-title');
   var actorEl = modal.querySelector('.tl-modal-actor');
   var summaryEl = modal.querySelector('.tl-modal-summary');
   var relevanceTextEl = modal.querySelector('.tl-modal-relevance-text');
+  var sourceRow = modal.querySelector('.tl-modal-source');
+  var sourceLink = modal.querySelector('.tl-modal-source-link');
   var closeBtn = modal.querySelector('.tl-modal-close');
   var lastFocused = null;
 
   function show(ev) {
-    yearEl.textContent = ev.dataset.year || '';
+    dateEl.textContent = ev.dataset.date || ev.dataset.year || '';
     titleEl.textContent = ev.dataset.title || '';
     actorEl.textContent = ev.dataset.actor || '';
     summaryEl.textContent = ev.dataset.summary || '';
     relevanceTextEl.textContent = ev.dataset.relevance || '';
+    var source = ev.dataset.source || '';
+    if (source && /^https?:\/\//i.test(source)) {
+      sourceLink.href = source;
+      try { sourceLink.textContent = new URL(source).hostname.replace(/^www\./, ''); }
+      catch (e) { sourceLink.textContent = source; }
+      sourceRow.style.display = '';
+    } else {
+      sourceRow.style.display = 'none';
+    }
     lastFocused = document.activeElement;
     modal.classList.add('visible');
     modal.setAttribute('aria-hidden', 'false');
