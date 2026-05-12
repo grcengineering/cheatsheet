@@ -1597,7 +1597,7 @@ function toggleTheme() {
     var buf = [];
     for (var i = 0; i < lines.length; i++) {
       var l = lines[i].trim();
-      if (l === '') {
+      if (l === '' || /^(?:-{3,}|\*{3,}|_{3,})$/.test(l)) {
         if (buf.length) { paragraphs.push(buf.join(' ')); buf = []; }
       } else {
         buf.push(l);
