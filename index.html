@@ -989,12 +989,12 @@ tbody td:nth-child(4) li::before {
 .timeline-slider {
   display: none;
   position: relative;
-  height: 16px;
+  height: 10px;
   margin: 16px 0 0;
-  border-radius: 8px;
+  border-radius: 5px;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  box-shadow: inset 0 1px 3px var(--shadow);
+  box-shadow: inset 0 1px 2px var(--shadow);
   cursor: pointer;
   touch-action: none;
   user-select: none;
@@ -1005,12 +1005,27 @@ tbody td:nth-child(4) li::before {
   top: -1px;
   bottom: -1px;
   left: 0;
-  width: 64px;
-  min-width: 44px;
-  border-radius: 8px;
+  width: 40px;
+  min-width: 30px;
+  border-radius: 5px;
   background: linear-gradient(to right, var(--orange-bright), var(--blue-bright));
   cursor: grab;
   transition: filter 0.15s;
+}
+/* Subtle triple-line grip — implies the thumb is meant to be grabbed.
+   Center bar + two box-shadow siblings = exactly three vertical lines. */
+.timeline-slider-thumb::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1.5px;
+  height: 6px;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.32);
+  box-shadow: -3px 0 0 rgba(0, 0, 0, 0.32), 3px 0 0 rgba(0, 0, 0, 0.32);
+  border-radius: 1px;
+  pointer-events: none;
 }
 .timeline-slider-thumb:hover { filter: brightness(1.06); }
 .timeline-slider.dragging .timeline-slider-thumb,
@@ -2048,30 +2063,42 @@ function toggleTheme() {
   var slider = document.querySelector('.timeline-slider');
   if (!sc || !slider) return;
   var thumb = slider.querySelector('.timeline-slider-thumb');
-  var dragging = false, startX = 0, startLeft = 0;
+  var dragging = false, startX = 0, startLeft = 0, rafId = 0, pendingX = 0;
 
   function maxScroll() { return Math.max(0, sc.scrollWidth - sc.clientWidth); }
   function trackW() { return slider.clientWidth; }
   function thumbW() {
     var ratio = sc.scrollWidth > 0 ? sc.clientWidth / sc.scrollWidth : 1;
-    return Math.max(44, Math.min(trackW(), Math.round(trackW() * ratio)));
+    return Math.max(30, Math.min(trackW(), Math.round(trackW() * ratio)));
+  }
+  function travelPx() { return trackW() - thumbW(); }
+  /* Position the thumb from the live scrollLeft — no rounding so motion is
+     sub-pixel smooth. */
+  function placeThumb() {
+    var max = maxScroll(), t = travelPx();
+    thumb.style.left = (max > 0 && t > 0 ? (sc.scrollLeft / max) * t : 0) + 'px';
   }
   function render() {
-    var max = maxScroll();
-    if (max <= 0) { slider.classList.remove('active'); return; }
+    if (maxScroll() <= 0) { slider.classList.remove('active'); return; }
     slider.classList.add('active');
-    var tw = thumbW();
-    var travel = trackW() - tw;
-    thumb.style.width = tw + 'px';
-    thumb.style.left = Math.round(travel > 0 ? (sc.scrollLeft / max) * travel : 0) + 'px';
+    thumb.style.width = thumbW() + 'px';
+    placeThumb();
   }
   function seekToClientX(clientX) {
     var rect = slider.getBoundingClientRect();
-    var tw = thumbW();
-    var travel = rect.width - tw;
-    if (travel <= 0) return;
-    var pos = Math.max(0, Math.min(travel, clientX - rect.left - tw / 2));
-    sc.scrollLeft = (pos / travel) * maxScroll();
+    var t = rect.width - thumbW();
+    if (t <= 0) return;
+    var pos = Math.max(0, Math.min(t, clientX - rect.left - thumbW() / 2));
+    sc.scrollLeft = (pos / t) * maxScroll();
+  }
+  /* Apply at most one drag update per frame for perfectly smooth motion. */
+  function applyDrag() {
+    rafId = 0;
+    var t = travelPx();
+    if (t <= 0) return;
+    var next = startLeft + ((pendingX - startX) / t) * maxScroll();
+    sc.scrollLeft = Math.max(0, Math.min(maxScroll(), next));
+    placeThumb();
   }
 
   function onDown(e) {
@@ -2079,9 +2106,11 @@ function toggleTheme() {
     dragging = true;
     slider.classList.add('dragging');
     sc.style.scrollBehavior = 'auto';
+    sc.style.scrollSnapType = 'none'; /* snap fights a continuous drag → judder */
     if (e.target !== thumb) seekToClientX(e.clientX);
     startX = e.clientX;
     startLeft = sc.scrollLeft;
+    placeThumb();
     if (slider.setPointerCapture && e.pointerId != null) {
       try { slider.setPointerCapture(e.pointerId); } catch (err) {}
     }
@@ -2089,25 +2118,26 @@ function toggleTheme() {
   }
   function onMove(e) {
     if (!dragging) return;
-    var travel = trackW() - thumbW();
-    if (travel > 0) {
-      var next = startLeft + ((e.clientX - startX) / travel) * maxScroll();
-      sc.scrollLeft = Math.max(0, Math.min(maxScroll(), next));
-    }
+    pendingX = e.clientX;
+    if (!rafId) rafId = requestAnimationFrame(applyDrag);
     e.preventDefault();
   }
   function onUp() {
     if (!dragging) return;
     dragging = false;
+    if (rafId) { cancelAnimationFrame(rafId); rafId = 0; }
     slider.classList.remove('dragging');
     sc.style.scrollBehavior = '';
+    sc.style.scrollSnapType = '';
   }
 
   slider.addEventListener('pointerdown', onDown);
   slider.addEventListener('pointermove', onMove);
   slider.addEventListener('pointerup', onUp);
   slider.addEventListener('pointercancel', onUp);
-  sc.addEventListener('scroll', render, { passive: true });
+  /* Native touchpad scroll keeps the thumb synced, but never mid-drag — the
+     drag path positions the thumb itself, so no feedback fighting. */
+  sc.addEventListener('scroll', function() { if (!dragging) placeThumb(); }, { passive: true });
   window.addEventListener('resize', render, { passive: true });
   if ('MutationObserver' in window) {
     new MutationObserver(render).observe(sc, { childList: true });
