@@ -157,6 +157,7 @@ Books, courses, labs, podcasts, talks, blogs, and communities for learning and p
 | Courses | [**Cybersecurity Foundations: GRC**](https://www.linkedin.com/learning/cybersecurity-foundations-governance-risk-and-compliance-grc) | AJ Yawn |
 | Courses | [**Leveraging AI for GRC**](https://www.linkedin.com/learning/leveraging-ai-for-governance-risk-and-compliance) | Terra Cooke |
 | Courses | [**Threat Modeling Learning Path**](https://www.linkedin.com/learning/paths/improve-your-threat-modeling-skills) | LinkedIn Learning |
+| Courses | [**CGE-P Certification**](https://cert.grcengclub.com/) | GRC Engineering Club |
 | Labs | [**GRC Playground**](https://www.grcplayground.com) | Ashley Pearce · [original GitHub repo](https://github.com/ashpearce/GRC-Playground) |
 | Labs | [**GRC Portfolio Labs**](https://github.com/ajy0127/grc_portfolio) | AJ Yawn |
 | Podcasts | [**GRC Engineer Podcast**](https://grcengineer.com/) | Ayoub Fandi |
