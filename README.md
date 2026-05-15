@@ -76,29 +76,29 @@ Vocabulary that distinguishes GRC Engineering thinking from legacy GRC.
 
 | Term | Description |
 |---|---|
-| **Systems Thinking** | Examining how components interrelate and work together over time within larger systems. Applied across governance, risk analysis, and control modeling. |
+| **Active Testing** | Exercising controls to confirm they function—not just checking they exist. Analogous to software automated tests. |
+| **Control Monitoring** | Observing whether controls operate as intended. GRC Engineering automates this continuously and holistically. |
+| **Decision Support** | Providing data, analysis, and options so stakeholders make informed risk decisions. Replaces the "accountability police" model. |
 | **Design Thinking** | Human-centered problem-solving methodology. Harnessed to make the right thing to do the easy thing to do. |
-| **Threat-Informed** | Grounding policies, controls, and trainings in real-world threat intelligence rather than abstract framework checklists. |
+| **ELMR** | Evidence, Logic, Math, Reason. The GRC Engineering alternative to FUD—grounded in verifiable data and sound reasoning. |
+| **Evidence Populations** | Complete control records collected automatically over a period. Eliminates sampling risk with full coverage. |
+| **Evidence Samples** | Legacy subset of records selected to demonstrate control operation. Incomplete and vulnerable to selection bias. |
+| **FUD** | Fear, Uncertainty, and Doubt. Legacy fear-based risk communication used to justify budget without rigorous analysis. |
 | **GRC as a Product** | Treating GRC programs as products serving internal and external customers, with user research, feedback loops, and measurable outcomes. |
-| **Policy-as-Code (PaC)** | Policies written as executable code; the code *is* the source of truth, enabling version control, testing, and deterministic enforcement. |
-| **Policy-to-Code** | Translating human-readable policy documents into executable code, bridging policy authors and enforcement systems. |
-| **Policy-from-Code** | Deriving policy documentation from code, configurations, or runtime behavior. Closes the gap between docs and control reality. |
-| **Scientific Pedagogy** | Evidence-based learning science—spaced repetition, scenario-based exercises, measurable retention—applied to security training. |
-| **TPCM** | Third-party compliance management. Legacy questionnaire-focused approach that conflates compliance with risk. |
-| **TPRM** | Third-party risk management. Balanced third + first-party focus, evaluating real-world threat scenarios and value-at-risk. |
-| **Qualitative Risk Analysis** | Subjective High/Medium/Low scales based on expert judgment. Manual, inconsistent, and difficult to aggregate. |
-| **Quantitative Risk Analysis** | Numerical models, probability distributions, and measurable data. Automated, reproducible, and comparable across scenarios. |
 | **Heatmaps** | Legacy likelihood × impact matrices on ordinal scales. Obscure actual risk magnitude behind coarse, subjective categories. |
 | **Histograms** | Frequency-distribution charts conveying risk shape, range, and confidence intervals in objective, data-driven terms. |
 | **Monte Carlo Simulations** | Probabilistic simulations producing distributions and histograms instead of single-point estimates and heatmaps. |
+| **Policy-as-Code (PaC)** | Policies written as executable code; the code *is* the source of truth, enabling version control, testing, and deterministic enforcement. |
+| **Policy-from-Code** | Deriving policy documentation from code, configurations, or runtime behavior. Closes the gap between docs and control reality. |
+| **Policy-to-Code** | Translating human-readable policy documents into executable code, bridging policy authors and enforcement systems. |
+| **Qualitative Risk Analysis** | Subjective High/Medium/Low scales based on expert judgment. Manual, inconsistent, and difficult to aggregate. |
+| **Quantitative Risk Analysis** | Numerical models, probability distributions, and measurable data. Automated, reproducible, and comparable across scenarios. |
 | **Risk Scenarios** | Holistic descriptions combining threat + attack vector + affected asset + impact into a single analyzable unit. |
-| **FUD** | Fear, Uncertainty, and Doubt. Legacy fear-based risk communication used to justify budget without rigorous analysis. |
-| **ELMR** | Evidence, Logic, Math, Reason. The GRC Engineering alternative to FUD—grounded in verifiable data and sound reasoning. |
-| **Decision Support** | Providing data, analysis, and options so stakeholders make informed risk decisions. Replaces the "accountability police" model. |
-| **Control Monitoring** | Observing whether controls operate as intended. GRC Engineering automates this continuously and holistically. |
-| **Active Testing** | Exercising controls to confirm they function—not just checking they exist. Analogous to software automated tests. |
-| **Evidence Samples** | Legacy subset of records selected to demonstrate control operation. Incomplete and vulnerable to selection bias. |
-| **Evidence Populations** | Complete control records collected automatically over a period. Eliminates sampling risk with full coverage. |
+| **Scientific Pedagogy** | Evidence-based learning science—spaced repetition, scenario-based exercises, measurable retention—applied to security training. |
+| **Systems Thinking** | Examining how components interrelate and work together over time within larger systems. Applied across governance, risk analysis, and control modeling. |
+| **Threat-Informed** | Grounding policies, controls, and trainings in real-world threat intelligence rather than abstract framework checklists. |
+| **TPCM** | Third-party compliance management. Legacy questionnaire-focused approach that conflates compliance with risk. |
+| **TPRM** | Third-party risk management. Balanced third + first-party focus, evaluating real-world threat scenarios and value-at-risk. |
 
 ---
 
@@ -108,38 +108,38 @@ Open-source and commercial tools that enable GRC Engineering practices — polic
 
 | Tool | Description |
 |---|---|
-| [**Open Policy Agent (OPA)**](https://www.openpolicyagent.org/) | General-purpose policy engine for unified policy decisions across the cloud-native stack. |
-| [**Rego**](https://www.openpolicyagent.org/docs/policy-language) | OPA's declarative policy language. Enables Policy-as-Code evaluation in CI/CD pipelines. |
-| [**OPA Gatekeeper**](https://open-policy-agent.github.io/gatekeeper/website/) | Kubernetes admission controller built on OPA. Enforces Rego policies on cluster resources at admission time. |
-| [**Kyverno**](https://kyverno.io/) | Kubernetes-native policy engine that validates, mutates, and generates resource configurations at admission time. |
-| [**Kubewarden**](https://www.kubewarden.io/) | CNCF Kubernetes policy engine; policies as WebAssembly modules in Rust, Go, Rego, CEL, and others. |
-| [**HashiCorp Sentinel**](https://www.hashicorp.com/en/sentinel) | Embedded policy-as-code framework for Terraform, Vault, Consul, and Nomad — gates infrastructure changes pre-apply. |
-| [**Pulumi Policies**](https://www.pulumi.com/docs/insights/policy/) | CrossGuard policy-as-code for Pulumi infrastructure-as-code, written in TypeScript, Python, or Go. |
-| [**Chef**](https://docs.chef.io/inspec/7.0/) | Continuous compliance via [InSpec](https://docs.chef.io/inspec/7.0/)'s human-readable audit DSL; [Policyfiles](https://www.chef.io/blog/policy-as-code-with-chef-mastering-policyfiles) express policy-as-code for environment configuration. |
-| [**Puppet**](https://www.puppet.com/blog/policy-as-code#puppet-01) | Policy-as-code via Puppet manifests; continuous compliance through automated drift detection and remediation. |
 | [**Ansible**](https://www.ansible.com/) | Policy-as-code via playbooks and roles; continuous compliance through idempotent automated configuration enforcement. |
-| [**Salt Stack**](https://saltproject.io/) | Event-driven configuration management with policy-as-code in SLS files; continuous compliance via reactor and beacon engines. |
-| [**Terraform**](https://developer.hashicorp.com/terraform/docs) | Declarative infrastructure-as-code for provisioning cloud and SaaS resources. In GRC Engineering, the version-controlled, peer-reviewed source of truth for infrastructure — plan/state output serves as audit evidence, policy-as-code (Sentinel, OPA) gates changes pre-apply, and drift detection surfaces unauthorized configuration changes. |
 | [**Checkov**](https://www.checkov.io/) | Static IaC scanner (Terraform, CloudFormation, Kubernetes, ARM…); policy-as-code and continuous compliance in CI/CD. |
-| [**Cloud Custodian**](https://cloudcustodian.io/) | YAML-based rules engine for cloud governance, security, and continuous compliance with serverless auto-remediation. |
-| [**ScoutSuite**](https://github.com/nccgroup/ScoutSuite) | Multi-cloud security auditing tool. Active testing against CIS, PCI DSS, and HIPAA benchmarks. |
-| [**Prowler**](https://prowler.com/) | Open-source cloud security platform. Continuous compliance across AWS, Azure, GCP, Kubernetes, M365, and more. |
-| [**Steampipe**](https://steampipe.io/) | Cloud APIs as SQL tables. Full-state infrastructure queries for evidence populations across 100+ services. |
-| [**CloudQuery**](https://www.cloudquery.io/) | Infrastructure-as-data platform syncing cloud and SaaS configurations into queryable databases for evidence pipelines. |
-| [**FAIR**](https://www.fairinstitute.org/what-is-fair) | Open standard decomposing risk into measurable factors (threat event frequency, vulnerability, loss magnitude). |
-| [**riskquant**](https://github.com/Netflix-Skunkworks/riskquant/) | Netflix's open-source library for quantifying risk via FAIR-based Monte Carlo simulations. |
-| [**GigaChad GRC**](https://github.com/grcengineering/gigachad-grc) | Open-source modular GRC platform for compliance (SOC 2, ISO 27001, HIPAA), risk registers, vendor assessments, and audits. AI-powered, containerized, self-hostable. |
-| [**Corsair**](https://grcorsair.com/) | Signs compliance findings as W3C Verifiable Credentials (Ed25519 / JWT) so any party can verify integrity without trusted intermediaries. |
-| [**Gemara**](https://gemara.openssf.org/) | OpenSSF seven-layer logical model for automated GRC engineering — standardised, machine-readable schemas (CUE) for compliance interoperability. |
-| [**GRClanker**](https://www.grclanker.com/) | Spec-driven open-source AI GRC CLI — bring your own AI agent (Claude, Codex, Gemini…) to generate Go CLIs for FedRAMP, KEV, EPSS, SCF crosswalks. |
-| [**myctrl.tools**](https://www.myctrl.tools/) | Fast, searchable reference site for security compliance controls across frameworks (FedRAMP Rev5, DoD SRG, and more). |
-| [**SCF API**](https://hackidle.github.io/scf-api/) | API for the Secure Controls Framework (1,400+ controls mapped to 200+ laws, regulations, and frameworks). |
-| [**Compliance Trestle**](https://github.com/oscal-compass/compliance-trestle) | OSCAL-native compliance-as-code platform for CI/CD authoring, validation, and governance of compliance artifacts in git. |
+| [**Chef**](https://docs.chef.io/inspec/7.0/) | Continuous compliance via [InSpec](https://docs.chef.io/inspec/7.0/)'s human-readable audit DSL; [Policyfiles](https://www.chef.io/blog/policy-as-code-with-chef-mastering-policyfiles) express policy-as-code for environment configuration. |
 | [**claude-grc-engineering**](https://github.com/GRCEngClub/claude-grc-engineering) | Claude Code plugin suite for evidence collection, SCF crosswalks, multi-framework gap reports, and OSCAL workflows. |
+| [**Cloud Custodian**](https://cloudcustodian.io/) | YAML-based rules engine for cloud governance, security, and continuous compliance with serverless auto-remediation. |
+| [**CloudQuery**](https://www.cloudquery.io/) | Infrastructure-as-data platform syncing cloud and SaaS configurations into queryable databases for evidence pipelines. |
 | [**Compliance to Policy (C2P)**](https://github.com/oscal-compass/compliance-to-policy) | Bridges OSCAL compliance-as-code with policy-as-code engines (Kyverno, OCM, Auditree); generates policies and ingests assessment results. |
-| [**How to Harden**](https://github.com/grcengineering/how-to-harden) | Community-developed open-source hardening guides focused on cloud services and integration / supply-chain attack prevention. |
-| [**Open Source Cybersecurity Training**](https://github.com/emreugurlu/open-security-training) | Free SCORM-compatible interactive security & privacy training modules — phishing, CEO fraud, secure coding, and more ([live demo](https://emreugurlu.github.io/open-security-training/)). |
+| [**Compliance Trestle**](https://github.com/oscal-compass/compliance-trestle) | OSCAL-native compliance-as-code platform for CI/CD authoring, validation, and governance of compliance artifacts in git. |
+| [**Corsair**](https://grcorsair.com/) | Signs compliance findings as W3C Verifiable Credentials (Ed25519 / JWT) so any party can verify integrity without trusted intermediaries. |
+| [**FAIR**](https://www.fairinstitute.org/what-is-fair) | Open standard decomposing risk into measurable factors (threat event frequency, vulnerability, loss magnitude). |
+| [**Gemara**](https://gemara.openssf.org/) | OpenSSF seven-layer logical model for automated GRC engineering — standardised, machine-readable schemas (CUE) for compliance interoperability. |
+| [**GigaChad GRC**](https://github.com/grcengineering/gigachad-grc) | Open-source modular GRC platform for compliance (SOC 2, ISO 27001, HIPAA), risk registers, vendor assessments, and audits. AI-powered, containerized, self-hostable. |
 | [**GRC Engineering Lab Builder**](https://grc.engineering/grc_engineering_lab_builder/) | Static-site generator for hyper-personalized GRC engineering lab prompts (Claude, ChatGPT, Gemini-compatible) — [source](https://github.com/grcengineering/grc_engineering_lab_builder). |
+| [**GRClanker**](https://www.grclanker.com/) | Spec-driven open-source AI GRC CLI — bring your own AI agent (Claude, Codex, Gemini…) to generate Go CLIs for FedRAMP, KEV, EPSS, SCF crosswalks. |
+| [**HashiCorp Sentinel**](https://www.hashicorp.com/en/sentinel) | Embedded policy-as-code framework for Terraform, Vault, Consul, and Nomad — gates infrastructure changes pre-apply. |
+| [**How to Harden**](https://github.com/grcengineering/how-to-harden) | Community-developed open-source hardening guides focused on cloud services and integration / supply-chain attack prevention. |
+| [**Kubewarden**](https://www.kubewarden.io/) | CNCF Kubernetes policy engine; policies as WebAssembly modules in Rust, Go, Rego, CEL, and others. |
+| [**Kyverno**](https://kyverno.io/) | Kubernetes-native policy engine that validates, mutates, and generates resource configurations at admission time. |
+| [**myctrl.tools**](https://www.myctrl.tools/) | Fast, searchable reference site for security compliance controls across frameworks (FedRAMP Rev5, DoD SRG, and more). |
+| [**OPA Gatekeeper**](https://open-policy-agent.github.io/gatekeeper/website/) | Kubernetes admission controller built on OPA. Enforces Rego policies on cluster resources at admission time. |
+| [**Open Policy Agent (OPA)**](https://www.openpolicyagent.org/) | General-purpose policy engine for unified policy decisions across the cloud-native stack. |
+| [**Open Source Cybersecurity Training**](https://github.com/emreugurlu/open-security-training) | Free SCORM-compatible interactive security & privacy training modules — phishing, CEO fraud, secure coding, and more ([live demo](https://emreugurlu.github.io/open-security-training/)). |
+| [**Prowler**](https://prowler.com/) | Open-source cloud security platform. Continuous compliance across AWS, Azure, GCP, Kubernetes, M365, and more. |
+| [**Pulumi Policies**](https://www.pulumi.com/docs/insights/policy/) | CrossGuard policy-as-code for Pulumi infrastructure-as-code, written in TypeScript, Python, or Go. |
+| [**Puppet**](https://www.puppet.com/blog/policy-as-code#puppet-01) | Policy-as-code via Puppet manifests; continuous compliance through automated drift detection and remediation. |
+| [**Rego**](https://www.openpolicyagent.org/docs/policy-language) | OPA's declarative policy language. Enables Policy-as-Code evaluation in CI/CD pipelines. |
+| [**riskquant**](https://github.com/Netflix-Skunkworks/riskquant/) | Netflix's open-source library for quantifying risk via FAIR-based Monte Carlo simulations. |
+| [**Salt Stack**](https://saltproject.io/) | Event-driven configuration management with policy-as-code in SLS files; continuous compliance via reactor and beacon engines. |
+| [**SCF API**](https://hackidle.github.io/scf-api/) | API for the Secure Controls Framework (1,400+ controls mapped to 200+ laws, regulations, and frameworks). |
+| [**ScoutSuite**](https://github.com/nccgroup/ScoutSuite) | Multi-cloud security auditing tool. Active testing against CIS, PCI DSS, and HIPAA benchmarks. |
+| [**Steampipe**](https://steampipe.io/) | Cloud APIs as SQL tables. Full-state infrastructure queries for evidence populations across 100+ services. |
+| [**Terraform**](https://developer.hashicorp.com/terraform/docs) | Declarative infrastructure-as-code for provisioning cloud and SaaS resources. In GRC Engineering, the version-controlled, peer-reviewed source of truth for infrastructure — plan/state output serves as audit evidence, policy-as-code (Sentinel, OPA) gates changes pre-apply, and drift detection surfaces unauthorized configuration changes. |
 
 ---
 
