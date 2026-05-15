@@ -119,6 +119,7 @@ Open-source and commercial tools that enable GRC Engineering practices — polic
 | [**Puppet**](https://www.puppet.com/blog/policy-as-code#puppet-01) | Policy-as-code via Puppet manifests; continuous compliance through automated drift detection and remediation. |
 | [**Ansible**](https://www.ansible.com/) | Policy-as-code via playbooks and roles; continuous compliance through idempotent automated configuration enforcement. |
 | [**Salt Stack**](https://saltproject.io/) | Event-driven configuration management with policy-as-code in SLS files; continuous compliance via reactor and beacon engines. |
+| [**Terraform**](https://developer.hashicorp.com/terraform/docs) | Declarative infrastructure-as-code for provisioning cloud and SaaS resources. In GRC Engineering, the version-controlled, peer-reviewed source of truth for infrastructure — plan/state output serves as audit evidence, policy-as-code (Sentinel, OPA) gates changes pre-apply, and drift detection surfaces unauthorized configuration changes. |
 | [**Checkov**](https://www.checkov.io/) | Static IaC scanner (Terraform, CloudFormation, Kubernetes, ARM…); policy-as-code and continuous compliance in CI/CD. |
 | [**Cloud Custodian**](https://cloudcustodian.io/) | YAML-based rules engine for cloud governance, security, and continuous compliance with serverless auto-remediation. |
 | [**ScoutSuite**](https://github.com/nccgroup/ScoutSuite) | Multi-cloud security auditing tool. Active testing against CIS, PCI DSS, and HIPAA benchmarks. |
