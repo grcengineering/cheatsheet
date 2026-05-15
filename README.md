@@ -2,7 +2,7 @@
 
 > For decades, auditors and governments defined and molded Legacy GRC in their image. Today, engineers and analysts are transforming it into something new: GRC Engineering. This cheat sheet outlines what makes GRC Engineering different.
 
-This README is the canonical content source for the live cheat sheet at **[cheatsheet.grc.engineering](https://cheatsheet.grc.engineering)** — the site fetches and renders this file at runtime, so any change merged here goes live within minutes. To contribute a tool, term, teaching, or timeline event, edit the relevant section below and open a pull request (see [Contributing](#contributing)).
+This README is the canonical content source for the live cheat sheet at **[cheatsheet.grc.engineering](https://cheatsheet.grc.engineering)** — the site fetches and renders this file at runtime, so any change merged here goes live within minutes. To contribute a tool, term, teaching, or timeline event, edit the relevant section below and open a pull request (see [Contributing](https://github.com/grcengineering/cheatsheet#contributing)).
 
 ---
 
@@ -22,7 +22,9 @@ This README is the canonical content source for the live cheat sheet at **[cheat
 
 ### GRC Engineering
 
-GRC Engineering is the practice of using <span class="text-highlight text-highlight-blue">science</span>, <span class="text-highlight text-highlight-blue">math</span>, <span class="text-highlight text-highlight-blue">user-centered design, and modern software development</span> to <span class="text-highlight text-highlight-orange">assure an organization reliably achieves objectives, addresses uncertainty, and acts with integrity</span>, all while <span class="text-highlight text-highlight-blue">continuously improving its efficiency, productivity, and systems</span>.
+GRC Engineering is the practice of using <span class="text-highlight text-highlight-blue">science</span>, <span class="text-highlight text-highlight-blue">math</span>, <span class="text-highlight text-highlight-blue">[user-centered design](https://en.wikipedia.org/wiki/User-centered_design), and [modern software development](https://en.wikipedia.org/wiki/Software_development)</span> to <span class="text-highlight text-highlight-orange">assure an organization reliably achieves objectives, addresses uncertainty, and acts with integrity</span>, all while <span class="text-highlight text-highlight-blue">continuously improving its efficiency, productivity, and systems</span>.
+
+— [The GRC Engineering Cheat Sheet](https://cheatsheet.grc.engineering)
 
 ---
 
