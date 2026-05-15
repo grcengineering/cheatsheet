@@ -2068,8 +2068,10 @@ function toggleTheme() {
   function maxScroll() { return Math.max(0, sc.scrollWidth - sc.clientWidth); }
   function trackW() { return slider.clientWidth; }
   function thumbW() {
+    /* Capped at 100px so it reads as a short grab-handle, not a long
+       content-proportional scrollbar (still never wider than the track). */
     var ratio = sc.scrollWidth > 0 ? sc.clientWidth / sc.scrollWidth : 1;
-    return Math.max(30, Math.min(trackW(), Math.round(trackW() * ratio)));
+    return Math.max(30, Math.min(trackW(), 100, Math.round(trackW() * ratio)));
   }
   function travelPx() { return trackW() - thumbW(); }
   /* Position the thumb from the live scrollLeft — no rounding so motion is
