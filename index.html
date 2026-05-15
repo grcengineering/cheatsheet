@@ -1002,12 +1002,12 @@ tbody td:nth-child(4) li::before {
 .timeline-slider.active { display: block; }
 .timeline-slider-thumb {
   position: absolute;
-  top: -1px;
-  bottom: -1px;
+  top: 2px;
+  bottom: 2px;
   left: 0;
   width: 40px;
   min-width: 30px;
-  border-radius: 5px;
+  border-radius: 999px;
   background: linear-gradient(to right, var(--orange-bright), var(--blue-bright));
   cursor: grab;
   transition: filter 0.15s;
@@ -1020,7 +1020,7 @@ tbody td:nth-child(4) li::before {
   top: 50%;
   left: 50%;
   width: 1.5px;
-  height: 6px;
+  height: 4px;
   transform: translate(-50%, -50%);
   background: rgba(0, 0, 0, 0.32);
   box-shadow: -3px 0 0 rgba(0, 0, 0, 0.32), 3px 0 0 rgba(0, 0, 0, 0.32);
@@ -2064,21 +2064,24 @@ function toggleTheme() {
   if (!sc || !slider) return;
   var thumb = slider.querySelector('.timeline-slider-thumb');
   var dragging = false, startX = 0, startLeft = 0, rafId = 0, pendingX = 0;
+  /* Horizontal gutter so the thumb floats inside the track — never flush
+     against the left/right ends, mirroring the vertical CSS inset. */
+  var PAD = 3;
 
   function maxScroll() { return Math.max(0, sc.scrollWidth - sc.clientWidth); }
   function trackW() { return slider.clientWidth; }
   function thumbW() {
-    /* Capped at 100px so it reads as a short grab-handle, not a long
-       content-proportional scrollbar (still never wider than the track). */
+    /* Capped at 100px so it reads as a short grab-handle; also kept within
+       the PAD gutter so it never touches the track ends. */
     var ratio = sc.scrollWidth > 0 ? sc.clientWidth / sc.scrollWidth : 1;
-    return Math.max(30, Math.min(trackW(), 100, Math.round(trackW() * ratio)));
+    return Math.max(30, Math.min(trackW() - PAD * 2, 100, Math.round(trackW() * ratio)));
   }
-  function travelPx() { return trackW() - thumbW(); }
+  function travelPx() { return Math.max(0, trackW() - thumbW() - PAD * 2); }
   /* Position the thumb from the live scrollLeft — no rounding so motion is
-     sub-pixel smooth. */
+     sub-pixel smooth. PAD keeps a gap at both ends. */
   function placeThumb() {
     var max = maxScroll(), t = travelPx();
-    thumb.style.left = (max > 0 && t > 0 ? (sc.scrollLeft / max) * t : 0) + 'px';
+    thumb.style.left = (PAD + (max > 0 && t > 0 ? (sc.scrollLeft / max) * t : 0)) + 'px';
   }
   function render() {
     if (maxScroll() <= 0) { slider.classList.remove('active'); return; }
@@ -2088,9 +2091,9 @@ function toggleTheme() {
   }
   function seekToClientX(clientX) {
     var rect = slider.getBoundingClientRect();
-    var t = rect.width - thumbW();
+    var t = trackW() - thumbW() - PAD * 2;
     if (t <= 0) return;
-    var pos = Math.max(0, Math.min(t, clientX - rect.left - thumbW() / 2));
+    var pos = Math.max(0, Math.min(t, clientX - rect.left - PAD - thumbW() / 2));
     sc.scrollLeft = (pos / t) * maxScroll();
   }
   /* Apply at most one drag update per frame for perfectly smooth motion. */
