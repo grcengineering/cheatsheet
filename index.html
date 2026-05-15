@@ -838,6 +838,13 @@ tbody td:nth-child(4) li::before {
   text-align: center;
   padding: 12px 0;
 }
+.timeline-section-sub {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  text-align: center;
+  margin: -8px 0 18px;
+}
 .timeline-section {
 }
 .timeline-outer {
@@ -857,7 +864,7 @@ tbody td:nth-child(4) li::before {
   scroll-behavior: smooth;
   overscroll-behavior-x: contain;
   padding: 0 48px;
-  height: 280px;
+  height: 340px;
   position: relative;
   /* Hide the horizontal scrollbar so clientHeight === height and the
      markers' vertical center (anchored at 50% of .tl-event, which fills
@@ -871,10 +878,6 @@ tbody td:nth-child(4) li::before {
   -ms-overflow-style: none;
 }
 .timeline-scroll::-webkit-scrollbar { display: none; }
-.timeline-scroll:focus-visible {
-  outline: 2px solid var(--blue-bright);
-  outline-offset: -2px;
-}
 /* Connector line — spans the full scroll width */
 .timeline-track {
   position: absolute;
@@ -924,7 +927,7 @@ tbody td:nth-child(4) li::before {
 /* Each event is full-height, marker absolutely pinned at 50% */
 .tl-event {
   flex-shrink: 0;
-  width: 120px;
+  width: 156px;
   scroll-snap-align: center;
   position: relative;
   z-index: 1;
@@ -969,16 +972,54 @@ tbody td:nth-child(4) li::before {
   font-size: 1.05rem;
   color: var(--orange);
   display: block;
-  line-height: 1.2;
+  line-height: 1.1;
 }
 .tl-label {
   font-family: var(--font-body);
   font-size: 0.88rem;
   color: var(--text-dim);
-  line-height: 1.3;
-  margin-top: 2px;
+  line-height: 1.15;
+  margin-top: 1px;
+  overflow-wrap: anywhere;
 }
 .tl-event { cursor: pointer; }
+/* Click-and-hold slider to pan the timeline left↔right (desktop pointer
+   affordance; native touchpad horizontal scroll still works). Shown by JS
+   only when the timeline overflows. */
+.timeline-slider {
+  display: none;
+  position: relative;
+  height: 16px;
+  margin: 16px 0 0;
+  border-radius: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  box-shadow: inset 0 1px 3px var(--shadow);
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+}
+.timeline-slider.active { display: block; }
+.timeline-slider-thumb {
+  position: absolute;
+  top: -1px;
+  bottom: -1px;
+  left: 0;
+  width: 64px;
+  min-width: 44px;
+  border-radius: 8px;
+  background: linear-gradient(to right, var(--orange-bright), var(--blue-bright));
+  cursor: grab;
+  transition: filter 0.15s;
+}
+.timeline-slider-thumb:hover { filter: brightness(1.06); }
+.timeline-slider.dragging .timeline-slider-thumb,
+.timeline-slider-thumb:active { cursor: grabbing; }
+.timeline-slider:focus-visible,
+.timeline-slider-thumb:focus-visible {
+  outline: 2px solid var(--blue-bright);
+  outline-offset: 2px;
+}
 /* Timeline event modal */
 .tl-modal {
   position: fixed;
@@ -1063,20 +1104,20 @@ tbody td:nth-child(4) li::before {
 /* Odd events: content ABOVE the line */
 .tl-event:nth-child(odd) .tl-stem {
   bottom: 50%;
-  height: 32px;
-  margin-bottom: 6px;
+  height: 24px;
+  margin-bottom: 4px;
 }
 .tl-event:nth-child(odd) .tl-content {
-  bottom: calc(50% + 38px);
+  bottom: calc(50% + 28px);
 }
 /* Even events: content BELOW the line */
 .tl-event:nth-child(even) .tl-stem {
   top: 50%;
-  height: 32px;
-  margin-top: 6px;
+  height: 24px;
+  margin-top: 4px;
 }
 .tl-event:nth-child(even) .tl-content {
-  top: calc(50% + 38px);
+  top: calc(50% + 28px);
 }
 /* Dark mode */
 [data-theme="dark"] .tl-marker {
@@ -1148,11 +1189,11 @@ tbody td:nth-child(4) li::before {
   .ref-tables { padding: 0 12px; }
   .ref-tables tbody td { padding: 10px 12px; }
   .timeline-section { padding: 0 12px; }
-  .timeline-scroll { height: 240px; padding: 0 24px; }
-  .tl-event { width: 100px; }
+  .timeline-scroll { height: 300px; padding: 0 24px; }
+  .tl-event { width: 140px; }
   .tl-year { font-size: 0.95rem; }
   .tl-label { font-size: 0.8rem; }
-  .tl-stem { height: 20px; }
+  .tl-stem { height: 22px; }
 }
 @media (max-width: 480px) {
   .page-header { padding: 50px 12px 32px; }
@@ -1306,10 +1347,14 @@ tbody td:nth-child(4) li::before {
 <!-- ── TIMELINE ── -->
 <section class="timeline-section">
   <h2 class="timeline-section-title">Timeline</h2>
+  <p class="timeline-section-sub">A brief history of Legacy GRC's evolution toward GRC Engineering</p>
   <div class="timeline-outer">
     <div class="timeline-track"></div>
-    <div class="timeline-scroll" data-awesome="timeline" tabindex="0" role="region" aria-label="Timeline. Scroll horizontally with the mouse wheel, touchpad, or the left and right arrow keys."></div>
+    <div class="timeline-scroll" data-awesome="timeline"></div>
     <div class="timeline-arrow"></div>
+  </div>
+  <div class="timeline-slider" aria-hidden="true">
+    <div class="timeline-slider-thumb"></div>
   </div>
 </section>
 
@@ -1993,44 +2038,84 @@ function toggleTheme() {
     if (e.key === 'Escape' && modal.classList.contains('visible')) hide();
   });
 }());
-/* Timeline scroll affordances — the horizontal timeline relies on native
-   overflow-x, which only responds to horizontal touchpad swipes. This makes a
-   vertical mouse wheel, a touchpad gesture in any direction, and the keyboard
-   all scroll it. preventDefault is applied only while the timeline can still
-   move in the requested direction, so once it hits an end the page resumes
-   scrolling normally (no scroll trap). */
+/* Timeline slider — click-and-hold the thumb (or anywhere on the track) and
+   drag to pan the timeline. The thumb is a proportional scrollbar: its width
+   reflects how much of the timeline is visible, its position reflects
+   scrollLeft. Native touchpad horizontal scroll still works and keeps the
+   thumb in sync. Shown only when the timeline overflows. */
 (function() {
   var sc = document.querySelector('.timeline-scroll');
-  if (!sc) return;
+  var slider = document.querySelector('.timeline-slider');
+  if (!sc || !slider) return;
+  var thumb = slider.querySelector('.timeline-slider-thumb');
+  var dragging = false, startX = 0, startLeft = 0;
+
   function maxScroll() { return Math.max(0, sc.scrollWidth - sc.clientWidth); }
-  sc.addEventListener('wheel', function(e) {
+  function trackW() { return slider.clientWidth; }
+  function thumbW() {
+    var ratio = sc.scrollWidth > 0 ? sc.clientWidth / sc.scrollWidth : 1;
+    return Math.max(44, Math.min(trackW(), Math.round(trackW() * ratio)));
+  }
+  function render() {
     var max = maxScroll();
-    if (max <= 0) return;
-    var delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-    if (delta === 0) return;
-    var atStart = sc.scrollLeft <= 0;
-    var atEnd = sc.scrollLeft >= max - 1;
-    if ((delta < 0 && atStart) || (delta > 0 && atEnd)) return;
-    e.preventDefault();
-    sc.scrollBy({ left: delta, behavior: 'auto' });
-  }, { passive: false });
-  sc.addEventListener('keydown', function(e) {
-    var max = maxScroll();
-    var step = 140;
-    var page = Math.max(step, sc.clientWidth * 0.9);
-    var d;
-    switch (e.key) {
-      case 'ArrowRight': case 'ArrowDown': d = step; break;
-      case 'ArrowLeft': case 'ArrowUp': d = -step; break;
-      case 'PageDown': d = page; break;
-      case 'PageUp': d = -page; break;
-      case 'Home': d = -sc.scrollLeft; break;
-      case 'End': d = max - sc.scrollLeft; break;
-      default: return;
+    if (max <= 0) { slider.classList.remove('active'); return; }
+    slider.classList.add('active');
+    var tw = thumbW();
+    var travel = trackW() - tw;
+    thumb.style.width = tw + 'px';
+    thumb.style.left = Math.round(travel > 0 ? (sc.scrollLeft / max) * travel : 0) + 'px';
+  }
+  function seekToClientX(clientX) {
+    var rect = slider.getBoundingClientRect();
+    var tw = thumbW();
+    var travel = rect.width - tw;
+    if (travel <= 0) return;
+    var pos = Math.max(0, Math.min(travel, clientX - rect.left - tw / 2));
+    sc.scrollLeft = (pos / travel) * maxScroll();
+  }
+
+  function onDown(e) {
+    if (maxScroll() <= 0) return;
+    dragging = true;
+    slider.classList.add('dragging');
+    sc.style.scrollBehavior = 'auto';
+    if (e.target !== thumb) seekToClientX(e.clientX);
+    startX = e.clientX;
+    startLeft = sc.scrollLeft;
+    if (slider.setPointerCapture && e.pointerId != null) {
+      try { slider.setPointerCapture(e.pointerId); } catch (err) {}
     }
     e.preventDefault();
-    sc.scrollBy({ left: d, behavior: 'smooth' });
-  });
+  }
+  function onMove(e) {
+    if (!dragging) return;
+    var travel = trackW() - thumbW();
+    if (travel > 0) {
+      var next = startLeft + ((e.clientX - startX) / travel) * maxScroll();
+      sc.scrollLeft = Math.max(0, Math.min(maxScroll(), next));
+    }
+    e.preventDefault();
+  }
+  function onUp() {
+    if (!dragging) return;
+    dragging = false;
+    slider.classList.remove('dragging');
+    sc.style.scrollBehavior = '';
+  }
+
+  slider.addEventListener('pointerdown', onDown);
+  slider.addEventListener('pointermove', onMove);
+  slider.addEventListener('pointerup', onUp);
+  slider.addEventListener('pointercancel', onUp);
+  sc.addEventListener('scroll', render, { passive: true });
+  window.addEventListener('resize', render, { passive: true });
+  if ('MutationObserver' in window) {
+    new MutationObserver(render).observe(sc, { childList: true });
+  }
+  window.addEventListener('load', render);
+  setTimeout(render, 300);
+  setTimeout(render, 1200);
+  render();
 }());
 /* Sticky navbar — slides down once user scrolls past the page title.
    When a content section is in view, its name slides into the nav below the title. */

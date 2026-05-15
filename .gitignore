@@ -21,6 +21,8 @@ service-account*.json
 .claude/projects/
 .claude/todos/
 .claude/metadata-updater.sh
+# Project CLAUDE.md = local AI workflow prefs; must not propagate to contributors
+CLAUDE.md
 
 # Paperclip
 .paperclip/
