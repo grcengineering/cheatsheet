@@ -553,6 +553,14 @@ thead th:first-child {
   border-right: 2px solid var(--border-header);
 }
 
+/* Comparison table: lock the two content columns to identical widths so the
+   Legacy GRC and GRC Engineering columns are perfectly symmetrical. Fixed
+   table layout gives the Program column a set width and splits the rest
+   equally between columns 2 and 3 regardless of how much text each holds. */
+.comparison-section table { table-layout: fixed; }
+.comparison-section thead th:first-child,
+.comparison-section tbody td:first-child { width: 132px; }
+
 /* Rounded corners handled by .table-outer overflow: hidden */
 
 /* Sticky first column */
@@ -863,6 +871,10 @@ tbody td:nth-child(4) li::before {
   -ms-overflow-style: none;
 }
 .timeline-scroll::-webkit-scrollbar { display: none; }
+.timeline-scroll:focus-visible {
+  outline: 2px solid var(--blue-bright);
+  outline-offset: -2px;
+}
 /* Connector line — spans the full scroll width */
 .timeline-track {
   position: absolute;
@@ -1296,7 +1308,7 @@ tbody td:nth-child(4) li::before {
   <h2 class="timeline-section-title">Timeline</h2>
   <div class="timeline-outer">
     <div class="timeline-track"></div>
-    <div class="timeline-scroll" data-awesome="timeline"></div>
+    <div class="timeline-scroll" data-awesome="timeline" tabindex="0" role="region" aria-label="Timeline. Scroll horizontally with the mouse wheel, touchpad, or the left and right arrow keys."></div>
     <div class="timeline-arrow"></div>
   </div>
 </section>
@@ -1979,6 +1991,45 @@ function toggleTheme() {
   });
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape' && modal.classList.contains('visible')) hide();
+  });
+}());
+/* Timeline scroll affordances — the horizontal timeline relies on native
+   overflow-x, which only responds to horizontal touchpad swipes. This makes a
+   vertical mouse wheel, a touchpad gesture in any direction, and the keyboard
+   all scroll it. preventDefault is applied only while the timeline can still
+   move in the requested direction, so once it hits an end the page resumes
+   scrolling normally (no scroll trap). */
+(function() {
+  var sc = document.querySelector('.timeline-scroll');
+  if (!sc) return;
+  function maxScroll() { return Math.max(0, sc.scrollWidth - sc.clientWidth); }
+  sc.addEventListener('wheel', function(e) {
+    var max = maxScroll();
+    if (max <= 0) return;
+    var delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    if (delta === 0) return;
+    var atStart = sc.scrollLeft <= 0;
+    var atEnd = sc.scrollLeft >= max - 1;
+    if ((delta < 0 && atStart) || (delta > 0 && atEnd)) return;
+    e.preventDefault();
+    sc.scrollBy({ left: delta, behavior: 'auto' });
+  }, { passive: false });
+  sc.addEventListener('keydown', function(e) {
+    var max = maxScroll();
+    var step = 140;
+    var page = Math.max(step, sc.clientWidth * 0.9);
+    var d;
+    switch (e.key) {
+      case 'ArrowRight': case 'ArrowDown': d = step; break;
+      case 'ArrowLeft': case 'ArrowUp': d = -step; break;
+      case 'PageDown': d = page; break;
+      case 'PageUp': d = -page; break;
+      case 'Home': d = -sc.scrollLeft; break;
+      case 'End': d = max - sc.scrollLeft; break;
+      default: return;
+    }
+    e.preventDefault();
+    sc.scrollBy({ left: d, behavior: 'smooth' });
   });
 }());
 /* Sticky navbar — slides down once user scrolls past the page title.
