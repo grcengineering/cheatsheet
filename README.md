@@ -22,7 +22,13 @@ This README is the canonical content source for the live cheat sheet at **[cheat
 
 ### GRC Engineering
 
-GRC Engineering is the practice of using <span class="text-highlight text-highlight-blue">science</span>, <span class="text-highlight text-highlight-blue">math</span>, <span class="text-highlight text-highlight-blue">[user-centered design](https://en.wikipedia.org/wiki/User-centered_design), and [modern software development](https://en.wikipedia.org/wiki/Software_development)</span> to <span class="text-highlight text-highlight-orange">assure an organization reliably achieves objectives, addresses uncertainty, and acts with integrity</span>, all while <span class="text-highlight text-highlight-blue">continuously improving its efficiency, productivity, and systems</span>.
+GRC Engineering is the practice of using <span class="text-highlight text-highlight-blue">science</span>, <span class="text-highlight text-highlight-blue">math</span>, <span class="text-highlight text-highlight-blue">[user-centered design](https://en.wikipedia.org/wiki/User-centered_design), and [modern software development](https://en.wikipedia.org/wiki/Software_development)</span> to:
+
+- **Govern** with <span class="text-highlight text-highlight-orange">due care</span> so the organization <span class="text-highlight text-highlight-orange">reliably achieves its objectives</span>, using paved paths, guardrails, and policy-as-code.
+- **Manage risk** with <span class="text-highlight text-highlight-orange">due diligence</span> so the organization <span class="text-highlight text-highlight-orange">addresses uncertainty</span>, using threat-informed quantitative analysis, evidence-based scenarios, and continuous exposure monitoring.
+- **Comply** with <span class="text-highlight text-highlight-orange">demonstrable integrity</span>, using full-population control evidence, real-time monitoring, and code as the source of truth.
+
+...all while <span class="text-highlight text-highlight-blue">continuously improving its efficiency, productivity, and systems</span>.
 
 — [The GRC Engineering Cheat Sheet](https://cheatsheet.grc.engineering)
 
