@@ -879,11 +879,10 @@ tbody td:nth-child(4) li::before {
   /* Hide the horizontal scrollbar so clientHeight === height and the
      markers' vertical center (anchored at 50% of .tl-event, which fills
      clientHeight) lines up exactly with the track's vertical center
-     (anchored at 50% of .timeline-outer). The edge-fade gradients and
-     the arrow at the right end already signal scrollability; the
-     scrollbar wasn't carrying its weight as an affordance and was
-     subtracting 4px from clientHeight, pushing the marker center 2px
-     above the track center. */
+     (anchored at 50% of .timeline-outer). The edge-fade gradients
+     already signal scrollability; the scrollbar wasn't carrying its
+     weight as an affordance and was subtracting 4px from clientHeight,
+     pushing the marker center 2px above the track center. */
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -899,21 +898,6 @@ tbody td:nth-child(4) li::before {
   transform: translateY(-50%);
   pointer-events: none;
   z-index: 0;
-}
-/* Arrow at the very end of the scrollable track — pinned to track centerline */
-.timeline-arrow {
-  flex-shrink: 0;
-  width: 0;
-  height: 0;
-  border-top: 9px solid transparent;
-  border-bottom: 9px solid transparent;
-  border-left: 14px solid var(--blue-bright);
-  margin-left: -4px;
-  position: absolute;
-  top: 50%;
-  right: 12px;
-  transform: translateY(-50%);
-  z-index: 3;
 }
 /* Fade edges to hint at scrollability */
 .timeline-outer::before,
@@ -1377,7 +1361,6 @@ tbody td:nth-child(4) li::before {
   <div class="timeline-outer">
     <div class="timeline-track"></div>
     <div class="timeline-scroll" data-awesome="timeline"></div>
-    <div class="timeline-arrow"></div>
   </div>
   <div class="timeline-slider" aria-hidden="true">
     <div class="timeline-slider-thumb"></div>
