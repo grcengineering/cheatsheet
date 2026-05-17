@@ -762,6 +762,12 @@ tbody td:nth-child(4) li::before {
 /* Per-table header colors */
 #terms-table thead th { background: linear-gradient(135deg, #2d6a4f, #40916c); color: #fff; border-bottom-color: rgba(0,0,0,0.15); }
 #terms-table thead th:first-child { background: #2d6a4f; }
+/* Cross-links from the definition card into the Terms table */
+#terms-table tbody tr[id^="term-"] { scroll-margin-top: 100px; }
+a.term-link { color: inherit; text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 3px; cursor: pointer; }
+a.term-link:hover { text-decoration-style: solid; }
+@keyframes termRowFlash { 0%, 100% { background: transparent; } 18% { background: var(--bg-row-hover); } }
+#terms-table tbody tr.term-row-flash > td { animation: termRowFlash 1.6s ease; }
 
 #tools-table thead th { background: linear-gradient(135deg, #1b4965, #5fa8d3); color: #fff; border-bottom-color: rgba(0,0,0,0.15); }
 #tools-table thead th:first-child { background: #1b4965; }
@@ -1573,7 +1579,12 @@ function toggleTheme() {
   function inlineMd(s) {
     if (s == null) return '';
     s = String(s);
-    s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+    s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, function(_, txt, url) {
+      // In-page anchors (e.g. #term-risk) stay same-tab and get a class
+      // for the smooth-scroll/flash handler; external links open in a new tab.
+      if (url.charAt(0) === '#') return '<a href="' + url + '" class="term-link">' + txt + '</a>';
+      return '<a href="' + url + '" target="_blank" rel="noopener noreferrer">' + txt + '</a>';
+    });
     s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
     s = s.replace(/(^|[\s>(])\*([^*\n]+)\*(?=[\s<.,!?;:)]|$)/g, '$1<em>$2</em>');
     return s;
@@ -1740,7 +1751,11 @@ function toggleTheme() {
     }
     scroll.innerHTML = html;
   }
-  function renderTwoColumn(lines, selector) {
+  function slugify(s) {
+    return stripMd(String(s)).toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  }
+  function renderTwoColumn(lines, selector, idPrefix) {
     var t = parseTable(lines);
     if (!t) return;
     var tbody = document.querySelector(selector);
@@ -1748,7 +1763,8 @@ function toggleTheme() {
     var html = '';
     for (var i = 0; i < t.rows.length; i++) {
       var r = t.rows[i];
-      html += '<tr><td>' + inlineMd(r[0] || '') + '</td><td>' + inlineMd(r[1] || '') + '</td></tr>';
+      var idAttr = idPrefix ? ' id="' + idPrefix + slugify(r[0] || '') + '"' : '';
+      html += '<tr' + idAttr + '><td>' + inlineMd(r[0] || '') + '</td><td>' + inlineMd(r[1] || '') + '</td></tr>';
     }
     tbody.innerHTML = html;
   }
@@ -1804,7 +1820,7 @@ function toggleTheme() {
         if (sections['First Principles']) renderFirstPrinciples(sections['First Principles']);
         if (sections['Legacy GRC vs. GRC Engineering']) renderComparison(sections['Legacy GRC vs. GRC Engineering']);
         if (sections['Timeline']) renderTimeline(sections['Timeline']);
-        if (sections['Terms']) renderTwoColumn(sections['Terms'], '[data-awesome="terms"]');
+        if (sections['Terms']) renderTwoColumn(sections['Terms'], '[data-awesome="terms"]', 'term-');
         if (sections['Tools']) renderTwoColumn(sections['Tools'], '[data-awesome="tools"]');
         if (sections['Teachings']) renderTeachings(sections['Teachings']);
         document.dispatchEvent(new CustomEvent('cheatsheet:rendered'));
@@ -1820,6 +1836,37 @@ function toggleTheme() {
   } else {
     load();
   }
+}());
+/* Definition-card → Terms-table cross-links: smooth-scroll to the row and
+   flash it. Terms render async after the README fetch, so deep-links /
+   refreshes are resolved on cheatsheet:rendered as well as on click. */
+(function() {
+  function flash(tr) {
+    tr.classList.remove('term-row-flash');
+    void tr.offsetWidth; // reflow so the animation can restart
+    tr.classList.add('term-row-flash');
+  }
+  function go(hash, smooth) {
+    if (!hash || hash.charAt(0) !== '#') return false;
+    var el = document.getElementById(hash.slice(1));
+    if (!el || el.id.indexOf('term-') !== 0) return false;
+    el.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+    flash(el);
+    return true;
+  }
+  document.addEventListener('click', function(e) {
+    var a = e.target && e.target.closest ? e.target.closest('a.term-link') : null;
+    if (!a) return;
+    var hash = a.getAttribute('href') || '';
+    if (go(hash, true)) {
+      e.preventDefault();
+      if (history.replaceState) history.replaceState(null, '', hash);
+    }
+  });
+  document.addEventListener('cheatsheet:rendered', function() {
+    if (location.hash) go(location.hash, false);
+  });
+  window.addEventListener('hashchange', function() { go(location.hash, true); });
 }());
 /* Rotating gradient border for GRC Engineering card — pauses when off-screen */
 (function() {

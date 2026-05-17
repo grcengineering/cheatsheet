@@ -22,7 +22,7 @@ This README is the canonical content source for the live cheat sheet at **[cheat
 
 ### GRC Engineering
 
-GRC Engineering is the practice of using <span class="text-highlight text-highlight-blue">science</span>, <span class="text-highlight text-highlight-blue">math</span>, <span class="text-highlight text-highlight-blue">[user-centered design](https://en.wikipedia.org/wiki/User-centered_design), and [modern software development](https://en.wikipedia.org/wiki/Software_development)</span> to <span class="text-highlight text-highlight-orange">assure an organization reliably achieves objectives, addresses uncertainty, and acts with integrity</span>, all while <span class="text-highlight text-highlight-blue">continuously improving its efficiency, productivity, and systems</span>.
+GRC Engineering is the practice of using <span class="text-highlight text-highlight-blue">science</span>, <span class="text-highlight text-highlight-blue">math</span>, <span class="text-highlight text-highlight-blue">[user-centered design](https://en.wikipedia.org/wiki/User-centered_design), and [modern software development](https://en.wikipedia.org/wiki/Software_development)</span> to <span class="text-highlight text-highlight-orange">assure an organization [reliably achieves objectives](#term-governance), [addresses uncertainty](#term-risk), and [acts with integrity](#term-compliance)</span>, all while <span class="text-highlight text-highlight-blue">continuously improving its efficiency, productivity, and systems</span>.
 
 — [The GRC Engineering Cheat Sheet](https://cheatsheet.grc.engineering)
 
@@ -81,6 +81,7 @@ Vocabulary that distinguishes GRC Engineering thinking from legacy GRC.
 | Term | Description |
 |---|---|
 | **Active Testing** | Exercising controls to confirm they function—not just checking they exist. Analogous to software automated tests. |
+| **Compliance** | Acting with demonstrable integrity so the organization can prove it does what it claims — full-population control evidence, real-time monitoring, and code as the source of truth. |
 | **Control Monitoring** | Observing whether controls operate as intended. GRC Engineering automates this continuously and holistically. |
 | **Decision Support** | Providing data, analysis, and options so stakeholders make informed risk decisions. Replaces the "accountability police" model. |
 | **Design Thinking** | Human-centered problem-solving methodology. Harnessed to make the right thing to do the easy thing to do. |
@@ -88,6 +89,7 @@ Vocabulary that distinguishes GRC Engineering thinking from legacy GRC.
 | **Evidence Populations** | Complete control records collected automatically over a period. Eliminates sampling risk with full coverage. |
 | **Evidence Samples** | Legacy subset of records selected to demonstrate control operation. Incomplete and vulnerable to selection bias. |
 | **FUD** | Fear, Uncertainty, and Doubt. Legacy fear-based risk communication used to justify budget without rigorous analysis. |
+| **Governance** | Governing with due care so the organization reliably achieves its objectives — paved paths, guardrails, and policy-as-code. |
 | **GRC as a Product** | Treating GRC programs as products serving internal and external customers, with user research, feedback loops, and measurable outcomes. |
 | **Heatmaps** | Legacy likelihood × impact matrices on ordinal scales. Obscure actual risk magnitude behind coarse, subjective categories. |
 | **Histograms** | Frequency-distribution charts conveying risk shape, range, and confidence intervals in objective, data-driven terms. |
@@ -97,6 +99,7 @@ Vocabulary that distinguishes GRC Engineering thinking from legacy GRC.
 | **Policy-to-Code** | Translating human-readable policy documents into executable code, bridging policy authors and enforcement systems. |
 | **Qualitative Risk Analysis** | Subjective High/Medium/Low scales based on expert judgment. Manual, inconsistent, and difficult to aggregate. |
 | **Quantitative Risk Analysis** | Numerical models, probability distributions, and measurable data. Automated, reproducible, and comparable across scenarios. |
+| **Risk** | Managing risk with due diligence so the organization addresses uncertainty — threat-informed quantitative analysis, evidence-based scenarios, and continuous exposure monitoring. |
 | **Risk Scenarios** | Holistic descriptions combining threat + attack vector + affected asset + impact into a single analyzable unit. |
 | **Scientific Pedagogy** | Evidence-based learning science—spaced repetition, scenario-based exercises, measurable retention—applied to security training. |
 | **Systems Thinking** | Examining how components interrelate and work together over time within larger systems. Applied across governance, risk analysis, and control modeling. |
