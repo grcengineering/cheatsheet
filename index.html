@@ -1782,7 +1782,12 @@ function toggleTheme() {
     });
   }
   function load() {
-    fetch(README_URL, { cache: 'default' })
+    /* 'no-cache' forces a conditional revalidation (ETag/Last-Modified)
+       on every load instead of trusting the README's max-age=600 for up
+       to 10 min. GitHub Pages answers 304 when unchanged (no body, near-
+       free), so content edits go live on the next page load — making the
+       "goes live within minutes" promise above actually true. */
+    fetch(README_URL, { cache: 'no-cache' })
       .then(function(res) {
         if (!res.ok) throw new Error('HTTP ' + res.status);
         return res.text();
