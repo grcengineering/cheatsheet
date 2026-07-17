@@ -5,61 +5,86 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The GRC Engineering Cheat Sheet</title>
 <meta name="description" content="Legacy GRC vs. GRC Engineering in practice — a side-by-side comparison across Governance, Risk, Compliance, and Trust & Assurance.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Vend+Sans:wght@400;500;600;700&display=swap" as="style">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Vend+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- GRCE Design System fonts — self-hosted (General Sans · Satoshi · Martian Mono) -->
+<link rel="preload" href="ds-fonts/general-sans-vf.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="ds-fonts/satoshi-vf.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="ds-fonts/martian-mono-vf.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" as="style" integrity="sha384-yvnQ71IHGvMhr6ThVxOD5GNlmL3ABiJHVLg8erJYIEXJm/I6whbQfRNJvsVitGBm" crossorigin="anonymous">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet" integrity="sha384-yvnQ71IHGvMhr6ThVxOD5GNlmL3ABiJHVLg8erJYIEXJm/I6whbQfRNJvsVitGBm" crossorigin="anonymous">
 <style>
+/* ════════ GRCE DESIGN SYSTEM — self-hosted fonts ════════ */
+@font-face {
+  font-family: "General Sans";
+  src: url("ds-fonts/general-sans-vf.woff2") format("woff2");
+  font-weight: 400 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Satoshi";
+  src: url("ds-fonts/satoshi-vf.woff2") format("woff2");
+  font-weight: 300 900; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Satoshi";
+  src: url("ds-fonts/satoshi-vf-italic.woff2") format("woff2");
+  font-weight: 300 900; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: "Martian Mono";
+  src: url("ds-fonts/martian-mono-vf.woff2") format("woff2");
+  font-weight: 400 700; font-style: normal; font-display: swap;
+}
+
+/* ════════ GRCE DS tokens — brand hues + slate surfaces (light) ════════ */
 :root {
-  --orange: #FFA84F;
-  --orange-bright: #FF8C00;
-  --blue: #1B95C1;
-  --blue-bright: #00A8E8;
+  --orange: #FFA84F;        /* --grc-orange-400 · "Legacy GRC" core */
+  --orange-bright: #F8932F; /* --grc-orange-500 · fusion-gradient stop */
+  --blue: #1B95C1;          /* --eng-blue-500 · "Engineering" core */
+  --blue-bright: #2FA6CF;   /* --eng-blue-400 · fusion-gradient stop */
 
-  /* Light mode (default) */
-  --bg: #f4f5f7;
-  --bg-page: #ffffff;
-  --bg-card: #ffffff;
+  /* Light mode — DS slate surfaces */
+  --bg: #FBFCFD;                 /* --surface-page (slate-25) */
+  --bg-page: #FFFFFF;
+  --bg-card: #FFFFFF;            /* --surface-card (slate-0) */
   --bg-header: var(--orange);
-  --bg-row-header: #f8f9fa;
-  --bg-row-alt: #f2f7f9;
-  --bg-row-hover: #fff5eb;
-  --text: #1a1a2e;
-  --text-dim: #555;
-  --text-header: #000;
-  --text-row-header: #1a1a2e;
-  --border: #e0e0e0;
-  --border-header: rgba(0,0,0,0.1);
-  --shadow: rgba(0,0,0,0.08);
-  --shadow-strong: rgba(0,0,0,0.12);
-  /* Sticky header elevation. Light: soft black drop shadow. */
-  --nav-shadow: 0 2px 12px rgba(0,0,0,0.1), 0 1px 4px rgba(0,0,0,0.06);
-  --toggle-bg: rgba(0,0,0,0.06);
-  --toggle-hover: rgba(0,0,0,0.1);
+  --bg-row-header: #F6F8FA;      /* --surface-sunken (slate-50) */
+  --bg-row-alt: #FBFCFD;         /* slate-25 */
+  --bg-row-hover: #FFF4E6;       /* --grc-orange-50 */
+  --text: #161D24;               /* --text-strong (slate-900) */
+  --text-dim: #4F5D6A;           /* slate-600 */
+  --text-header: #0B0F14;        /* --ink */
+  --text-row-header: #161D24;
+  --border: #E3E8ED;             /* --border-subtle (slate-150) */
+  --border-header: rgba(0,0,0,0.12);
+  --shadow: rgba(12,17,23,0.08); /* DS cool slate-tinted shadow */
+  --shadow-strong: rgba(12,17,23,0.13);
+  /* Sticky header elevation — DS --shadow-md */
+  --nav-shadow: 0 4px 12px -2px rgba(12,17,23,0.10), 0 2px 4px -2px rgba(12,17,23,0.06);
+  --toggle-bg: rgba(12,17,23,0.05);
+  --toggle-hover: rgba(12,17,23,0.09);
 
-  --font-body: 'Manrope', sans-serif;
-  --font-mono: 'Manrope', sans-serif;
-  --font-title: 'Vend Sans', sans-serif;
+  /* DS type roles: display → General Sans · body → Satoshi · mono → Martian Mono */
+  --font-body: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Martian Mono', ui-monospace, 'SF Mono', monospace;
+  --font-title: 'General Sans', ui-sans-serif, system-ui, sans-serif;
 }
 
 [data-theme="dark"] {
-  --bg: #0b0b1a;
-  --bg-page: #0f0f23;
-  --bg-card: #151530;
-  --bg-header: #1a1a3e;
-  --bg-row-header: #1a1a3e;
-  --bg-row-alt: #151a33;
-  --bg-row-hover: #1f1a2e;
-  --text: #c8c8e0;
-  --text-dim: #8888a8;
-  --text-header: #f0f0ff;
-  --text-row-header: #f0f0ff;
-  --border: rgba(255, 168, 79, 0.12);
-  --border-header: rgba(255, 168, 79, 0.25);
-  --shadow: rgba(0,0,0,0.3);
-  --shadow-strong: rgba(0,0,0,0.5);
+  /* Dark mode — DS deep engineering navy */
+  --bg: #0A0E16;                 /* --surface-page */
+  --bg-page: #0C111B;            /* --surface-sunken */
+  --bg-card: #111722;            /* --surface-card */
+  --bg-header: #161E2B;          /* --surface-raised */
+  --bg-row-header: #161E2B;
+  --bg-row-alt: #0E141E;
+  --bg-row-hover: rgba(255,168,79,0.07);
+  --text: #C4CDD8;               /* --text-body (dark) */
+  --text-dim: #8B97A4;           /* --text-muted (dark) */
+  --text-header: #F1F5F9;        /* --text-strong (dark) */
+  --text-row-header: #F1F5F9;
+  --border: rgba(255,255,255,0.11);   /* --border-default (dark) */
+  --border-header: rgba(255,255,255,0.17);
+  --shadow: rgba(0,0,0,0.35);
+  --shadow-strong: rgba(0,0,0,0.55);
   /* Dark: a pure-black shadow is invisible on the near-black page, so
      elevation reads from a deeper diffuse shadow plus a faint lit 1px
      bottom edge — the standard separator cue for dark UIs. */
@@ -759,9 +784,21 @@ tbody td:nth-child(4) li::before {
   top: 52px;
   z-index: 20;
 }
-/* Per-table header colors */
-#terms-table thead th { background: linear-gradient(135deg, #2d6a4f, #40916c); color: #fff; border-bottom-color: rgba(0,0,0,0.15); }
-#terms-table thead th:first-child { background: #2d6a4f; }
+/* Per-table headers — GRCE DS ink panels (--surface-ink) with DS status-hue
+   accent edges: terms → pass-green, tools → engineering-blue, teachings → amber. */
+#terms-table thead th,
+#tools-table thead th,
+#teachings-table thead th {
+  background: #0C1117;
+  color: #E7EDF2;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+#terms-table thead th { border-bottom: 2px solid #1F9D6B; }
+#terms-table thead th:first-child { background: #0C1117; }
 /* Cross-links from the definition card into the Terms table */
 #terms-table tbody tr[id^="term-"] { scroll-margin-top: 100px; }
 a.term-link { color: inherit; text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 3px; cursor: pointer; }
@@ -769,19 +806,17 @@ a.term-link:hover { text-decoration-style: solid; }
 @keyframes termRowFlash { 0%, 100% { background: transparent; } 18% { background: var(--bg-row-hover); } }
 #terms-table tbody tr.term-row-flash > td { animation: termRowFlash 1.6s ease; }
 
-#tools-table thead th { background: linear-gradient(135deg, #1b4965, #5fa8d3); color: #fff; border-bottom-color: rgba(0,0,0,0.15); }
-#tools-table thead th:first-child { background: #1b4965; }
+#tools-table thead th { border-bottom: 2px solid #1B95C1; }
+#tools-table thead th:first-child { background: #0C1117; }
+#teachings-table thead th { border-bottom: 2px solid #E8A317; }
+#teachings-table thead th:first-child { background: #0C1117; }
 
 
-#teachings-table thead th { background: linear-gradient(135deg, #b45309, #f59e0b); color: #fff; border-bottom-color: rgba(0,0,0,0.15); }
-#teachings-table thead th:first-child { background: #b45309; }
-
-[data-theme="dark"] #terms-table thead th { background: linear-gradient(135deg, #1b3d2f, #2d6a4f); }
-[data-theme="dark"] #terms-table thead th:first-child { background: #1b3d2f; }
-[data-theme="dark"] #tools-table thead th { background: linear-gradient(135deg, #0d2a3a, #1b4965); }
-[data-theme="dark"] #tools-table thead th:first-child { background: #0d2a3a; }
-[data-theme="dark"] #teachings-table thead th { background: linear-gradient(135deg, #78350f, #b45309); }
-[data-theme="dark"] #teachings-table thead th:first-child { background: #78350f; }
+/* Ink headers are theme-independent (DS: brand panels don't flip) — in dark,
+   separate the ink header from the near-black page with a lit hairline. */
+[data-theme="dark"] #terms-table thead th,
+[data-theme="dark"] #tools-table thead th,
+[data-theme="dark"] #teachings-table thead th { box-shadow: inset 0 1px 0 rgba(255,255,255,0.06); }
 
 /* Teachings table — Type column uses rowspan; data continuation rows have only the Teaching cell */
 #teachings-table tbody td.teaching-type {
@@ -1296,6 +1331,87 @@ a.term-link:hover { text-decoration-style: solid; }
   top: auto;
   z-index: 2;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   GRCE DESIGN SYSTEM RESKIN
+   Hero → always-ink engineering band (DS idiom: --surface-ink +
+   --gradient-ink-glow) · mono eyebrows · DS radii.
+   (No ToolLockup: the cheat sheet is a reference, not a tool.)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Hero — always-ink band (theme-independent, like NPF/bootcamp heroes) ── */
+.page-header {
+  background: #0C1117; /* --surface-ink */
+  padding-bottom: 48px;
+}
+.page-header::before {
+  /* DS --gradient-ink-glow */
+  background:
+    radial-gradient(120% 120% at 0% 0%, rgba(255,168,79,0.12) 0%, transparent 42%),
+    radial-gradient(120% 120% at 100% 0%, rgba(27,149,193,0.14) 0%, transparent 46%);
+}
+.page-header .back-link { color: #93A2AE; }
+.page-header .back-link:hover { color: var(--orange); }
+.page-title {
+  color: #F1F5F9;                 /* --text-strong on ink */
+  font-weight: 600;               /* DS --display-weight */
+  letter-spacing: -0.03em;        /* DS --tracking-tighter */
+}
+.page-header .page-desc { color: #C4CDD8; opacity: 1; }
+/* Definition cards → dark frosted glass on ink */
+.page-header .def-card {
+  background: rgba(255,255,255,0.045);
+  border: 1px solid rgba(255,255,255,0.10);
+  backdrop-filter: blur(6px);
+  border-radius: 13px;            /* DS --radius-lg */
+}
+.page-header .def-card p { color: #A7B3BF; }
+.page-header .def-card a { color: #63BEDC; }        /* --eng-blue-300 */
+.page-header .def-card a:hover { color: #9DD6EA; }
+.page-header .def-operator { color: #93A2AE; }
+.page-header .def-card-grc-eng { border: none; }
+.page-header .def-card-grc-eng::after { background: #10161E; }
+.page-header [data-fp-card="1"] .def-term { color: #63BEDC !important; } /* AA on ink */
+
+/* ── Section titles → DS mono eyebrows with fusion hairline ── */
+.page-subtitle, .ref-section-title, .timeline-section-title {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;         /* DS --tracking-widest */
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.page-subtitle::after, .ref-section-title::after, .timeline-section-title::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 2px;
+  margin: 10px auto 0;
+  border-radius: 999px;
+  background: linear-gradient(100deg, var(--orange) 0%, var(--blue) 100%); /* --gradient-fusion */
+}
+
+/* ── DS radii + layered cool shadows on table shells ── */
+.table-outer, .ref-tables .table-outer {
+  border-radius: 13px;            /* DS --radius-lg */
+  box-shadow: 0 12px 28px -6px var(--shadow), 0 4px 10px -4px var(--shadow); /* --shadow-lg */
+}
+
+/* ── Theme toggle: floats over the ink hero at page top → on-ink chrome;
+      reverts to surface chrome once the sticky nav takes over ── */
+.theme-toggle {
+  color: #E7EDF2;
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.14);
+}
+.theme-toggle:hover { background: rgba(255,255,255,0.14); }
+body:has(.sticky-nav.visible) .theme-toggle {
+  color: var(--text);
+  background: var(--toggle-bg);
+  border-color: var(--border);
+}
+body:has(.sticky-nav.visible) .theme-toggle:hover { background: var(--toggle-hover); }
 </style>
 </head>
 <body>
