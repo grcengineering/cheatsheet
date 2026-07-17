@@ -1334,44 +1334,50 @@ a.term-link:hover { text-decoration-style: solid; }
 
 /* ═══════════════════════════════════════════════════════════════
    GRCE DESIGN SYSTEM RESKIN
-   Hero → always-ink engineering band (DS idiom: --surface-ink +
-   --gradient-ink-glow) · mono eyebrows · DS radii.
+   Hero → DS ink band in dark mode, token-driven light band in light
+   mode · mono eyebrows · DS radii.
    (No ToolLockup: the cheat sheet is a reference, not a tool.)
    ═══════════════════════════════════════════════════════════════ */
 
-/* ── Hero — always-ink band (theme-independent, like NPF/bootcamp heroes) ── */
+/* ── Hero — theme-aware: DS ink band in dark, token-driven light band in light.
+      (The JS always resolves system → a concrete data-theme value, so
+      [data-theme="dark"] is the single dark signal.) ── */
 .page-header {
-  background: #0C1117; /* --surface-ink */
   padding-bottom: 48px;
 }
-.page-header::before {
+.page-title {
+  font-weight: 600;               /* DS --display-weight */
+  letter-spacing: -0.03em;        /* DS --tracking-tighter */
+}
+.page-header .def-card {
+  border-radius: 13px;            /* DS --radius-lg, both themes */
+}
+[data-theme="dark"] .page-header {
+  background: #0C1117; /* --surface-ink */
+}
+[data-theme="dark"] .page-header::before {
   /* DS --gradient-ink-glow */
   background:
     radial-gradient(120% 120% at 0% 0%, rgba(255,168,79,0.12) 0%, transparent 42%),
     radial-gradient(120% 120% at 100% 0%, rgba(27,149,193,0.14) 0%, transparent 46%);
 }
-.page-header .back-link { color: #93A2AE; }
-.page-header .back-link:hover { color: var(--orange); }
-.page-title {
-  color: #F1F5F9;                 /* --text-strong on ink */
-  font-weight: 600;               /* DS --display-weight */
-  letter-spacing: -0.03em;        /* DS --tracking-tighter */
-}
-.page-header .page-desc { color: #C4CDD8; opacity: 1; }
+[data-theme="dark"] .page-header .back-link { color: #93A2AE; }
+[data-theme="dark"] .page-header .back-link:hover { color: var(--orange); }
+[data-theme="dark"] .page-title { color: #F1F5F9; }   /* --text-strong on ink */
+[data-theme="dark"] .page-header .page-desc { color: #C4CDD8; opacity: 1; }
 /* Definition cards → dark frosted glass on ink */
-.page-header .def-card {
+[data-theme="dark"] .page-header .def-card {
   background: rgba(255,255,255,0.045);
   border: 1px solid rgba(255,255,255,0.10);
   backdrop-filter: blur(6px);
-  border-radius: 13px;            /* DS --radius-lg */
 }
-.page-header .def-card p { color: #A7B3BF; }
-.page-header .def-card a { color: #63BEDC; }        /* --eng-blue-300 */
-.page-header .def-card a:hover { color: #9DD6EA; }
-.page-header .def-operator { color: #93A2AE; }
-.page-header .def-card-grc-eng { border: none; }
-.page-header .def-card-grc-eng::after { background: #10161E; }
-.page-header [data-fp-card="1"] .def-term { color: #63BEDC !important; } /* AA on ink */
+[data-theme="dark"] .page-header .def-card p { color: #A7B3BF; }
+[data-theme="dark"] .page-header .def-card a { color: #63BEDC; }  /* --eng-blue-300 */
+[data-theme="dark"] .page-header .def-card a:hover { color: #9DD6EA; }
+[data-theme="dark"] .page-header .def-operator { color: #93A2AE; }
+[data-theme="dark"] .page-header .def-card-grc-eng { border: none; }
+[data-theme="dark"] .page-header .def-card-grc-eng::after { background: #10161E; }
+[data-theme="dark"] .page-header [data-fp-card="1"] .def-term { color: #63BEDC !important; } /* AA on ink */
 
 /* ── Section titles → DS mono eyebrows with fusion hairline ── */
 .page-subtitle, .ref-section-title, .timeline-section-title {
@@ -1398,20 +1404,21 @@ a.term-link:hover { text-decoration-style: solid; }
   box-shadow: 0 12px 28px -6px var(--shadow), 0 4px 10px -4px var(--shadow); /* --shadow-lg */
 }
 
-/* ── Theme toggle: floats over the ink hero at page top → on-ink chrome;
-      reverts to surface chrome once the sticky nav takes over ── */
-.theme-toggle {
+/* ── Theme toggle (dark only): floats over the ink hero at page top → on-ink
+      chrome; reverts to surface chrome once the sticky nav takes over.
+      Light mode keeps the base surface chrome throughout. ── */
+[data-theme="dark"] .theme-toggle {
   color: #E7EDF2;
   background: rgba(255,255,255,0.08);
   border-color: rgba(255,255,255,0.14);
 }
-.theme-toggle:hover { background: rgba(255,255,255,0.14); }
-body:has(.sticky-nav.visible) .theme-toggle {
+[data-theme="dark"] .theme-toggle:hover { background: rgba(255,255,255,0.14); }
+[data-theme="dark"] body:has(.sticky-nav.visible) .theme-toggle {
   color: var(--text);
   background: var(--toggle-bg);
   border-color: var(--border);
 }
-body:has(.sticky-nav.visible) .theme-toggle:hover { background: var(--toggle-hover); }
+[data-theme="dark"] body:has(.sticky-nav.visible) .theme-toggle:hover { background: var(--toggle-hover); }
 </style>
 </head>
 <body>
