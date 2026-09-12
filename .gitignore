@@ -69,3 +69,6 @@ venv/
 env/
 ENV/
 .venv/
+
+# sscsb: generated output (SBOMs, receipts, VEX), not policy
+.sscsb/out/
