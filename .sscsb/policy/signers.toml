@@ -1,0 +1,52 @@
+# sscsb approved-signers policy.
+#
+# Humans, CI, and AI agents must NEVER share keys or identities. Only signers
+# listed here can push to protected branches, and only `class = "human"`
+# signers satisfy the human-only protected-branch signing policy. AI agents
+# draft changes; they never sign, so no `class = "ai"` entry should ever carry
+# a key that is used for signing — the class exists so an AI-associated
+# identity can be explicitly DENIED signing rights.
+#
+# [[signer]]
+# principal = "you@example.com"          # matches allowed_signers principal
+# class = "human"                        # human | ci | ai
+# hardware_backed = true                 # asserted when the key lives on a YubiKey/secure element
+# ssh_public_key = "ssh-ed25519 AAAA... you@example.com"
+# # gpg_fingerprint = "ABCD1234..."      # for gpg.format=openpgp signers
+#
+# AI agents may sign ONLY when the `agent-signing` control is enabled, and their
+# signatures are ALWAYS rejected on protected branches regardless of any other
+# field — humans, CI, and AI never share identities. When agent-signing is on:
+#
+# [[signer]]
+# principal = "agent@ci.example.com"     # a DISTINCT identity, never a human's
+# class = "ai"                           # only emitted into allowed_signers when agent-signing is on
+# backend = "github-app"                 # tpm | fido2 | kms | github-app | piv | software
+# hardware_backed = true                 # self-asserted; see attestation_file to back it up
+# # attestation_file = ".sscsb/policy/attestations/agent.bin"  # out-of-band hardware proof
+# # expires = "2027-01-01"               # reported by `sscsb verify`; rotate before this
+# ssh_public_key = "ssh-ed25519 AAAA... agent@ci.example.com"
+
+# ── Approved signers for this repository ──
+#
+# Justin Pagano's GitHub commit-signing identity. This is the single signer
+# mandated by the owner's global one-signer directive: every commit in every
+# repo — code or housekeeping — signs as this identity via the 1Password SSH
+# item "GitHub Signing Key (p4gs)", wired globally in ~/.gitconfig through
+# op-ssh-sign. Fingerprint SHA256:prXatGO56nl8Or4JdDSzIIcj8hZE1jBxnFaXZOnAPDQ,
+# already registered on GitHub as a signing key.
+#
+# hardware_backed = false is asserted DELIBERATELY and truthfully: the private
+# key lives in a 1Password software vault guarded by device authentication, not
+# on a YubiKey/secure element, so it carries no `-sk` suffix and no attestation
+# a verifier could check. Claiming true here would be an unverifiable assertion
+# in a policy file whose whole value is that its assertions are true.
+# Provisioning a hardware-backed ed25519-sk key is an owner-level identity
+# decision (it would supersede the one-signer directive), so the gap is left
+# VISIBLE under [controls.commit-signing].require_hardware_backed = true rather
+# than papered over by relaxing the requirement.
+[[signer]]
+principal = "10093271+p4gs@users.noreply.github.com"
+class = "human"
+hardware_backed = false
+ssh_public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBxEAReKc/G/sUxY/UbXprOccUKaxhd+sr/7Gbb40u9w"
