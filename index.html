@@ -192,27 +192,180 @@ body:has(.sticky-nav.with-section) .theme-toggle {
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-.sticky-nav-section {
-  font-family: var(--font-title);
-  font-size: calc(var(--nav-title-size) - 0.2rem);
-  font-weight: 700;
-  letter-spacing: 3px;
+/* Section jump links. The same markup lives in the hero (.page-header) and
+   in the sticky nav; the sticky copy highlights the section in view. */
+.section-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+.section-nav a {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text-dim);
+  line-height: 1;
   white-space: nowrap;
-  line-height: 1.2;
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 6px 11px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.section-nav a:hover,
+.section-nav a:focus-visible {
+  color: var(--text);
+  border-color: var(--orange);
+  outline: none;
+}
+.section-nav a.active {
+  color: var(--text-header);
+  border-color: transparent;
+  background:
+    linear-gradient(var(--bg), var(--bg)) padding-box,
+    linear-gradient(100deg, var(--orange) 0%, var(--blue) 100%) border-box;
+}
+.page-header .section-nav {
+  position: relative;
+  z-index: 1;
+  margin: -12px auto 36px;
+  max-width: 760px;
+}
+.sticky-nav-links {
+  flex-wrap: nowrap;
+  justify-content: safe center;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
   opacity: 0;
   max-height: 0;
   transform: translateY(8px);
-  overflow: hidden;
   transition: opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
               max-height 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
               transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
-.sticky-nav.with-section .sticky-nav-section {
+.sticky-nav-links::-webkit-scrollbar { display: none; }
+.sticky-nav-links a { padding: 5px 10px; }
+.sticky-nav.with-section .sticky-nav-links {
   opacity: 1;
-  max-height: 28px;
+  max-height: 32px;
   transform: translateY(0);
+}
+
+/* Linkable section titles: the title text is a self-link, and a copy-link
+   button appears beside it on hover (always faintly visible on touch). */
+.anchor-title { scroll-margin-top: 100px; }
+.anchor-wrap {
+  position: relative;
+  display: inline-block;
+}
+.anchor-link {
+  color: inherit;
+  text-decoration: none;
+  font: inherit;
+  letter-spacing: inherit;
+}
+.anchor-link:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.copy-link {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 6px;
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--text-dim);
+  -webkit-text-fill-color: currentColor;
+  font-size: 0.95rem;
+  letter-spacing: 0;
+  text-transform: none;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+.anchor-title:hover .copy-link,
+.anchor-title:focus-within .copy-link,
+.copy-link.copied { opacity: 1; }
+.copy-link:hover,
+.copy-link:focus-visible {
+  color: var(--orange);
+  background: var(--toggle-bg);
+  border-color: var(--border);
+  outline: none;
+}
+.copy-link.copied { color: var(--blue); }
+.copy-link::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translate(-50%, 4px);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: var(--text-header);
+  color: var(--bg);
+  -webkit-text-fill-color: var(--bg);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.copy-link:hover::after,
+.copy-link:focus-visible::after,
+.copy-link.copied::after {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+@media (hover: none) {
+  .copy-link { opacity: 0.55; }
+}
+/* Narrow screens: long titles wrap, so an absolutely placed button would hang
+   off the right edge. Flow it inline after the last word instead. */
+@media (max-width: 768px) {
+  .anchor-wrap { display: inline; }
+  .copy-link {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    vertical-align: middle;
+    margin-left: 4px;
+  }
+}
+.hero-eyebrow {
+  position: relative;
+  z-index: 1;
+  margin: 28px 0 8px;
+}
+.def-card[id] { scroll-margin-top: 100px; }
+/* The card's link colour (.def-card a) must not repaint its own title. */
+.def-card .def-term .anchor-link,
+[data-theme="dark"] .page-header .def-card .def-term .anchor-link { color: inherit; }
+.def-term .copy-link { width: 24px; height: 24px; font-size: 0.85rem; }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 /* ── HEADER ── */
 .page-header {
@@ -1226,9 +1379,8 @@ a.term-link:hover { text-decoration-style: solid; }
   .sticky-nav { padding: 6px 56px; height: 52px; }
   .sticky-nav.with-section { height: 84px; }
   .sticky-nav { --nav-title-size: clamp(1rem, calc(0.4rem + 3vw), 1.35rem); }
-  .sticky-nav-section {
-    letter-spacing: 2px;
-  }
+  .section-nav a { font-size: 0.62rem; padding: 5px 9px; }
+  .page-header .section-nav { margin: -16px auto 28px; }
   .timeline-section-title {
     font-size: 1rem;
   }
@@ -1378,6 +1530,14 @@ a.term-link:hover { text-decoration-style: solid; }
 [data-theme="dark"] .page-header .def-card-grc-eng { border: none; }
 [data-theme="dark"] .page-header .def-card-grc-eng::after { background: #10161E; }
 [data-theme="dark"] .page-header [data-fp-card="1"] .def-term { color: #63BEDC !important; } /* AA on ink */
+[data-theme="dark"] .page-header .page-subtitle { color: #93A2AE; }
+[data-theme="dark"] .page-header .section-nav a { color: #A7B3BF; border-color: rgba(255,255,255,0.14); }
+[data-theme="dark"] .page-header .section-nav a:hover,
+[data-theme="dark"] .page-header .section-nav a:focus-visible { color: #F1F5F9; border-color: var(--orange); }
+[data-theme="dark"] .page-header .copy-link { color: #93A2AE; }
+[data-theme="dark"] .page-header .copy-link:hover,
+[data-theme="dark"] .page-header .copy-link:focus-visible { color: var(--orange); background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.14); }
+[data-theme="dark"] .page-header .copy-link.copied { color: #63BEDC; }
 
 /* ── Section titles → DS mono eyebrows with fusion hairline ── */
 .page-subtitle, .ref-section-title, .timeline-section-title {
@@ -1427,31 +1587,47 @@ a.term-link:hover { text-decoration-style: solid; }
   <i class="theme-icon ri-contrast-2-line"></i>
 </button>
 
-<nav class="sticky-nav" id="sticky-nav">
+<nav class="sticky-nav" id="sticky-nav" aria-label="Cheat sheet sections">
   <span class="sticky-nav-title">The <span class="highlight">GRC Engineering</span> Cheat Sheet</span>
-  <span class="sticky-nav-section" id="sticky-nav-section"></span>
+  <div class="section-nav sticky-nav-links" id="sticky-nav-links">
+    <a href="#first-principles">First Principles</a>
+    <a href="#comparison">Comparison</a>
+    <a href="#timeline">Timeline</a>
+    <a href="#terms">Terms</a>
+    <a href="#tools">Tools</a>
+    <a href="#teachings">Teachings</a>
+  </div>
 </nav>
 
 <header class="page-header">
   <a href="https://grc.engineering" class="back-link">&larr; grc.engineering</a>
+  <nav class="section-nav" aria-label="Cheat sheet sections">
+    <a href="#first-principles">First Principles</a>
+    <a href="#comparison">Comparison</a>
+    <a href="#timeline">Timeline</a>
+    <a href="#terms">Terms</a>
+    <a href="#tools">Tools</a>
+    <a href="#teachings">Teachings</a>
+  </nav>
   <h1 class="page-title">The <span class="highlight">GRC Engineering</span> Cheat Sheet</h1>
   <p class="page-desc" data-awesome="page-desc"></p>
+  <h2 class="page-subtitle hero-eyebrow anchor-title" id="first-principles"><span class="anchor-wrap"><a class="anchor-link" href="#first-principles">First Principles</a><button type="button" class="copy-link" data-anchor="first-principles" data-tip="Copy link" aria-label="Copy link to First Principles"><i class="ri-link" aria-hidden="true"></i></button></span></h2>
   <div class="def-equation" data-awesome="first-principles">
     <div class="def-equation-top">
-      <div class="def-card" data-fp-card="0">
-        <span class="def-term"></span>
+      <div class="def-card" id="grc" data-fp-card="0">
+        <span class="def-term anchor-title"><span class="anchor-wrap"><a class="anchor-link def-term-text" href="#grc"></a><button type="button" class="copy-link" data-anchor="grc" data-tip="Copy link" aria-label="Copy link to GRC definition"><i class="ri-link" aria-hidden="true"></i></button></span></span>
         <p></p>
       </div>
       <span class="def-operator">+</span>
-      <div class="def-card" data-fp-card="1">
-        <span class="def-term" style="color: var(--blue);"></span>
+      <div class="def-card" id="engineering" data-fp-card="1">
+        <span class="def-term anchor-title" style="color: var(--blue);"><span class="anchor-wrap"><a class="anchor-link def-term-text" href="#engineering"></a><button type="button" class="copy-link" data-anchor="engineering" data-tip="Copy link" aria-label="Copy link to Engineering definition"><i class="ri-link" aria-hidden="true"></i></button></span></span>
         <p></p>
       </div>
     </div>
     <span class="def-operator">=</span>
     <div class="def-equation-bottom">
-      <div class="def-card def-card-grc-eng" data-fp-card="2">
-        <span class="def-term" style="display: inline-block; background: linear-gradient(to right, var(--orange-bright), var(--blue-bright)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;"></span>
+      <div class="def-card def-card-grc-eng" id="grc-engineering" data-fp-card="2">
+        <span class="def-term anchor-title" style="display: inline-block; background: linear-gradient(to right, var(--orange-bright), var(--blue-bright)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;"><span class="anchor-wrap"><a class="anchor-link def-term-text" href="#grc-engineering"></a><button type="button" class="copy-link" data-anchor="grc-engineering" data-tip="Copy link" aria-label="Copy link to GRC Engineering definition"><i class="ri-link" aria-hidden="true"></i></button></span></span>
         <p></p>
       </div>
     </div>
@@ -1459,7 +1635,7 @@ a.term-link:hover { text-decoration-style: solid; }
 </header>
 
 <section class="comparison-section">
-<h2 class="page-subtitle" style="margin-top: 32px;">Legacy GRC vs. GRC Engineering at a glance</h2>
+<h2 class="page-subtitle anchor-title" id="comparison" style="margin-top: 32px;"><span class="anchor-wrap"><a class="anchor-link" href="#comparison">Legacy GRC vs. GRC Engineering at a glance</a><button type="button" class="copy-link" data-anchor="comparison" data-tip="Copy link" aria-label="Copy link to Legacy GRC vs. GRC Engineering"><i class="ri-link" aria-hidden="true"></i></button></span></h2>
 <main class="table-wrapper">
   <div class="table-outer">
   <div class="table-container">
@@ -1480,7 +1656,7 @@ a.term-link:hover { text-decoration-style: solid; }
 
 <!-- ── TIMELINE ── -->
 <section class="timeline-section">
-  <h2 class="timeline-section-title">Timeline</h2>
+  <h2 class="timeline-section-title anchor-title" id="timeline"><span class="anchor-wrap"><a class="anchor-link" href="#timeline">Timeline</a><button type="button" class="copy-link" data-anchor="timeline" data-tip="Copy link" aria-label="Copy link to Timeline"><i class="ri-link" aria-hidden="true"></i></button></span></h2>
   <p class="timeline-section-sub">A brief history of Legacy GRC's evolution toward GRC Engineering</p>
   <div class="timeline-outer">
     <div class="timeline-track"></div>
@@ -1507,7 +1683,7 @@ a.term-link:hover { text-decoration-style: solid; }
 
 <!-- ── TERMS TABLE ── -->
 <section class="ref-section" id="terms-table">
-  <h2 class="ref-section-title">Terms</h2>
+  <h2 class="ref-section-title anchor-title" id="terms"><span class="anchor-wrap"><a class="anchor-link" href="#terms">Terms</a><button type="button" class="copy-link" data-anchor="terms" data-tip="Copy link" aria-label="Copy link to Terms"><i class="ri-link" aria-hidden="true"></i></button></span></h2>
   <div class="table-outer">
   <div class="table-container">
     <table>
@@ -1525,7 +1701,7 @@ a.term-link:hover { text-decoration-style: solid; }
 
 <!-- ── TOOLS TABLE ── -->
 <section class="ref-section" id="tools-table">
-  <h2 class="ref-section-title">Tools</h2>
+  <h2 class="ref-section-title anchor-title" id="tools"><span class="anchor-wrap"><a class="anchor-link" href="#tools">Tools</a><button type="button" class="copy-link" data-anchor="tools" data-tip="Copy link" aria-label="Copy link to Tools"><i class="ri-link" aria-hidden="true"></i></button></span></h2>
   <div class="table-outer">
   <div class="table-container">
     <table>
@@ -1543,7 +1719,7 @@ a.term-link:hover { text-decoration-style: solid; }
 
 <!-- ── TEACHINGS TABLE ── -->
 <section class="ref-section" id="teachings-table">
-  <h2 class="ref-section-title">Teachings</h2>
+  <h2 class="ref-section-title anchor-title" id="teachings"><span class="anchor-wrap"><a class="anchor-link" href="#teachings">Teachings</a><button type="button" class="copy-link" data-anchor="teachings" data-tip="Copy link" aria-label="Copy link to Teachings"><i class="ri-link" aria-hidden="true"></i></button></span></h2>
   <div class="table-outer">
   <div class="table-container">
     <table>
@@ -1560,6 +1736,8 @@ a.term-link:hover { text-decoration-style: solid; }
 </section>
 
 </div>
+
+<p class="sr-only" id="copy-link-status" aria-live="polite"></p>
 
 <footer class="page-footer">
   <p class="repo-built-from">
@@ -1815,7 +1993,7 @@ function toggleTheme() {
     for (var i = 0; i < 3 && i < cards.length; i++) {
       var cardEl = document.querySelector('[data-fp-card="' + i + '"]');
       if (!cardEl) continue;
-      var termEl = cardEl.querySelector('.def-term');
+      var termEl = cardEl.querySelector('.def-term-text') || cardEl.querySelector('.def-term');
       var bodyEl = cardEl.querySelector('p');
       if (termEl) termEl.textContent = cards[i].term;
       if (bodyEl) {
@@ -1990,6 +2168,62 @@ function toggleTheme() {
     if (location.hash) go(location.hash, false);
   });
   window.addEventListener('hashchange', function() { go(location.hash, true); });
+}());
+/* Linkable section titles: copy-link buttons copy an absolute URL to the
+   section, and a deep link is re-resolved once the README content renders
+   (the tables above a section change height when they fill in). */
+(function() {
+  var status = document.getElementById('copy-link-status');
+  function sectionUrl(id) {
+    return location.origin + location.pathname + location.search + '#' + id;
+  }
+  function legacyCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok ? Promise.resolve() : Promise.reject(new Error('copy failed'));
+  }
+  function copy(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).catch(function() { return legacyCopy(text); });
+    }
+    return legacyCopy(text);
+  }
+  document.addEventListener('click', function(e) {
+    var btn = e.target && e.target.closest ? e.target.closest('.copy-link') : null;
+    if (!btn) return;
+    e.preventDefault();
+    var id = btn.getAttribute('data-anchor');
+    var url = sectionUrl(id);
+    copy(url).then(function() {
+      btn.classList.add('copied');
+      btn.setAttribute('data-tip', 'Link copied');
+      var icon = btn.querySelector('i');
+      if (icon) icon.className = 'ri-check-line';
+      if (status) status.textContent = 'Link copied: ' + url;
+      if (history.replaceState) history.replaceState(null, '', '#' + id);
+      clearTimeout(btn._copyTimer);
+      btn._copyTimer = setTimeout(function() {
+        btn.classList.remove('copied');
+        btn.setAttribute('data-tip', 'Copy link');
+        if (icon) icon.className = 'ri-link';
+      }, 1600);
+    }, function() {
+      btn.setAttribute('data-tip', 'Copy failed');
+    });
+  });
+  document.addEventListener('cheatsheet:rendered', function() {
+    if (!location.hash || location.hash.indexOf('#term-') === 0) return;
+    var el = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (el) el.scrollIntoView({ behavior: 'auto', block: 'start' });
+  });
 }());
 /* Rotating gradient border for GRC Engineering card — pauses when off-screen */
 (function() {
@@ -2320,17 +2554,37 @@ function toggleTheme() {
    When a content section is in view, its name slides into the nav below the title. */
 (function() {
   var nav = document.getElementById('sticky-nav');
-  var navSection = document.getElementById('sticky-nav-section');
+  var navLinks = document.getElementById('sticky-nav-links');
   var title = document.querySelector('.page-title');
-  if (!nav || !navSection || !title) return;
+  if (!nav || !navLinks || !title) return;
 
   var sections = [
-    { sel: '.comparison-section', name: 'Legacy GRC vs. GRC Engineering' },
-    { sel: '.timeline-section', name: 'Timeline' },
-    { sel: '#terms-table', name: 'Terms' },
-    { sel: '#tools-table', name: 'Tools' },
-    { sel: '#teachings-table', name: 'Teachings' }
+    { sel: '.def-equation', id: 'first-principles' },
+    { sel: '.comparison-section', id: 'comparison' },
+    { sel: '.timeline-section', id: 'timeline' },
+    { sel: '#terms-table', id: 'terms' },
+    { sel: '#tools-table', id: 'tools' },
+    { sel: '#teachings-table', id: 'teachings' }
   ];
+  var activeId = null;
+  function setActive(id) {
+    if (id === activeId) return;
+    activeId = id;
+    var links = navLinks.querySelectorAll('a');
+    for (var i = 0; i < links.length; i++) {
+      var on = links[i].getAttribute('href') === '#' + id;
+      links[i].classList.toggle('active', on);
+      if (on) {
+        links[i].setAttribute('aria-current', 'location');
+        // Keep the active chip visible when the row overflows (phones).
+        var l = links[i];
+        var target = l.offsetLeft - (navLinks.clientWidth - l.offsetWidth) / 2;
+        navLinks.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
+      } else {
+        links[i].removeAttribute('aria-current');
+      }
+    }
+  }
 
   var threshold = 0;
   function measure() {
@@ -2354,20 +2608,15 @@ function toggleTheme() {
     var navVisible = window.scrollY >= threshold;
     nav.classList.toggle('visible', navVisible);
 
-    if (!navVisible) {
-      nav.classList.remove('with-section');
-      return;
-    }
+    // The section links ride along whenever the nav is showing, so any
+    // section is one click away; the one in view is highlighted.
+    nav.classList.toggle('with-section', navVisible);
+    if (!navVisible) return;
 
-    var active = findActiveSection(nav.offsetHeight + 8);
-    if (active) {
-      if (navSection.textContent !== active.name) {
-        navSection.textContent = active.name;
-      }
-      nav.classList.add('with-section');
-    } else {
-      nav.classList.remove('with-section');
-    }
+    // Measure against the nav's full height: on a single jump (deep link,
+    // chip click) it is still animating open when this runs.
+    var active = findActiveSection(Math.max(nav.offsetHeight, 86) + 24);
+    setActive(active ? active.id : null);
   }
 
   measure();
