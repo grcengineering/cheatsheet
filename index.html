@@ -140,7 +140,7 @@ body:has(.sticky-nav.visible) .theme-toggle {
   font-size: 1rem;
 }
 body:has(.sticky-nav.with-section) .theme-toggle {
-  top: 25px;
+  top: 29px;
 }
 
 /* ── STICKY NAVBAR ── */
@@ -166,14 +166,14 @@ body:has(.sticky-nav.with-section) .theme-toggle {
   align-items: center;
   justify-content: center;
   padding: 6px 72px;
-  gap: 2px;
+  gap: 10px;
 }
 .sticky-nav.visible {
   transform: translateY(0);
   pointer-events: auto;
 }
 .sticky-nav.with-section {
-  height: 86px;
+  height: 94px;
 }
 .sticky-nav-title {
   font-family: var(--font-title);
@@ -257,7 +257,7 @@ body:has(.sticky-nav.with-section) .theme-toggle {
 
 /* Linkable section titles: the title text is a self-link, and a copy-link
    button appears beside it on hover (always faintly visible on touch). */
-.anchor-title { scroll-margin-top: 100px; }
+.anchor-title { scroll-margin-top: 110px; }
 .anchor-wrap {
   position: relative;
   display: inline-block;
@@ -351,7 +351,7 @@ body:has(.sticky-nav.with-section) .theme-toggle {
   z-index: 1;
   margin: 28px 0 8px;
 }
-.def-card[id] { scroll-margin-top: 100px; }
+.def-card[id] { scroll-margin-top: 110px; }
 /* The card's link colour (.def-card a) must not repaint its own title. */
 .def-card .def-term .anchor-link,
 [data-theme="dark"] .page-header .def-card .def-term .anchor-link { color: inherit; }
@@ -706,7 +706,7 @@ thead th {
   transition: top 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 body:has(.sticky-nav.visible) thead th { top: 60px; }
-body:has(.sticky-nav.with-section) thead th { top: 86px; }
+body:has(.sticky-nav.with-section) thead th { top: 94px; }
 .table-wrapper thead th {
   background: linear-gradient(to right, var(--orange-bright), var(--blue-bright));
   background-size: 100vw 100%;
@@ -953,7 +953,7 @@ tbody td:nth-child(4) li::before {
 #terms-table thead th { border-bottom: 2px solid #1F9D6B; }
 #terms-table thead th:first-child { background: #0C1117; }
 /* Cross-links from the definition card into the Terms table */
-#terms-table tbody tr[id^="term-"] { scroll-margin-top: 100px; }
+#terms-table tbody tr[id^="term-"] { scroll-margin-top: 110px; }
 a.term-link { color: inherit; text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 3px; cursor: pointer; }
 a.term-link:hover { text-decoration-style: solid; }
 @keyframes termRowFlash { 0%, 100% { background: transparent; } 18% { background: var(--bg-row-hover); } }
@@ -1373,11 +1373,11 @@ a.term-link:hover { text-decoration-style: solid; }
   table { font-size: 0.82rem; }
   thead th { padding: 8px 14px; font-size: 0.9rem; top: 0; }
   body:has(.sticky-nav.visible) thead th { top: 52px; }
-  body:has(.sticky-nav.with-section) thead th { top: 84px; }
+  body:has(.sticky-nav.with-section) thead th { top: 92px; }
   tbody td { padding: 12px 14px; }
   .theme-toggle { top: 12px; right: 12px; width: 38px; height: 38px; font-size: 1rem; }
   .sticky-nav { padding: 6px 56px; height: 52px; }
-  .sticky-nav.with-section { height: 84px; }
+  .sticky-nav.with-section { height: 92px; }
   .sticky-nav { --nav-title-size: clamp(1rem, calc(0.4rem + 3vw), 1.35rem); }
   .section-nav a { font-size: 0.62rem; padding: 5px 9px; }
   .page-header .section-nav { margin: -16px auto 28px; }
@@ -1414,7 +1414,7 @@ a.term-link:hover { text-decoration-style: solid; }
 @media (max-width: 768px) and (orientation: portrait) {
   .theme-toggle { top: 14px; right: 14px; width: 32px; height: 32px; font-size: 0.85rem; }
   body:has(.sticky-nav.visible) .theme-toggle { top: 14px; right: 16px; width: 30px; height: 30px; font-size: 0.85rem; }
-  body:has(.sticky-nav.with-section) .theme-toggle { top: 22px; }
+  body:has(.sticky-nav.with-section) .theme-toggle { top: 26px; }
   /* Portrait mobile: restore horizontal scroll on the comparison table so
      all 3 columns remain readable. The Program column is sticky-left from
      the base tbody td:first-child rule, so it stays pinned during scroll.
@@ -2615,7 +2615,7 @@ function toggleTheme() {
 
     // Measure against the nav's full height: on a single jump (deep link,
     // chip click) it is still animating open when this runs.
-    var active = findActiveSection(Math.max(nav.offsetHeight, 86) + 24);
+    var active = findActiveSection(Math.max(nav.offsetHeight, 94) + 24);
     setActive(active ? active.id : null);
   }
 
