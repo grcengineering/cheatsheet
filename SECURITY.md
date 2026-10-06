@@ -100,10 +100,10 @@ enforced controls are declared in `.sscsb/config.toml` and implemented by the
 workflows in `.github/workflows/`. Notably:
 
 - **Secret detection runs both TruffleHog and Gitleaks.** TruffleHog verifies a
-  candidate credential against its issuing provider, so a finding means the key
-  is real and live. Gitleaks is regex/entropy-based and catches a different
+  candidate credential against its issuing provider and reports only keys
+  confirmed live or whose check errored. Gitleaks is regex/entropy-based and catches a different
   class — generic secrets (e.g. `api_key = "<random>"`) and unverifiable keys
-  that TruffleHog's verified-only filter drops. Each tool covers the other's
+  that TruffleHog never reports. Each tool covers the other's
   gaps.
 - **SAST is CodeQL plus OpenGrep**, and CodeQL carries the application code:
   CodeQL's `javascript-typescript` extractor reads inline `<script>` blocks out
