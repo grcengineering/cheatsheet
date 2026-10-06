@@ -1,0 +1,58 @@
+# sscsb: CodeQL — deep interprocedural analysis on PRs and the default branch.
+#
+# Languages analysed here are the ones this repo actually contains:
+#
+#   actions               — the workflows in this directory.
+#   javascript-typescript — index.html carries ~790 lines of INLINE <script>
+#                           JavaScript that fetches README.md from the network
+#                           at runtime and renders it through innerHTML sinks.
+#                           That is the entire application and its whole attack
+#                           surface, so leaving it unanalysed would make this
+#                           workflow a green check over unread code.
+#
+# Why CodeQL specifically carries this repo: CodeQL's javascript-typescript
+# extractor reads inline <script> blocks out of .html files. Semgrep and
+# OpenGrep do NOT — both were measured against this file and reported
+# "Nothing to scan / Ran N rules on 0 files", because their JS rules bind to
+# .js/.ts extensions only (--scan-unknown-extensions does not change this).
+# CodeQL is therefore the ONLY configured SAST engine that reads this
+# application's source at all. Do not drop javascript-typescript from this
+# matrix without replacing that coverage.
+name: CodeQL
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  schedule:
+    - cron: "45 3 * * 2"
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ["actions", "javascript-typescript"]
+    steps:
+      - name: Harden runner
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
+        with:
+          egress-policy: audit
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@99df26d4f13ea111d4ec1a7dddef6063f76b97e9 # v4.37.0
+        with:
+          languages: ${{ matrix.language }}
+      - name: Analyze
+        uses: github/codeql-action/analyze@99df26d4f13ea111d4ec1a7dddef6063f76b97e9 # v4.37.0
+        with:
+          category: "/language:${{ matrix.language }}"
