@@ -23,12 +23,13 @@ github_repo = "grcengineering/cheatsheet"
 [controls.secrets]
 enabled = true
 trufflehog = true
-# Strongest-tool-only policy: TruffleHog is the sole credential/secret detector.
-# TruffleHog live-verifies candidate credentials against the issuing provider, so a
-# finding means "this key is real and active" rather than "this matched a regex".
-# Gitleaks is regex/entropy-only and cannot verify, so running it alongside TruffleHog
-# adds unverifiable noise without adding detection strength. Deliberately disabled.
-gitleaks = false
+# Both scanners run, deliberately. TruffleHog live-verifies candidate credentials
+# against the issuing provider, so a finding means "this key is real and active".
+# Gitleaks is regex/entropy-based and catches a different class: generic secrets
+# (e.g. `api_key = "<random>"`) and unverifiable keys that TruffleHog's
+# --results=verified,unknown filter drops. Each tool's gaps are the other's
+# coverage, so both stay on.
+gitleaks = true
 pre_push_range_scan = true
 
 # CommitSigningGuard: Hardware-backed, human-only signing enforced on protected branches at pre-push
