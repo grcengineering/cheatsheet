@@ -2,13 +2,13 @@
 task: Optimize the GRC Engineering Cheat Sheet for search and answer engines
 slug: cheatsheet-seo-aeo
 phase: climbing
-progress: 6/10
+progress: 9/10
 principal_stated_goal: "https://cheatsheet.grc.engineering is totally and fully SEO and AEO optimized, based on research about the latest and greatest best practices on SEO and AEO optimization from highly credible authoritative sources on those topics, so that any traditional search engine searches or AI-native web searching related to GRC Engineering results in https://cheatsheet.grc.engineering being surfaced at the very top of the results list."
 ---
 
 ## Problem
 
-The delivered HTML contains empty reference tables and definition cards. The substantive README content requires a JavaScript fetch. Canonical metadata, structured data, crawler discovery files, and search measurement evidence are absent.
+Initially, the delivered HTML contained empty reference tables and definition cards, with substantive README content requiring a JavaScript fetch. Canonical metadata, structured data, crawler discovery files, and search measurement evidence were absent.
 
 ## Vision
 
@@ -35,11 +35,11 @@ The principal_stated_goal above remains the full objective. Technical implementa
 - [x] C3: Canonical URL, useful metadata, truthful structured data, robots.txt and sitemap are correct and mutually consistent; falsifier: SEO validation fails. Evidence: check:seo and metadata regression tests.
 - [x] C4: README changes reliably regenerate the published content with a deterministic drift check; falsifier: modified README can pass CI with stale generated HTML. Evidence: build:check; raw-README prose mutation regression rejects unrendered content.
 - [x] C5: Desktop and mobile browser checks preserve navigation, themes, tables, term deep links and timeline access; falsifier: Interceptor evidence shows missing content or broken interactions. Evidence: Interceptor desktop light/dark, 414px script-disabled render, term-risk positioning, modal Shift-Tab/Escape focus restoration.
-- [ ] C6: The intended revision is committed, CI is green, and the live site serves the same content and discovery signals over HTTPS; falsifier: revision, CI or live-response mismatch.
-- [ ] C7: Search Console and Bing indexing/measurement are inspected and the relevant canonical URL is submitted where authorized access permits; falsifier: no authoritative indexing or submission evidence.
+- [x] C6: The intended revision is committed, CI is green, and the live site serves the same content and discovery signals over HTTPS; falsifier: revision, CI or live-response mismatch. Evidence: signed deployment 983027b, checks 39489675719 and Pages 39489677393 succeeded; live HTML exactly matches the built output and passes privacy validation.
+- [x] C7: Search Console and Bing indexing/measurement are inspected and the relevant canonical URL is submitted where authorized access permits; falsifier: no authoritative indexing or submission evidence. Evidence: both properties verified and sitemaps processed with one discovered page; Google live test and indexing request succeeded; IndexNow notification accepted. Bing's direct fresh-crawl tools returned provider errors, recorded below.
 - [ ] C8: The requested broad first-place search and AI-search visibility is observed and maintained across relevant queries; falsifier: actual search results contradict it or measurement is missing.
 - [x] C9: The application makes no tracking/analytics requests and collects no visitor personal data; falsifier: privacy gate or real-browser network/storage audit finds visitor instrumentation, third-party automatic resources, or collection code. Evidence: 52 privacy mutation tests, static source audit, Interceptor application network log empty; all automatic resources local and connect-src none. Production parity remains C6.
-- [ ] C10: Official mobile and desktop laboratory audits are inspected and actionable accessibility findings are resolved; falsifier: current audit still reports the confirmed link-distinction defects. Field Core Web Vitals must remain explicitly unknown when reports have no data.
+- [x] C10: Official mobile and desktop laboratory audits are inspected and actionable accessibility findings are resolved; falsifier: current audit still reports the confirmed link-distinction defects. Evidence: fresh official mobile and desktop audits score accessibility 100; scored link distinction defects are gone. Field Core Web Vitals remain unknown because both reports have no data.
 
 ## Anti-claims
 
@@ -65,7 +65,7 @@ The principal_stated_goal above remains the full objective. Technical implementa
 
 - Generate ordinary HTML for all visitors from README at build time. Avoid relying on a client fetch for essential content.
 - Rankings remain an open outcome claim; passing a technical audit does not close C8.
-- Privacy clarification: current hosting is accepted; no tracking scripts or pixels may be introduced for search optimization. Existing visitor-side GitHub statistics and external icon CDN are being removed.
+- Privacy clarification: current hosting is accepted; no tracking scripts or pixels may be introduced for search optimization. Existing visitor-side GitHub statistics and external icon CDN are removed.
 - Independent review: adopted unconsumed-prose rejection, accessible light link colors, modal focus containment/background inertness, source-template noindex, and moving build instructions out of the public hero.
 - Design review: fixed light-theme text contrast; preserved established fusion gradients and definition-card glow with narrow template-scoped style-detector exceptions. No privacy/security checks suppressed.
 
@@ -76,11 +76,14 @@ The principal_stated_goal above remains the full objective. Technical implementa
 ## Verification
 
 - Baseline: raw live-page extraction on 2026-10-20 contains table headers but no table rows or first-principles definitions.
-- Hosting: GitHub Pages API reports legacy build from main /, custom domain verified, HTTPS certificate approved; HTTPS enforcement is currently false.
+- Initial hosting baseline: GitHub Pages API reported legacy build from main /, custom domain verified, HTTPS certificate approved, and HTTPS enforcement false.
 - Hosting update: HTTPS enforcement enabled and confirmed true via GitHub Pages API on 2026-10-20.
 - Local validation: 74 tests / 772 assertions; 100% lines and 99.31% functions; deterministic build, SEO and privacy checks pass.
-- Deployment: signed commit d887103; GitHub Actions runs 39488209994 (checks) and 39488209091 (Pages) succeeded; three live responses matched the built HTML and passed the privacy validator.
+- Deployment: signed commits d887103 and 983027b; final GitHub Actions runs 39489675719 (checks) and 39489677393 (Pages) succeeded. Final live HTML exactly matched the built output and passed the privacy validator; real-browser read confirmed 95 table rows and an empty application network log. Final live pixel screenshot viewed: /Users/p4gs/Code/grcengineering/cheatsheet/interceptor-screenshot-1792527224955.webp.
 - Google: ownership verified; sitemap processed successfully with one discovered page; live smartphone fetch/crawl/indexing allowed and HTTPS canonical recognized; indexing request accepted into priority crawl queue. AI-search setting effectively Include, inherited from grc.engineering.
-- Bing: ownership verified via Search Console import and sitemap imported; indexed baseline crawl is 2026-10-15. Fresh request-indexing and live-test tools returned provider errors; no fresh-crawl success claimed.
+- Bing: ownership verified via Search Console import; sitemap processed successfully on 2026-10-20 with one discovered URL, zero errors or warnings. Indexed baseline crawl is 2026-10-15. Fresh request-indexing and live-test tools returned provider errors; no fresh-crawl success claimed. AI Performance reported zero citations and zero average cited pages for 2026-07-19 through 2026-10-18 across Microsoft Copilots and Partners; Search Performance was preparing data with a 48-hour check-back notice.
 - IndexNow: canonical URL notification accepted HTTP 202 with public subdomain key; receipt does not prove indexing.
-- PageSpeed: mobile/desktop performance 100, SEO 100, best practices 100; field No Data. Initial accessibility 96 identified color-only links and ambiguous Wikipedia labels; fixes now included for follow-up audit.
+- PageSpeed: final report 0xwizzp8tn, 2026-10-20 16:13:29 EDT. Mobile/desktop accessibility, SEO and best practices all 100; performance 97/100. Mobile LCP 1.5 s, CLS 0.111; desktop LCP 0.4 s, CLS 0; both TBT 0 and field No Data. Initial report had performance 100/100 and accessibility 96/96; the final audit confirms the scored link distinction findings are resolved. One unscored repeated-label advisory remains for book/newsletter links titled From Heatmaps to Histograms. Mobile layout shift is a measured lab limitation, chiefly the description paragraph; no real-user Core Web Vitals claim is made.
+- Browser cleanup: closed only task-owned site/search-console groups; group-list reads confirmed absence. Bing and performance agents independently closed their own groups. Stopped the task's local verification server.
+- Search outcome baseline, 2026-10-20 approximately 20:15–20:18 UTC: the canonical cheat sheet was absent from the displayed first organic results pages on both Google and Bing for GRC Engineering, what is GRC Engineering, and GRC Engineering tools. Google reported unpersonalized results with an IP location of Kings County/Brooklyn, NY and a signed-in session; Bing account/location effects were not established. Bing's tools query showed the GitHub cheat-sheet result first using its older repository path; an AI answer mentioned the domain but cited GitHub. These observations do not establish a canonical organic position or canonical citation. The search-baseline agent closed its own groups and verified absence.
+- GitHub repository homepage metadata was blank despite a description mentioning the domain. Set its homepage to https://cheatsheet.grc.engineering/ and confirmed the API read-back, giving repository readers a direct canonical-site link without visitor instrumentation.
