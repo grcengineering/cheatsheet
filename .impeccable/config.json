@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "src/index.template.html"
+        ],
+        "createdAt": "2026-10-20T19:52:47.371Z",
+        "reason": "Preserve the established GRCE definition-card border treatment from origin/main 4cfa98e during this search optimization update."
+      },
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "src/index.template.html"
+        ],
+        "createdAt": "2026-10-20T19:54:25.418Z",
+        "reason": "Preserve established GRCE fusion typography from origin/main 4cfa98e; light and dark text gradients now have verified accessible contrast."
+      }
+    ]
+  }
+}

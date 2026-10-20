@@ -2,8 +2,6 @@
 
 > For decades, auditors and governments defined and molded Legacy GRC in their image. Today, engineers and analysts are transforming it into something new: GRC Engineering. This cheat sheet outlines what makes GRC Engineering different.
 
-This README is the canonical content source for the live cheat sheet at **[cheatsheet.grc.engineering](https://cheatsheet.grc.engineering)** — the site fetches and renders this file at runtime, so any change merged here goes live within minutes. To contribute a tool, term, teaching, or timeline event, edit the relevant section below and open a pull request (see [Contributing](https://github.com/grcengineering/cheatsheet#contributing)).
-
 ---
 
 ## First Principles
@@ -30,7 +28,7 @@ GRC Engineering is the practice of using <span class="text-highlight text-highli
 
 ## Legacy GRC vs. GRC Engineering
 
-A side-by-side comparison of the legacy GRC mindset and the GRC Engineering approach across the five program areas. Inside each cell, multiple bullets are separated with `<br>•`.
+A side-by-side comparison of the legacy GRC mindset and the GRC Engineering approach across the five program areas.
 
 | Program | Legacy GRC | GRC Engineering |
 |---|---|---|
@@ -193,11 +191,14 @@ Books, courses, labs, podcasts, talks, blogs, and communities for learning and p
 
 ## Contributing
 
+This README is the canonical content source for the live cheat sheet at **[cheatsheet.grc.engineering](https://cheatsheet.grc.engineering/)**. The site publishes the complete reference as HTML, so readers and search engines can access it without JavaScript.
+
 Contributions are welcome. To add or update an entry:
 
 1. **Fork** this repository.
 2. **Edit `README.md`** — add a row to the relevant table, keeping the existing order (chronological for Timeline, grouped-by-Type for Teachings, alphabetical or thematic otherwise).
-3. **Open a pull request** with a brief explanation of why the resource belongs in this list.
+3. Run `bun run build` to regenerate `index.html`, then `bun run check` to validate the published content.
+4. **Open a pull request** with a brief explanation of why the resource belongs in this list. Include the regenerated `index.html`.
 
 ### Guidelines
 
@@ -209,7 +210,7 @@ Contributions are welcome. To add or update an entry:
 
 ### Markdown conventions
 
-The cheatsheet renders this README at runtime, so syntax matters:
+The build renders this README into `index.html`, so syntax matters:
 
 - All section tables use standard markdown tables.
 - Inside the **Comparison** table, bullet items within a single cell are separated with `<br>•` (literal HTML line break + bullet).

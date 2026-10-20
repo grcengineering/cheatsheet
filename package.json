@@ -1,0 +1,14 @@
+{
+  "name": "grc-engineering-cheatsheet",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "bun scripts/build.ts",
+    "build:check": "bun scripts/build.ts --check",
+    "test": "bun test",
+    "test:coverage": "bun test --coverage",
+    "check:seo": "bun scripts/check-seo-cli.ts",
+    "check:privacy": "bun scripts/check-privacy-cli.ts",
+    "check": "bun run build:check && bun run test && bun run check:seo && bun run check:privacy"
+  }
+}

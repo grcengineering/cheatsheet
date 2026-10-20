@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs><linearGradient id="fusion"><stop stop-color="#FFA84F"/><stop offset="1" stop-color="#2FA6CF"/></linearGradient></defs>
+  <rect width="1200" height="630" fill="#0C111B"/>
+  <path d="M72 88H1128" stroke="url(#fusion)" stroke-width="6"/>
+  <text x="72" y="155" fill="#A7B3BF" font-family="Arial, sans-serif" font-size="25" letter-spacing="4">THE PRACTICAL REFERENCE</text>
+  <text x="68" y="270" fill="#F1F5F9" font-family="Arial, sans-serif" font-size="86" font-weight="700">GRC Engineering</text>
+  <text x="72" y="355" fill="#FFA84F" font-family="Arial, sans-serif" font-size="64">Cheat Sheet</text>
+  <text x="72" y="433" fill="#C4CDD8" font-family="Arial, sans-serif" font-size="30">Principles · Comparisons · Terms · Tools · Teachings</text>
+  <path d="M72 500H1128" stroke="#283543" stroke-width="2"/>
+  <text x="72" y="558" fill="#63BEDC" font-family="Arial, sans-serif" font-size="29">cheatsheet.grc.engineering</text>
+</svg>

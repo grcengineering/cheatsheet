@@ -1,0 +1,7 @@
+[test]
+coverage = true
+coverageThreshold = { line = 0.95, function = 0.95 }
+# These files only read/write files, print diagnostics, and set the CLI exit status.
+# All rendering, schema generation, and SEO validation logic stays in covered modules.
+# The real entrypoints are exercised separately by build:check and check:seo in CI.
+coveragePathIgnorePatterns = ["scripts/*-cli.ts", "scripts/build.ts"]

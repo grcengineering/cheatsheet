@@ -1,0 +1,2385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'none'; img-src 'self' data:; font-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC Engineering Cheat Sheet: Principles, Tools &amp; Terms</title>
+<script type="application/ld+json">{{STRUCTURED_DATA}}</script>
+<meta name="description" content="Explore GRC Engineering: first principles, a comparison with legacy GRC, key terms, tools, learning resources, and a history of governance, risk, and compliance.">
+<link rel="canonical" href="https://cheatsheet.grc.engineering/">
+<!-- The source template is public on root-based Pages; only the generated page is indexable. -->
+<meta name="robots" content="noindex, follow">
+<meta name="google-site-verification" content="mITMbfukOR-WlnQkxrMShn7_lq8uKgZXxWXAc9pR9Yw">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The GRC Engineering Cheat Sheet">
+<meta property="og:title" content="GRC Engineering Cheat Sheet: Principles, Tools &amp; Terms">
+<meta property="og:description" content="Explore GRC Engineering: first principles, a comparison with legacy GRC, key terms, tools, learning resources, and a history of governance, risk, and compliance.">
+<meta property="og:url" content="https://cheatsheet.grc.engineering/">
+<meta property="og:image" content="https://cheatsheet.grc.engineering/assets/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="GRC Engineering Cheat Sheet: principles, comparisons, terms, tools, and teachings.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GRC Engineering Cheat Sheet: Principles, Tools &amp; Terms">
+<meta name="twitter:description" content="Explore GRC Engineering: first principles, a comparison with legacy GRC, key terms, tools, learning resources, and a history of governance, risk, and compliance.">
+<meta name="twitter:image" content="https://cheatsheet.grc.engineering/assets/social-card.png">
+<meta name="twitter:image:alt" content="GRC Engineering Cheat Sheet: principles, comparisons, terms, tools, and teachings.">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" sizes="any">
+<!-- GRCE Design System fonts — self-hosted (General Sans · Satoshi · Martian Mono) -->
+<link rel="preload" href="ds-fonts/general-sans-vf.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="ds-fonts/satoshi-vf.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="ds-fonts/martian-mono-vf.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* ════════ GRCE DESIGN SYSTEM — self-hosted fonts ════════ */
+@font-face {
+  font-family: "General Sans";
+  src: url("ds-fonts/general-sans-vf.woff2") format("woff2");
+  font-weight: 400 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Satoshi";
+  src: url("ds-fonts/satoshi-vf.woff2") format("woff2");
+  font-weight: 300 900; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Satoshi";
+  src: url("ds-fonts/satoshi-vf-italic.woff2") format("woff2");
+  font-weight: 300 900; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: "Martian Mono";
+  src: url("ds-fonts/martian-mono-vf.woff2") format("woff2");
+  font-weight: 400 700; font-style: normal; font-display: swap;
+}
+
+/* Local SVG masks preserve icon classes without a third-party icon font. */
+.ri-link, .ri-check-line, .ri-contrast-2-line, .ri-sun-line, .ri-moon-line {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+  background-color: currentColor;
+  -webkit-mask: var(--icon-mask) center / contain no-repeat;
+  mask: var(--icon-mask) center / contain no-repeat;
+}
+.ri-link { --icon-mask: url("assets/icons/link.svg"); }
+.ri-check-line { --icon-mask: url("assets/icons/check.svg"); }
+.ri-contrast-2-line { --icon-mask: url("assets/icons/system.svg"); }
+.ri-sun-line { --icon-mask: url("assets/icons/sun.svg"); }
+.ri-moon-line { --icon-mask: url("assets/icons/moon.svg"); }
+
+/* ════════ GRCE DS tokens — brand hues + slate surfaces (light) ════════ */
+:root {
+  --orange: #FFA84F;        /* --grc-orange-400 · "Legacy GRC" core */
+  --orange-bright: #F8932F; /* --grc-orange-500 · fusion-gradient stop */
+  --blue: #1B95C1;          /* --eng-blue-500 · "Engineering" core */
+  --blue-bright: #2FA6CF;   /* --eng-blue-400 · fusion-gradient stop */
+  /* Text accents are distinct from brand fills/borders so ordinary text meets AA. */
+  --orange-text: #8B4400;
+  --blue-text: #146B8A;
+  --orange-text-bright: #8B4400;
+  --blue-text-bright: #146B8A;
+
+  /* Light mode — DS slate surfaces */
+  --bg: #FBFCFD;                 /* --surface-page (slate-25) */
+  --bg-page: #FFFFFF;
+  --bg-card: #FFFFFF;            /* --surface-card (slate-0) */
+  --bg-header: var(--orange);
+  --bg-row-header: #F6F8FA;      /* --surface-sunken (slate-50) */
+  --bg-row-alt: #FBFCFD;         /* slate-25 */
+  --bg-row-hover: #FFF4E6;       /* --grc-orange-50 */
+  --text: #161D24;               /* --text-strong (slate-900) */
+  --text-dim: #4F5D6A;           /* slate-600 */
+  --text-header: #0B0F14;        /* --ink */
+  --text-row-header: #161D24;
+  --border: #E3E8ED;             /* --border-subtle (slate-150) */
+  --border-header: rgba(0,0,0,0.12);
+  --shadow: rgba(12,17,23,0.08); /* DS cool slate-tinted shadow */
+  --shadow-strong: rgba(12,17,23,0.13);
+  /* Sticky header elevation — DS --shadow-md */
+  --nav-shadow: 0 4px 12px -2px rgba(12,17,23,0.10), 0 2px 4px -2px rgba(12,17,23,0.06);
+  --toggle-bg: rgba(12,17,23,0.05);
+  --toggle-hover: rgba(12,17,23,0.09);
+
+  /* DS type roles: display → General Sans · body → Satoshi · mono → Martian Mono */
+  --font-body: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Martian Mono', ui-monospace, 'SF Mono', monospace;
+  --font-title: 'General Sans', ui-sans-serif, system-ui, sans-serif;
+}
+
+[data-theme="dark"] {
+  --orange-text: var(--orange);
+  --blue-text: var(--blue);
+  --orange-text-bright: var(--orange-bright);
+  --blue-text-bright: var(--blue-bright);
+  /* Dark mode — DS deep engineering navy */
+  --bg: #0A0E16;                 /* --surface-page */
+  --bg-page: #0C111B;            /* --surface-sunken */
+  --bg-card: #111722;            /* --surface-card */
+  --bg-header: #161E2B;          /* --surface-raised */
+  --bg-row-header: #161E2B;
+  --bg-row-alt: #0E141E;
+  --bg-row-hover: rgba(255,168,79,0.07);
+  --text: #C4CDD8;               /* --text-body (dark) */
+  --text-dim: #8B97A4;           /* --text-muted (dark) */
+  --text-header: #F1F5F9;        /* --text-strong (dark) */
+  --text-row-header: #F1F5F9;
+  --border: rgba(255,255,255,0.11);   /* --border-default (dark) */
+  --border-header: rgba(255,255,255,0.17);
+  --shadow: rgba(0,0,0,0.35);
+  --shadow-strong: rgba(0,0,0,0.55);
+  /* Dark: a pure-black shadow is invisible on the near-black page, so
+     elevation reads from a deeper diffuse shadow plus a faint lit 1px
+     bottom edge — the standard separator cue for dark UIs. */
+  --nav-shadow: 0 8px 24px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.07);
+  --toggle-bg: rgba(255,255,255,0.06);
+  --toggle-hover: rgba(255,255,255,0.1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* ── THEME TOGGLE ── */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 102;
+  background: var(--toggle-bg);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background 0.2s ease, width 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), height 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), top 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), right 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), font-size 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  backdrop-filter: blur(10px);
+  color: var(--text);
+}
+.theme-toggle:hover {
+  background: var(--toggle-hover);
+}
+body:has(.sticky-nav.visible) .theme-toggle {
+  top: 12px;
+  right: 24px;
+  width: 36px;
+  height: 36px;
+  font-size: 1rem;
+}
+body:has(.sticky-nav.with-section) .theme-toggle {
+  top: 29px;
+}
+
+/* ── STICKY NAVBAR ── */
+.sticky-nav {
+  /* Single source of truth — section font size is always derived as
+     (--nav-title-size - 0.2rem), so the 0.2rem gap holds at every viewport. */
+  --nav-title-size: 1.35rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: var(--bg);
+  z-index: 99;
+  backdrop-filter: blur(12px);
+  transform: translateY(-100%);
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              height 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: var(--nav-shadow);
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 72px;
+  gap: 10px;
+}
+.sticky-nav.visible {
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.sticky-nav.with-section {
+  height: 94px;
+}
+.sticky-nav-title {
+  font-family: var(--font-title);
+  font-size: var(--nav-title-size);
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  line-height: 1.2;
+  text-align: center;
+  transition: font-size 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.sticky-nav-title .highlight {
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--orange-text-bright), var(--blue-text-bright));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+/* Section jump links. The same markup lives in the hero (.page-header) and
+   in the sticky nav; the sticky copy highlights the section in view. */
+.section-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+.section-nav a {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 6px 11px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.section-nav a:hover,
+.section-nav a:focus-visible {
+  color: var(--text);
+  border-color: var(--orange);
+  outline: none;
+}
+.section-nav a.active {
+  color: var(--text-header);
+  border-color: transparent;
+  background:
+    linear-gradient(var(--bg), var(--bg)) padding-box,
+    linear-gradient(100deg, var(--orange) 0%, var(--blue) 100%) border-box;
+}
+.page-header .section-nav {
+  position: relative;
+  z-index: 1;
+  margin: -12px auto 36px;
+  max-width: 760px;
+}
+.sticky-nav-links {
+  flex-wrap: nowrap;
+  justify-content: safe center;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  opacity: 0;
+  max-height: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              max-height 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.sticky-nav-links::-webkit-scrollbar { display: none; }
+.sticky-nav-links a { padding: 5px 10px; }
+.sticky-nav.with-section .sticky-nav-links {
+  opacity: 1;
+  max-height: 32px;
+  transform: translateY(0);
+}
+
+/* Linkable section titles: the title text is a self-link, and a copy-link
+   button appears beside it on hover (always faintly visible on touch). */
+.anchor-title { scroll-margin-top: 110px; }
+.anchor-wrap {
+  position: relative;
+  display: inline-block;
+}
+.anchor-link {
+  color: inherit;
+  text-decoration: none;
+  font: inherit;
+  letter-spacing: inherit;
+}
+.anchor-link:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.copy-link {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 6px;
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--text-dim);
+  -webkit-text-fill-color: currentColor;
+  font-size: 0.95rem;
+  letter-spacing: 0;
+  text-transform: none;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+.anchor-title:hover .copy-link,
+.anchor-title:focus-within .copy-link,
+.copy-link.copied { opacity: 1; }
+.copy-link:hover,
+.copy-link:focus-visible {
+  color: var(--orange-text);
+  background: var(--toggle-bg);
+  border-color: var(--border);
+  outline: none;
+}
+.copy-link.copied { color: var(--blue-text); }
+.copy-link::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translate(-50%, 4px);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: var(--text-header);
+  color: var(--bg);
+  -webkit-text-fill-color: var(--bg);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.copy-link:hover::after,
+.copy-link:focus-visible::after,
+.copy-link.copied::after {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+@media (hover: none) {
+  .copy-link { opacity: 0.75; }
+}
+/* Narrow screens: long titles wrap, so an absolutely placed button would hang
+   off the right edge. Flow it inline after the last word instead. */
+@media (max-width: 768px) {
+  .anchor-wrap { display: inline; }
+  .copy-link {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    vertical-align: middle;
+    margin-left: 4px;
+  }
+}
+.hero-eyebrow {
+  position: relative;
+  z-index: 1;
+  margin: 28px 0 8px;
+}
+.def-card[id] { scroll-margin-top: 110px; }
+/* The card's link colour (.def-card a) must not repaint its own title. */
+.def-card .def-term .anchor-link,
+[data-theme="dark"] .page-header .def-card .def-term .anchor-link { color: inherit; }
+.def-term .copy-link { width: 24px; height: 24px; font-size: 0.85rem; }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+/* ── HEADER ── */
+.page-header {
+  text-align: center;
+  padding: 80px 24px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.page-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 500px 300px at 30% 50%, rgba(255,168,79,0.1) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 300px at 70% 40%, rgba(27,149,193,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  text-decoration: none;
+  letter-spacing: 1px;
+  margin-bottom: 32px;
+  position: relative;
+  z-index: 1;
+  transition: color 0.2s;
+}
+.back-link:hover { color: var(--orange-text); }
+
+.page-title {
+  font-family: var(--font-title);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--text);
+  position: relative;
+  z-index: 1;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+.page-title .highlight {
+  font-size: inherit;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--orange-text-bright), var(--blue-text-bright));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.page-desc {
+  font-size: 1.05rem;
+  color: var(--text);
+  max-width: 640px;
+  margin: 0 auto 20px;
+  position: relative;
+  z-index: 1;
+  line-height: 1.7;
+  opacity: 0.85;
+}
+/* GitHub repo button — points to the cheatsheet repo (the README in that
+   repo is the source-of-truth content rendered above). Lives in the
+   footer prefixed with "Built from". It is an ordinary outbound link. */
+.repo-built-from {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.repo-built-from-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.repo-button {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-card);
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  font-family: var(--font-body);
+  letter-spacing: 0;
+  text-transform: none;
+  overflow: hidden;
+  box-shadow: 0 2px 10px var(--shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  max-width: 100%;
+  vertical-align: middle;
+}
+.repo-button:hover,
+.repo-button:focus-visible {
+  text-decoration: none;
+  transform: translateY(-1px);
+  border-color: var(--text);
+  box-shadow: 0 6px 18px var(--shadow), 0 1px 4px var(--shadow);
+  outline: none;
+}
+.repo-button-head {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  min-width: 0;
+}
+.repo-button-logo {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: var(--text);
+}
+.repo-button-org {
+  color: var(--text);
+  opacity: 0.7;
+  font-weight: 500;
+}
+.repo-button-sep {
+  opacity: 0.75;
+  margin: 0 1px;
+}
+.repo-button-name {
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (max-width: 480px) {
+  .repo-button { font-size: 0.8125rem; }
+  .repo-button-head { padding: 8px 10px; gap: 6px; }
+  .repo-button-org,
+  .repo-button-sep { display: none; }
+}
+.definitions {
+  display: flex;
+  gap: 20px;
+  max-width: 1200px;
+  padding: 0 24px;
+  margin: 24px auto;
+  position: relative;
+  z-index: 1;
+}
+.def-equation {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 1200px;
+  padding: 0 24px;
+  margin: 24px auto;
+  position: relative;
+  z-index: 1;
+  align-items: center;
+}
+.def-equation-top {
+  display: flex;
+  gap: 0;
+  align-items: stretch;
+  width: 100%;
+}
+.def-equation-top .def-card {
+  flex: 1 1 0;
+}
+.def-operator {
+  font-family: var(--font-mono);
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 48px;
+  opacity: 1;
+}
+.def-equation-bottom {
+  width: 100%;
+}
+.def-card {
+  flex: 1;
+  padding: 16px 20px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  text-align: left;
+}
+.def-card-grc-eng {
+  position: relative;
+  border: none;
+  padding: 18px 22px;
+  background: var(--bg-card);
+  border-radius: 10px;
+  z-index: 0;
+  animation: glow-pulse 8s ease-in-out infinite;
+}
+/* Rotating gradient border */
+.def-card-grc-eng::before {
+  content: '';
+  position: absolute;
+  inset: -0.75px;
+  border-radius: 10.75px;
+  background: conic-gradient(
+    from var(--border-angle, 0deg),
+    var(--orange-bright),
+    var(--blue-bright),
+    var(--orange-bright)
+  );
+  z-index: -2;
+}
+/* Card background fill */
+.def-card-grc-eng::after {
+  content: '';
+  position: absolute;
+  inset: 0.75px;
+  border-radius: 9.25px;
+  background: var(--bg-card);
+  z-index: -1;
+}
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(255, 140, 0, 0.5), 0 0 24px rgba(255, 140, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(0, 168, 232, 0.5), 0 0 24px rgba(0, 168, 232, 0.2);
+  }
+}
+.def-term {
+  font-family: var(--font-title);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange-text);
+  display: block;
+  margin-bottom: 8px;
+}
+.def-card p {
+  font-size: 1.05rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+  margin: 0;
+}
+.def-card a {
+  color: var(--blue-text);
+  text-decoration: none;
+  font-size: inherit;
+}
+.def-card a:hover { text-decoration: underline; }
+.page-subtitle {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+  text-align: center;
+  margin-bottom: 16px;
+  padding: 12px 0;
+}
+.comparison-section {
+  position: relative;
+}
+
+/* ── TABLE CONTAINER ── */
+.table-wrapper {
+  max-width: 1200px;
+  margin: 0 auto 80px;
+  padding: 0 24px;
+}
+.table-outer {
+  border-radius: 0;
+  box-shadow:
+    0 4px 24px var(--shadow),
+    0 1px 4px var(--shadow);
+  border: 1px solid var(--border);
+  overflow: clip;
+  background: var(--bg-card);
+}
+.table-container {
+  overflow: visible;
+  background: var(--bg-card);
+}
+
+/* ── TABLE ── */
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  min-width: 700px;
+  font-size: 0.92rem;
+}
+
+/* Header row */
+thead th {
+  position: sticky;
+  top: 52px;
+  z-index: 20;
+  background: var(--bg-header);
+  color: var(--text-header);
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 10px 20px;
+  text-align: left;
+  border-bottom: 2px solid var(--border-header);
+  white-space: nowrap;
+  will-change: transform;
+  transition: top 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+body:has(.sticky-nav.visible) thead th { top: 60px; }
+body:has(.sticky-nav.with-section) thead th { top: 94px; }
+.table-wrapper thead th {
+  background: linear-gradient(to right, var(--orange-bright), var(--blue-bright));
+  background-size: 100vw 100%;
+  background-position: left center;
+  color: #000;
+  border-bottom-color: rgba(0,0,0,0.15);
+}
+[data-theme="dark"] thead th {
+  background: linear-gradient(135deg, #2a1f3e, #1a2a3e);
+  border-bottom-color: var(--border-header);
+}
+[data-theme="dark"] .table-wrapper thead th {
+  background: linear-gradient(to right, var(--orange-bright), var(--blue-bright));
+  background-size: 100vw 100%;
+  background-position: left center;
+}
+thead th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 30;
+  text-align: center;
+  background: var(--bg-header);
+}
+.table-wrapper thead th:first-child {
+  background: linear-gradient(to right, var(--orange-bright), var(--blue-bright));
+  background-size: 100vw 100%;
+  background-position: left center;
+  border-right: 2px solid var(--border-header);
+}
+
+/* Comparison table: lock the two content columns to identical widths so the
+   Legacy GRC and GRC Engineering columns are perfectly symmetrical. Fixed
+   table layout gives the Program column a set width and splits the rest
+   equally between columns 2 and 3 regardless of how much text each holds. */
+.comparison-section table { table-layout: fixed; }
+.comparison-section thead th:first-child,
+.comparison-section tbody td:first-child { width: 132px; }
+
+/* Rounded corners handled by .table-outer overflow: hidden */
+
+/* Sticky first column */
+tbody td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 10;
+  will-change: transform;
+  background: var(--bg-row-header);
+  font-family: var(--font-body);
+  font-weight: 700;
+  text-align: center;
+  vertical-align: middle;
+  /* Allow wrapping at word boundaries so multi-word labels (e.g. "Trust &
+     Assurance") break at spaces; column shrinks to longest single word. */
+  white-space: normal;
+  color: var(--text-row-header);
+  border-right: 2px solid var(--border);
+  width: 1%;
+}
+[data-theme="dark"] tbody td:first-child {
+  background: var(--bg-row-header);
+}
+/* Match alt row bg on sticky column */
+tbody tr:nth-child(even) td:first-child {
+  background: var(--bg-card);
+}
+[data-theme="dark"] tbody tr:nth-child(even) td:first-child {
+  background: var(--bg-card);
+}
+
+/* Body cells */
+tbody td {
+  padding: 16px 20px;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-card);
+}
+tbody tr:nth-child(odd) td {
+  background: var(--bg-row-alt);
+}
+tbody tr:hover td {
+  background: var(--bg-row-hover);
+}
+tbody tr:hover td:first-child {
+  background: var(--bg-row-hover);
+}
+
+tbody tr:last-child td { border-bottom: none; }
+
+/* Column header label styling */
+.col-legacy {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.col-legacy::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #888;
+  display: inline-block;
+}
+.col-engineering {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.col-engineering::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  background: linear-gradient(135deg, var(--orange-bright), var(--blue-bright));
+}
+
+/* Lists inside cells */
+tbody ul {
+  margin: 0;
+  padding-left: 18px;
+  list-style: none;
+}
+tbody li {
+  margin-bottom: 6px;
+  position: relative;
+  padding-left: 4px;
+  font-weight: 400;
+}
+tbody li:last-child { margin-bottom: 0; }
+tbody li::before {
+  content: '';
+  position: absolute;
+  left: -14px;
+  top: 0.6em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  border: 1px solid #000;
+}
+/* Legacy column bullets — grey */
+tbody td:nth-child(2) li::before {
+  background: #999;
+}
+/* Engineering column bullets — gradient */
+tbody td:nth-child(3) li::before,
+tbody td:nth-child(4) li::before {
+  background: linear-gradient(135deg, var(--orange-bright), var(--blue-bright));
+}
+
+/* Program labels */
+.program-label {
+  font-size: inherit;
+  letter-spacing: 0.5px;
+}
+.program-label em {
+  font-style: italic;
+  opacity: 0.8;
+}
+
+/* ── REFERENCE TABLES ── */
+.ref-tables {
+  max-width: 1200px;
+  margin: 0 auto 60px;
+  padding: 0 24px;
+  overflow-x: clip;
+}
+.ref-section {
+  margin-bottom: 48px;
+}
+.ref-section:last-child { margin-bottom: 0; }
+.ref-section-title {
+  font-family: var(--font-title);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+  text-align: center;
+  padding: 12px 0;
+}
+/* Ref table: no horizontal scroll, fully responsive */
+.ref-tables .table-outer {
+  overflow: clip;
+  border-radius: 0;
+}
+.ref-tables .table-container {
+  overflow: visible;
+}
+.ref-tables table {
+  width: 100%;
+  min-width: 0;
+  table-layout: auto;
+}
+.ref-tables thead th:first-child {
+  text-align: center;
+  width: 1%;
+  white-space: normal;
+}
+.ref-tables tbody td:first-child {
+  vertical-align: middle;
+  text-align: center;
+  background: var(--bg-row-header);
+  font-family: var(--font-body);
+  font-weight: 700;
+  color: var(--text-row-header);
+  border-right: 2px solid var(--border);
+  white-space: normal;
+  position: static;
+  width: 1%;
+}
+.ref-tables tbody tr:nth-child(even) td:first-child {
+  background: var(--bg-card);
+}
+.ref-tables tbody td:first-child strong {
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+.ref-tables tbody td:last-child {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+/* Ref table sticky headers — work with page scroll since no overflow container */
+.ref-tables thead th {
+  position: sticky;
+  top: 52px;
+  z-index: 20;
+}
+/* Per-table headers — GRCE DS ink panels (--surface-ink) with DS status-hue
+   accent edges: terms → pass-green, tools → engineering-blue, teachings → amber. */
+#terms-table thead th,
+#tools-table thead th,
+#teachings-table thead th {
+  background: #0C1117;
+  color: #E7EDF2;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+#terms-table thead th { border-bottom: 2px solid #1F9D6B; }
+#terms-table thead th:first-child { background: #0C1117; }
+/* Cross-links from the definition card into the Terms table */
+#terms-table tbody tr[id^="term-"] { scroll-margin-top: 110px; }
+a.term-link { color: inherit; text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 3px; cursor: pointer; }
+a.term-link:hover { text-decoration-style: solid; }
+@keyframes termRowFlash { 0%, 100% { background: transparent; } 18% { background: var(--bg-row-hover); } }
+#terms-table tbody tr.term-row-flash > td { animation: termRowFlash 1.6s ease; }
+
+#tools-table thead th { border-bottom: 2px solid #1B95C1; }
+#tools-table thead th:first-child { background: #0C1117; }
+#teachings-table thead th { border-bottom: 2px solid #E8A317; }
+#teachings-table thead th:first-child { background: #0C1117; }
+
+
+/* Ink headers are theme-independent (DS: brand panels don't flip) — in dark,
+   separate the ink header from the near-black page with a lit hairline. */
+[data-theme="dark"] #terms-table thead th,
+[data-theme="dark"] #tools-table thead th,
+[data-theme="dark"] #teachings-table thead th { box-shadow: inset 0 1px 0 rgba(255,255,255,0.06); }
+
+/* Teachings table — Type column uses rowspan; data continuation rows have only the Teaching cell */
+#teachings-table tbody td.teaching-type {
+  vertical-align: middle;
+  text-align: center;
+  background: var(--bg-row-header);
+  font-family: var(--font-body);
+  font-weight: 700;
+  color: var(--text-row-header);
+  border-right: 2px solid var(--border);
+  white-space: normal;
+  width: 1%;
+}
+#teachings-table tbody td:first-child:not(.teaching-type) {
+  vertical-align: top;
+  text-align: left;
+  background: var(--bg-card);
+  font-family: var(--font-body);
+  font-weight: 400;
+  color: var(--text);
+  border-right: none;
+  width: auto;
+}
+#teachings-table tbody tr:nth-child(odd) td:first-child:not(.teaching-type) {
+  background: var(--bg-row-alt);
+}
+#teachings-table tbody tr:hover td:first-child:not(.teaching-type) {
+  background: var(--bg-row-hover);
+}
+#teachings-table .teaching-author {
+  display: block;
+  color: var(--text-dim);
+  font-size: 0.88em;
+  font-weight: 400;
+  margin-top: 3px;
+}
+#teachings-table tbody td a,
+#tools-table tbody td a {
+  color: var(--blue-text);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--blue);
+  transition: opacity 0.15s ease;
+}
+#teachings-table tbody td a:hover,
+#tools-table tbody td a:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+#teachings-table tbody td:not(.teaching-type) strong {
+  font-weight: 400;
+}
+
+/* ── TIMELINE ── */
+.timeline-section {
+  max-width: 1200px;
+  margin: 0 auto 60px;
+  padding: 0 24px;
+}
+.timeline-section-title {
+  font-family: var(--font-title);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+  text-align: center;
+  padding: 12px 0;
+}
+.timeline-section-sub {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  text-align: center;
+  margin: -8px 0 6px;
+}
+.timeline-section {
+}
+.timeline-outer {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-card);
+  box-shadow: 0 4px 24px var(--shadow), 0 1px 4px var(--shadow);
+  overflow: hidden;
+}
+.timeline-scroll {
+  display: flex;
+  align-items: stretch;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
+  padding: 0 48px;
+  height: 340px;
+  position: relative;
+  /* Hide the horizontal scrollbar so clientHeight === height and the
+     markers' vertical center (anchored at 50% of .tl-event, which fills
+     clientHeight) lines up exactly with the track's vertical center
+     (anchored at 50% of .timeline-outer). The edge-fade gradients
+     already signal scrollability; the scrollbar wasn't carrying its
+     weight as an affordance and was subtracting 4px from clientHeight,
+     pushing the marker center 2px above the track center. */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.timeline-scroll::-webkit-scrollbar { display: none; }
+/* Connector line — spans the full scroll width */
+.timeline-track {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(to right, var(--orange-bright), var(--blue-bright));
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 0;
+}
+/* Fade edges to hint at scrollability */
+.timeline-outer::before,
+.timeline-outer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 32px;
+  z-index: 2;
+  pointer-events: none;
+}
+.timeline-outer::before {
+  left: 0;
+  background: linear-gradient(to right, var(--bg-card), transparent);
+}
+.timeline-outer::after {
+  right: 0;
+  background: linear-gradient(to left, var(--bg-card), transparent);
+}
+/* Each event is full-height, marker absolutely pinned at 50% */
+.tl-event {
+  flex-shrink: 0;
+  width: 156px;
+  scroll-snap-align: center;
+  position: relative;
+  z-index: 1;
+}
+/* Marker — absolutely centered on the track */
+.tl-marker {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 2.5px solid var(--orange-bright);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+.tl-event:hover .tl-marker {
+  transform: translate(-50%, -50%) scale(1.4);
+  border-color: var(--blue-bright);
+  box-shadow: 0 0 10px rgba(0, 168, 232, 0.5);
+}
+/* Stem — absolutely positioned, connects marker to content */
+.tl-stem {
+  width: 1.5px;
+  background: var(--border);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+/* Content (year + label) */
+.tl-content {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+.tl-year {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--orange-text);
+  display: block;
+  line-height: 1.1;
+}
+.tl-label {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  line-height: 1.15;
+  margin-top: 1px;
+  overflow-wrap: anywhere;
+}
+.tl-event { cursor: pointer; }
+/* Click-and-hold slider to pan the timeline left↔right (desktop pointer
+   affordance; native touchpad horizontal scroll still works). Shown by JS
+   only when the timeline overflows. */
+.timeline-slider {
+  display: none;
+  position: relative;
+  height: 16px;
+  margin: 16px 0 0;
+  border-radius: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  box-shadow: inset 0 1px 2px var(--shadow);
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+}
+.timeline-slider.active { display: block; }
+.timeline-slider-thumb {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  left: 0;
+  width: 40px;
+  min-width: 30px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--orange-bright), var(--blue-bright));
+  cursor: grab;
+  transition: filter 0.15s;
+}
+/* Subtle triple-line grip — implies the thumb is meant to be grabbed.
+   Center bar + two box-shadow siblings = exactly three vertical lines. */
+.timeline-slider-thumb::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1.5px;
+  height: 6px;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.32);
+  box-shadow: -3px 0 0 rgba(0, 0, 0, 0.32), 3px 0 0 rgba(0, 0, 0, 0.32);
+  border-radius: 1px;
+  pointer-events: none;
+}
+.timeline-slider-thumb:hover { filter: brightness(1.06); }
+.timeline-slider.dragging .timeline-slider-thumb,
+.timeline-slider-thumb:active { cursor: grabbing; }
+.timeline-slider:focus-visible,
+.timeline-slider-thumb:focus-visible {
+  outline: 2px solid var(--blue-bright);
+  outline-offset: 2px;
+}
+/* Timeline event modal */
+.tl-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+.tl-modal.visible { display: flex; }
+.tl-modal-content {
+  background: var(--bg-card);
+  color: var(--text);
+  border-radius: 12px;
+  max-width: 520px;
+  width: 100%;
+  padding: 28px 28px 24px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  border: 1px solid var(--border);
+}
+.tl-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--text-dim);
+  padding: 4px 8px;
+}
+.tl-modal-close:hover { color: var(--text); }
+.tl-modal-date {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--orange-text);
+  letter-spacing: 1px;
+  margin: 0 0 4px 0;
+}
+.tl-modal-source {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+.tl-modal-source-link {
+  color: var(--orange-text);
+  text-decoration: none;
+  word-break: break-all;
+}
+.tl-modal-source-link:hover { text-decoration: underline; }
+.tl-modal-title {
+  font-family: var(--font-title);
+  margin: 0 0 12px 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text);
+}
+.tl-modal-actor {
+  display: inline-block;
+  background: var(--bg-row-header);
+  color: var(--text-row-header);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+}
+.tl-modal p { margin: 10px 0; line-height: 1.55; font-size: 0.95rem; }
+.tl-modal-label { font-weight: 700; color: var(--text); font-family: var(--font-title); }
+/* Odd events: content ABOVE the line */
+.tl-event:nth-child(odd) .tl-stem {
+  bottom: 50%;
+  height: 24px;
+  margin-bottom: 4px;
+}
+.tl-event:nth-child(odd) .tl-content {
+  bottom: calc(50% + 28px);
+}
+/* Even events: content BELOW the line */
+.tl-event:nth-child(even) .tl-stem {
+  top: 50%;
+  height: 24px;
+  margin-top: 4px;
+}
+.tl-event:nth-child(even) .tl-content {
+  top: calc(50% + 28px);
+}
+/* Dark mode */
+[data-theme="dark"] .tl-marker {
+  background: var(--bg-card);
+  border-color: var(--orange);
+}
+[data-theme="dark"] .tl-event:hover .tl-marker {
+  border-color: var(--blue-bright);
+  box-shadow: 0 0 12px rgba(0, 168, 232, 0.5);
+}
+[data-theme="dark"] .tl-stem {
+  background: rgba(255, 168, 79, 0.25);
+}
+
+/* ── FOOTER ── */
+.page-footer {
+  text-align: center;
+  padding: 24px;
+  border-top: 1px solid var(--border);
+}
+.page-footer p {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+}
+.page-footer a {
+  color: var(--orange-text);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.page-footer a:hover { color: var(--blue-text); }
+.version-tag {
+  margin-top: 6px;
+  font-size: 0.65rem !important;
+  opacity: 1;
+  letter-spacing: 1px !important;
+  text-transform: uppercase;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .page-header { padding: 60px 16px 40px; }
+  .page-title { font-size: clamp(2rem, 8vw, 3rem); }
+  .definitions { flex-direction: column; gap: 12px; }
+  .def-equation-top { flex-direction: column; gap: 0; }
+  .def-operator { width: auto; height: 32px; font-size: 1.3rem; }
+  .table-wrapper { padding: 0 12px; }
+  /* Drop horizontal scroll on mobile so .table-container is no longer a
+     sticky scroll context — lets thead use the page-viewport sticky rules
+     below, the same as the ref-tables. */
+  .table-wrapper .table-container { overflow-x: visible; }
+  .table-wrapper table { min-width: 0; }
+  table { font-size: 0.82rem; }
+  thead th { padding: 8px 14px; font-size: 0.9rem; top: 0; }
+  body:has(.sticky-nav.visible) thead th { top: 52px; }
+  body:has(.sticky-nav.with-section) thead th { top: 92px; }
+  tbody td { padding: 12px 14px; }
+  .theme-toggle { top: 12px; right: 12px; width: 38px; height: 38px; font-size: 1rem; }
+  .sticky-nav { padding: 6px 56px; height: 52px; }
+  .sticky-nav.with-section { height: 92px; }
+  .sticky-nav { --nav-title-size: clamp(1rem, calc(0.4rem + 3vw), 1.35rem); }
+  .section-nav a { font-size: 0.62rem; padding: 5px 9px; }
+  .page-header .section-nav { margin: -16px auto 28px; }
+  .timeline-section-title {
+    font-size: 1rem;
+  }
+  .ref-tables { padding: 0 12px; }
+  .ref-tables tbody td { padding: 10px 12px; }
+  .timeline-section { padding: 0 12px; }
+  .timeline-scroll { height: 300px; padding: 0 24px; }
+  .tl-event { width: 140px; }
+  .tl-year { font-size: 0.95rem; }
+  .tl-label { font-size: 0.8rem; }
+  .tl-stem { height: 22px; }
+}
+@media (max-width: 480px) {
+  .page-header { padding: 50px 12px 32px; }
+  table { font-size: 0.78rem; }
+  thead th { padding: 6px 10px; }
+  tbody td { padding: 10px 10px; }
+  tbody ul { padding-left: 14px; }
+  .ref-tables { padding: 0 8px; }
+  .ref-tables tbody td { padding: 8px 8px; }
+}
+/* Landscape mobile (phones held sideways): width > 768 doesn't trigger
+   the mobile MQ, but height is short. Apply compact table sizing. */
+@media (orientation: landscape) and (max-height: 600px) {
+  table { font-size: 0.82rem; }
+  thead th { padding: 8px 14px; font-size: 0.9rem; }
+  tbody td { padding: 10px 14px; }
+  .ref-tables tbody td { padding: 8px 12px; }
+  #teachings-table .teaching-author { font-size: 0.82em; }
+}
+@media (max-width: 768px) and (orientation: portrait) {
+  .theme-toggle { top: 14px; right: 14px; width: 32px; height: 32px; font-size: 0.85rem; }
+  body:has(.sticky-nav.visible) .theme-toggle { top: 14px; right: 16px; width: 30px; height: 30px; font-size: 0.85rem; }
+  body:has(.sticky-nav.with-section) .theme-toggle { top: 26px; }
+  /* Portrait mobile: restore horizontal scroll on the comparison table so
+     all 3 columns remain readable. The Program column is sticky-left from
+     the base tbody td:first-child rule, so it stays pinned during scroll.
+     With overflow-x:auto, .table-container becomes the sticky context for
+     thead — reset its top to 0 so it stays pinned to the top of the
+     horizontally-scrolling table (instead of being pushed inside it).
+     A JS-driven cloned thead handles the viewport-pinned sticky behavior
+     (see the comparison-thead-clone styles + script below). */
+  .table-wrapper table { min-width: 700px; }
+  .table-wrapper .table-container {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: auto;
+  }
+  body:has(.sticky-nav.visible) .table-wrapper thead th,
+  body:has(.sticky-nav.with-section) .table-wrapper thead th { top: 0; }
+}
+/* Cloned thead overlay for the comparison table on portrait mobile —
+   pinned under the sticky nav, stays visible as the user scrolls past the
+   original thead. Horizontal position is synced via translateX. */
+.comparison-thead-clone {
+  position: fixed;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  z-index: 50;
+  display: none;
+  background: var(--bg-card);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 0 12px;
+}
+.comparison-thead-clone.active { display: block; }
+.comparison-thead-clone table {
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+.comparison-thead-clone thead th {
+  position: static;
+  /* The body:has(.sticky-nav.*) thead th { top: ... } rules have higher
+     specificity (0,2,3) than this one (0,1,2) and would shift our
+     position:relative first-child cell down by the nav-height offset.
+     !important is the cleanest way to force the reset across the clone. */
+  top: auto !important;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  font-family: var(--font-title);
+  font-weight: 700;
+  text-align: left;
+  white-space: nowrap;
+  /* Re-apply the same orange→blue gradient as the in-table thead cells
+     (the clone lives outside .table-wrapper, so its own .table-wrapper
+     thead th rule doesn't match). */
+  background: linear-gradient(to right, var(--orange-bright), var(--blue-bright));
+  background-size: 100vw 100%;
+  background-position: left center;
+  color: #000;
+  border-bottom: 2px solid rgba(0,0,0,0.15);
+}
+.comparison-thead-clone thead th:first-child {
+  text-align: center;
+  border-right: 2px solid var(--border-header);
+  /* Lift above the other cells so the counter-transform that pins it on
+     horizontal scroll doesn't get hidden behind them. */
+  position: relative;
+  top: auto;
+  z-index: 2;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GRCE DESIGN SYSTEM RESKIN
+   Hero → DS ink band in dark mode, token-driven light band in light
+   mode · mono eyebrows · DS radii.
+   (No ToolLockup: the cheat sheet is a reference, not a tool.)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Hero — theme-aware: DS ink band in dark, token-driven light band in light.
+      (The JS always resolves system → a concrete data-theme value, so
+      [data-theme="dark"] is the single dark signal.) ── */
+.page-header {
+  padding-bottom: 48px;
+}
+.page-title {
+  font-weight: 600;               /* DS --display-weight */
+  letter-spacing: -0.03em;        /* DS --tracking-tighter */
+}
+.page-header .def-card {
+  border-radius: 13px;            /* DS --radius-lg, both themes */
+}
+[data-theme="dark"] .page-header {
+  background: #0C1117; /* --surface-ink */
+}
+[data-theme="dark"] .page-header::before {
+  /* DS --gradient-ink-glow */
+  background:
+    radial-gradient(120% 120% at 0% 0%, rgba(255,168,79,0.12) 0%, transparent 42%),
+    radial-gradient(120% 120% at 100% 0%, rgba(27,149,193,0.14) 0%, transparent 46%);
+}
+[data-theme="dark"] .page-header .back-link { color: #93A2AE; }
+[data-theme="dark"] .page-header .back-link:hover { color: var(--orange-text); }
+[data-theme="dark"] .page-title { color: #F1F5F9; }   /* --text-strong on ink */
+[data-theme="dark"] .page-header .page-desc { color: #C4CDD8; opacity: 1; }
+/* Definition cards → dark frosted glass on ink */
+[data-theme="dark"] .page-header .def-card {
+  background: rgba(255,255,255,0.045);
+  border: 1px solid rgba(255,255,255,0.10);
+  backdrop-filter: blur(6px);
+}
+[data-theme="dark"] .page-header .def-card p { color: #A7B3BF; }
+[data-theme="dark"] .page-header .def-card a { color: #63BEDC; }  /* --eng-blue-300 */
+[data-theme="dark"] .page-header .def-card a:hover { color: #9DD6EA; }
+[data-theme="dark"] .page-header .def-operator { color: #93A2AE; }
+[data-theme="dark"] .page-header .def-card-grc-eng { border: none; }
+[data-theme="dark"] .page-header .def-card-grc-eng::after { background: #10161E; }
+[data-theme="dark"] .page-header [data-fp-card="1"] .def-term { color: #63BEDC !important; } /* AA on ink */
+[data-theme="dark"] .page-header .page-subtitle { color: #93A2AE; }
+[data-theme="dark"] .page-header .section-nav a { color: #A7B3BF; border-color: rgba(255,255,255,0.14); }
+[data-theme="dark"] .page-header .section-nav a:hover,
+[data-theme="dark"] .page-header .section-nav a:focus-visible { color: #F1F5F9; border-color: var(--orange); }
+[data-theme="dark"] .page-header .copy-link { color: #93A2AE; }
+[data-theme="dark"] .page-header .copy-link:hover,
+[data-theme="dark"] .page-header .copy-link:focus-visible { color: var(--orange-text); background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.14); }
+[data-theme="dark"] .page-header .copy-link.copied { color: #63BEDC; }
+
+/* ── Section titles → DS mono eyebrows with fusion hairline ── */
+.page-subtitle, .ref-section-title, .timeline-section-title {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;         /* DS --tracking-widest */
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.page-subtitle::after, .ref-section-title::after, .timeline-section-title::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 2px;
+  margin: 10px auto 0;
+  border-radius: 999px;
+  background: linear-gradient(100deg, var(--orange) 0%, var(--blue) 100%); /* --gradient-fusion */
+}
+
+/* ── DS radii + layered cool shadows on table shells ── */
+.table-outer, .ref-tables .table-outer {
+  border-radius: 13px;            /* DS --radius-lg */
+  box-shadow: 0 12px 28px -6px var(--shadow), 0 4px 10px -4px var(--shadow); /* --shadow-lg */
+}
+
+/* ── Theme toggle (dark only): floats over the ink hero at page top → on-ink
+      chrome; reverts to surface chrome once the sticky nav takes over.
+      Light mode keeps the base surface chrome throughout. ── */
+[data-theme="dark"] .theme-toggle {
+  color: #E7EDF2;
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.14);
+}
+[data-theme="dark"] .theme-toggle:hover { background: rgba(255,255,255,0.14); }
+[data-theme="dark"] body:has(.sticky-nav.visible) .theme-toggle {
+  color: var(--text);
+  background: var(--toggle-bg);
+  border-color: var(--border);
+}
+[data-theme="dark"] body:has(.sticky-nav.visible) .theme-toggle:hover { background: var(--toggle-hover); }
+/* Canonical introductions and a native, script-independent timeline reading view. */
+.page-intro { max-width: 780px; margin: 0 auto 24px; position: relative; z-index: 1; font-size: 0.9rem; color: var(--text-dim); }
+.page-intro a, .section-intro a, .timeline-narratives a { color: #146B8A; overflow-wrap: anywhere; }
+.section-intro { color: var(--text-dim); max-width: 900px; margin: 0 auto 22px; padding: 0 24px; text-align: center; }
+.timeline-narratives { max-width: 1000px; margin: 24px auto 0; border: 1px solid var(--border); border-radius: 12px; padding: 14px 20px; background: var(--bg-card); }
+.timeline-narratives > summary { cursor: pointer; font-weight: 700; color: var(--text); }
+.timeline-narratives ol { padding-left: 24px; }
+.timeline-narratives li { margin: 20px 0; padding-left: 4px; scroll-margin-top: 130px; }
+.timeline-narratives h3 { font-family: var(--font-title); font-size: 1.1rem; margin-bottom: 6px; }
+.timeline-narratives p { margin: 6px 0; }
+.timeline-event-meta { color: var(--text-dim); font-size: 0.9rem; }
+[data-theme="dark"] .page-intro { color: #A7B3BF; }
+[data-theme="dark"] .page-intro a, [data-theme="dark"] .section-intro a, [data-theme="dark"] .timeline-narratives a { color: #63BEDC; }
+/* The definition labels retain their existing inline layout and text gradients. */
+.page-header [data-fp-card="1"] .def-term { color: var(--blue-text) !important; }
+.def-card-grc-eng .def-term { background-image: linear-gradient(to right, var(--orange-text-bright), var(--blue-text-bright)) !important; }
+@media (prefers-reduced-motion: reduce) {
+  html, .timeline-scroll { scroll-behavior: auto !important; }
+  .def-card-grc-eng { animation: none; --border-angle: 0deg !important; }
+  #terms-table tbody tr.term-row-flash > td { animation: none; }
+  .sticky-nav, .sticky-nav-links, .theme-toggle, .copy-link, .tl-modal, .tl-marker { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="Cycle theme: System / Light / Dark" title="Cycle theme: System / Light / Dark">
+  <i class="theme-icon ri-contrast-2-line" aria-hidden="true"></i>
+</button>
+
+<nav class="sticky-nav" id="sticky-nav" aria-label="Cheat sheet sections">
+  <span class="sticky-nav-title">The <span class="highlight">GRC Engineering</span> Cheat Sheet</span>
+  <div class="section-nav sticky-nav-links" id="sticky-nav-links">
+    <a href="#first-principles">First Principles</a>
+    <a href="#comparison">Comparison</a>
+    <a href="#timeline">Timeline</a>
+    <a href="#terms">Terms</a>
+    <a href="#tools">Tools</a>
+    <a href="#teachings">Teachings</a>
+  </div>
+</nav>
+
+<main id="main-content">
+<header class="page-header">
+  <a href="https://grc.engineering" class="back-link" rel="noreferrer">&larr; grc.engineering</a>
+  <nav class="section-nav" aria-label="Cheat sheet sections">
+    <a href="#first-principles">First Principles</a>
+    <a href="#comparison">Comparison</a>
+    <a href="#timeline">Timeline</a>
+    <a href="#terms">Terms</a>
+    <a href="#tools">Tools</a>
+    <a href="#teachings">Teachings</a>
+  </nav>
+  <h1 class="page-title">The <span class="highlight">GRC Engineering</span> Cheat Sheet</h1>
+  <p class="page-desc" data-awesome="page-desc">{{PAGE_DESCRIPTION}}</p>
+  <div class="page-intro">{{INTRO}}</div>
+  <h2 class="page-subtitle hero-eyebrow anchor-title" id="first-principles"><span class="anchor-wrap"><a class="anchor-link" href="#first-principles">First Principles</a><button type="button" class="copy-link" data-anchor="first-principles" data-tip="Copy link" aria-label="Copy link to First Principles"><i class="ri-link" aria-hidden="true"></i></button></span></h2>
+  <div class="def-equation" data-awesome="first-principles">
+    <div class="def-equation-top">
+      <div class="def-card" id="grc" data-fp-card="0">
+        <h3 class="def-term anchor-title"><span class="anchor-wrap"><a class="anchor-link def-term-text" href="#grc">{{FP_0_TERM}}</a><button type="button" class="copy-link" data-anchor="grc" data-tip="Copy link" aria-label="Copy link to GRC definition"><i class="ri-link" aria-hidden="true"></i></button></span></h3>
+        <p>{{FP_0_BODY}}</p>
+      </div>
+      <span class="def-operator">+</span>
+      <div class="def-card" id="engineering" data-fp-card="1">
+        <h3 class="def-term anchor-title" style="color: var(--blue);"><span class="anchor-wrap"><a class="anchor-link def-term-text" href="#engineering">{{FP_1_TERM}}</a><button type="button" class="copy-link" data-anchor="engineering" data-tip="Copy link" aria-label="Copy link to Engineering definition"><i class="ri-link" aria-hidden="true"></i></button></span></h3>
+        <p>{{FP_1_BODY}}</p>
+      </div>
+    </div>
+    <span class="def-operator">=</span>
+    <div class="def-equation-bottom">
+      <div class="def-card def-card-grc-eng" id="grc-engineering" data-fp-card="2">
+        <h3 class="def-term anchor-title" style="display: inline-block; background: linear-gradient(to right, var(--orange-bright), var(--blue-bright)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;"><span class="anchor-wrap"><a class="anchor-link def-term-text" href="#grc-engineering">{{FP_2_TERM}}</a><button type="button" class="copy-link" data-anchor="grc-engineering" data-tip="Copy link" aria-label="Copy link to GRC Engineering definition"><i class="ri-link" aria-hidden="true"></i></button></span></h3>
+        <p>{{FP_2_BODY}}</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="comparison-section">
+<h2 class="page-subtitle anchor-title" id="comparison" style="margin-top: 32px;"><span class="anchor-wrap"><a class="anchor-link" href="#comparison">Legacy GRC vs. GRC Engineering at a glance</a><button type="button" class="copy-link" data-anchor="comparison" data-tip="Copy link" aria-label="Copy link to Legacy GRC vs. GRC Engineering"><i class="ri-link" aria-hidden="true"></i></button></span></h2>
+<div class="section-intro comparison-intro">{{COMPARISON_INTRO}}</div>
+<div class="table-wrapper">
+  <div class="table-outer">
+  <div class="table-container">
+    <table>
+      <caption class="sr-only">Legacy GRC and GRC Engineering by program</caption>
+      <thead>
+        <tr>
+          <th scope="col">Program</th>
+          <th scope="col"><span class="col-legacy">Legacy GRC</span></th>
+          <th scope="col"><span class="col-engineering">GRC Engineering</span></th>
+        </tr>
+      </thead>
+      <tbody data-awesome="comparison">{{COMPARISON}}</tbody>
+    </table>
+  </div>
+  </div>
+</div>
+</section>
+
+<!-- ── TIMELINE ── -->
+<section class="timeline-section">
+  <h2 class="timeline-section-title anchor-title" id="timeline"><span class="anchor-wrap"><a class="anchor-link" href="#timeline">Timeline</a><button type="button" class="copy-link" data-anchor="timeline" data-tip="Copy link" aria-label="Copy link to Timeline"><i class="ri-link" aria-hidden="true"></i></button></span></h2>
+  <div class="timeline-section-sub">{{TIMELINE_INTRO}}</div>
+  <div class="timeline-outer">
+    <div class="timeline-track"></div>
+    <div class="timeline-scroll" data-awesome="timeline">{{TIMELINE}}</div>
+  </div>
+  <div class="timeline-slider" aria-hidden="true">
+    <div class="timeline-slider-thumb"></div>
+  </div>
+  {{TIMELINE_NARRATIVES}}
+</section>
+
+<div class="tl-modal" id="tl-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="tl-modal-title">
+  <div class="tl-modal-content">
+    <button class="tl-modal-close" type="button" aria-label="Close">&times;</button>
+    <p class="tl-modal-date"></p>
+    <h3 class="tl-modal-title" id="tl-modal-title"></h3>
+    <span class="tl-modal-actor"></span>
+    <p class="tl-modal-summary"></p>
+    <p class="tl-modal-relevance"><span class="tl-modal-label">GRC relevance:</span> <span class="tl-modal-relevance-text"></span></p>
+    <p class="tl-modal-source"><span class="tl-modal-label">Source:</span> <a class="tl-modal-source-link" href="#" target="_blank" rel="noopener noreferrer"></a></p>
+  </div>
+</div>
+
+<div class="ref-tables">
+
+<!-- ── TERMS TABLE ── -->
+<section class="ref-section" id="terms-table">
+  <h2 class="ref-section-title anchor-title" id="terms"><span class="anchor-wrap"><a class="anchor-link" href="#terms">Terms</a><button type="button" class="copy-link" data-anchor="terms" data-tip="Copy link" aria-label="Copy link to Terms"><i class="ri-link" aria-hidden="true"></i></button></span></h2>
+  <div class="section-intro">{{TERMS_INTRO}}</div>
+  <div class="table-outer">
+  <div class="table-container">
+    <table>
+      <caption class="sr-only">GRC Engineering terms and definitions</caption>
+      <thead>
+        <tr>
+          <th scope="col">Term</th>
+          <th scope="col">Description</th>
+        </tr>
+      </thead>
+      <tbody data-awesome="terms">{{TERMS}}</tbody>
+    </table>
+  </div>
+  </div>
+</section>
+
+<!-- ── TOOLS TABLE ── -->
+<section class="ref-section" id="tools-table">
+  <h2 class="ref-section-title anchor-title" id="tools"><span class="anchor-wrap"><a class="anchor-link" href="#tools">Tools</a><button type="button" class="copy-link" data-anchor="tools" data-tip="Copy link" aria-label="Copy link to Tools"><i class="ri-link" aria-hidden="true"></i></button></span></h2>
+  <div class="section-intro">{{TOOLS_INTRO}}</div>
+  <div class="table-outer">
+  <div class="table-container">
+    <table>
+      <caption class="sr-only">Tools for GRC Engineering</caption>
+      <thead>
+        <tr>
+          <th scope="col">Tool</th>
+          <th scope="col">Description</th>
+        </tr>
+      </thead>
+      <tbody data-awesome="tools">{{TOOLS}}</tbody>
+    </table>
+  </div>
+  </div>
+</section>
+
+<!-- ── TEACHINGS TABLE ── -->
+<section class="ref-section" id="teachings-table">
+  <h2 class="ref-section-title anchor-title" id="teachings"><span class="anchor-wrap"><a class="anchor-link" href="#teachings">Teachings</a><button type="button" class="copy-link" data-anchor="teachings" data-tip="Copy link" aria-label="Copy link to Teachings"><i class="ri-link" aria-hidden="true"></i></button></span></h2>
+  <div class="section-intro">{{TEACHINGS_INTRO}}</div>
+  <div class="table-outer">
+  <div class="table-container">
+    <table>
+      <caption class="sr-only">GRC Engineering learning resources by type</caption>
+      <thead>
+        <tr>
+          <th scope="col">Type</th>
+          <th scope="col">Teaching</th>
+        </tr>
+      </thead>
+      <tbody data-awesome="teachings">{{TEACHINGS}}</tbody>
+    </table>
+  </div>
+  </div>
+</section>
+
+</div>
+
+</main>
+
+<p class="sr-only" id="copy-link-status" aria-live="polite"></p>
+
+<footer class="page-footer">
+  <p class="repo-built-from">
+    <span class="repo-built-from-label">Built from</span>
+    <a class="repo-button" href="https://github.com/grcengineering/cheatsheet" target="_blank" rel="noopener noreferrer" aria-label="grcengineering/cheatsheet on GitHub — the source-of-truth repo for this cheat sheet">
+      <span class="repo-button-head">
+        <svg class="repo-button-logo" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+        <span class="repo-button-org">grcengineering</span><span class="repo-button-sep">/</span><span class="repo-button-name">cheatsheet</span>
+      </span>
+    </a>
+  </p>
+  <p>Maintained by <a href="https://github.com/grcengineering/cheatsheet/graphs/contributors" rel="noreferrer">GRC Engineering contributors</a> · <a href="https://github.com/grcengineering/cheatsheet/issues/new" rel="noreferrer">Suggest a correction</a> · <a href="https://grc.engineering/" rel="noreferrer">Read the manifesto</a></p>
+  <p class="version-tag">v1.0.0</p>
+</footer>
+
+<script>
+/* Three-state theme: 'system' (follow OS), 'light', 'dark'. The icon shows
+   the CURRENT setting (sun/moon/half-circle). Click cycles forward through
+   the three states. When set to 'system', we also listen for OS theme
+   changes and re-apply automatically. */
+var THEME_CYCLE = ['system', 'light', 'dark'];
+var THEME_ICON = {
+  'system': 'ri-contrast-2-line',
+  'light': 'ri-sun-line',
+  'dark': 'ri-moon-line'
+};
+// The preference exists only for this page visit; no browser storage is used.
+var themePreference = 'system';
+function getThemePref() {
+  return themePreference;
+}
+function applyTheme(pref) {
+  var resolved;
+  if (pref === 'system') {
+    resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  } else {
+    resolved = pref;
+  }
+  document.documentElement.setAttribute('data-theme', resolved);
+  updateIcon(pref);
+}
+function updateIcon(pref) {
+  var iconClass = THEME_ICON[pref] || THEME_ICON.system;
+  var icons = document.querySelectorAll('.theme-icon');
+  for (var i = 0; i < icons.length; i++) {
+    icons[i].className = 'theme-icon ' + iconClass;
+  }
+}
+function toggleTheme() {
+  var current = getThemePref();
+  var idx = THEME_CYCLE.indexOf(current);
+  var next = THEME_CYCLE[(idx + 1) % THEME_CYCLE.length];
+  themePreference = next;
+  applyTheme(next);
+}
+(function() {
+  applyTheme(getThemePref());
+  // Re-apply when the OS theme flips, but only if the user is in 'system' mode.
+  var mq = window.matchMedia('(prefers-color-scheme: dark)');
+  var handler = function() { if (getThemePref() === 'system') applyTheme('system'); };
+  if (mq.addEventListener) mq.addEventListener('change', handler);
+  else if (mq.addListener) mq.addListener(handler);
+})();
+/* Definition-card → Terms-table cross-links: smooth-scroll to the row and
+   flash it. The initial readiness event resolves direct term deep-links. */
+(function() {
+  function flash(tr) {
+    tr.classList.remove('term-row-flash');
+    void tr.offsetWidth; // reflow so the animation can restart
+    tr.classList.add('term-row-flash');
+  }
+  function go(hash, smooth) {
+    if (!hash || hash.charAt(0) !== '#') return false;
+    var el = document.getElementById(hash.slice(1));
+    if (!el || el.id.indexOf('term-') !== 0) return false;
+    el.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+    flash(el);
+    return true;
+  }
+  document.addEventListener('click', function(e) {
+    var a = e.target && e.target.closest ? e.target.closest('a.term-link') : null;
+    if (!a) return;
+    var hash = a.getAttribute('href') || '';
+    if (go(hash, true)) {
+      e.preventDefault();
+      if (history.replaceState) history.replaceState(null, '', hash);
+    }
+  });
+  document.addEventListener('cheatsheet:rendered', function() {
+    if (location.hash) go(location.hash, false);
+  });
+  window.addEventListener('hashchange', function() { go(location.hash, true); });
+}());
+/* Linkable section titles: copy-link buttons copy an absolute URL to the
+   section, and a deep link is re-resolved once the README content renders
+   (the tables above a section change height when they fill in). */
+(function() {
+  var status = document.getElementById('copy-link-status');
+  function sectionUrl(id) {
+    return location.origin + location.pathname + location.search + '#' + id;
+  }
+  function legacyCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok ? Promise.resolve() : Promise.reject(new Error('copy failed'));
+  }
+  function copy(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).catch(function() { return legacyCopy(text); });
+    }
+    return legacyCopy(text);
+  }
+  document.addEventListener('click', function(e) {
+    var btn = e.target && e.target.closest ? e.target.closest('.copy-link') : null;
+    if (!btn) return;
+    e.preventDefault();
+    var id = btn.getAttribute('data-anchor');
+    var url = sectionUrl(id);
+    copy(url).then(function() {
+      btn.classList.add('copied');
+      btn.setAttribute('data-tip', 'Link copied');
+      var icon = btn.querySelector('i');
+      if (icon) icon.className = 'ri-check-line';
+      if (status) status.textContent = 'Link copied: ' + url;
+      if (history.replaceState) history.replaceState(null, '', '#' + id);
+      clearTimeout(btn._copyTimer);
+      btn._copyTimer = setTimeout(function() {
+        btn.classList.remove('copied');
+        btn.setAttribute('data-tip', 'Copy link');
+        if (icon) icon.className = 'ri-link';
+      }, 1600);
+    }, function() {
+      btn.setAttribute('data-tip', 'Copy failed');
+    });
+  });
+  document.addEventListener('cheatsheet:rendered', function() {
+    if (!location.hash || location.hash.indexOf('#term-') === 0) return;
+    var el = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (el) el.scrollIntoView({ behavior: 'auto', block: 'start' });
+  });
+}());
+/* Rotating gradient border for GRC Engineering card — pauses when off-screen */
+(function() {
+  var card = document.querySelector('.def-card-grc-eng');
+  if (!card) return;
+  var angle = 0;
+  var last = performance.now();
+  var visible = false;
+  var rafId = null;
+  function rotate(now) {
+    var dt = (now - last) / 1000;
+    last = now;
+    angle = (angle + 45 * dt) % 360;
+    card.style.setProperty('--border-angle', angle + 'deg');
+    if (visible) rafId = requestAnimationFrame(rotate);
+  }
+  var observer = new IntersectionObserver(function(entries) {
+    visible = entries[0].isIntersecting;
+    if (visible && !rafId) {
+      last = performance.now();
+      rafId = requestAnimationFrame(rotate);
+    } else if (!visible && rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+  }, { threshold: 0 });
+  observer.observe(card);
+}());
+/* Comparison table — pinned thead clone for portrait mobile.
+   The .table-container has overflow-x:auto so it becomes the sticky
+   scroll context for the real thead (which then can only stick within
+   the table, not the page viewport). Clone the thead, position-fix it
+   under the sticky nav, and sync its horizontal scroll. */
+(function() {
+  var section = document.querySelector('.comparison-section');
+  if (!section) return;
+  var origTable = section.querySelector('table');
+  var origThead = origTable && origTable.querySelector('thead');
+  var container = section.querySelector('.table-container');
+  if (!origTable || !origThead || !container) return;
+
+  var clone = null;
+  var cloneTable = null;
+  var cloneInner = null;
+
+  function isPortraitMobile() {
+    return window.matchMedia('(max-width: 768px) and (orientation: portrait)').matches;
+  }
+  function navHeight() {
+    var nav = document.getElementById('sticky-nav');
+    if (!nav || !nav.classList.contains('visible')) return 0;
+    return nav.getBoundingClientRect().height;
+  }
+  function ensureClone() {
+    if (clone) return;
+    clone = document.createElement('div');
+    clone.className = 'comparison-thead-clone';
+    cloneInner = document.createElement('div');
+    cloneInner.style.overflow = 'hidden';
+    cloneTable = document.createElement('table');
+    cloneTable.appendChild(origThead.cloneNode(true));
+    cloneInner.appendChild(cloneTable);
+    clone.appendChild(cloneInner);
+    document.body.appendChild(clone);
+    syncWidths();
+  }
+  function syncWidths() {
+    if (!clone) return;
+    var rect = container.getBoundingClientRect();
+    clone.style.left = rect.left + 'px';
+    clone.style.right = (window.innerWidth - rect.right) + 'px';
+    clone.style.padding = '0';
+    cloneTable.style.width = origTable.offsetWidth + 'px';
+    cloneTable.style.minWidth = origTable.offsetWidth + 'px';
+    var origThs = origThead.querySelectorAll('th');
+    var cloneThs = cloneTable.querySelectorAll('th');
+    origThs.forEach(function(th, i) {
+      if (cloneThs[i]) cloneThs[i].style.width = th.offsetWidth + 'px';
+    });
+  }
+  function syncScroll() {
+    if (!clone || !cloneTable) return;
+    // Clamp to [0, maxScroll] so the cloned thead can't drift past the
+    // table's left/right edges even if the container is being elastically
+    // overscrolled (iOS Safari rubber-band) — keeps the clone visually
+    // locked to the table edges in lockstep with the body.
+    var maxScroll = Math.max(0, container.scrollWidth - container.clientWidth);
+    var sl = Math.max(0, Math.min(maxScroll, container.scrollLeft));
+    cloneTable.style.transform = 'translateX(' + -sl + 'px)';
+    // Counter-translate the first th by the same amount so it stays pinned
+    // at the left while the rest of the row scrolls — mirrors the
+    // tbody td:first-child {position:sticky; left:0} behavior in the
+    // original table.
+    var firstTh = cloneTable.querySelector('th:first-child');
+    if (firstTh) firstTh.style.transform = 'translateX(' + sl + 'px)';
+  }
+  function update() {
+    if (!isPortraitMobile()) {
+      if (clone) clone.classList.remove('active');
+      return;
+    }
+    var nh = navHeight();
+    if (nh === 0) {
+      if (clone) clone.classList.remove('active');
+      return;
+    }
+    var theadRect = origThead.getBoundingClientRect();
+    var sectionRect = section.getBoundingClientRect();
+    var shouldShow = theadRect.top < nh && sectionRect.bottom > nh + theadRect.height;
+    if (shouldShow) {
+      ensureClone();
+      clone.style.top = nh + 'px';
+      clone.classList.add('active');
+      syncScroll();
+    } else if (clone) {
+      clone.classList.remove('active');
+    }
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', function() {
+    if (clone) syncWidths();
+    update();
+  }, { passive: true });
+  container.addEventListener('scroll', syncScroll, { passive: true });
+  /* iOS Safari rubber-band suppression — overscroll-behavior alone doesn't
+     stop the elastic bounce on horizontal scrollables in Safari. Track the
+     touch start position; if the user is at a scroll boundary and dragging
+     further into that boundary, prevent the default to suppress the bounce.
+     Normal scrolling within the table is untouched because the listener
+     only preventDefault's at the boundary AND only when the gesture would
+     overscroll. passive:false is required so preventDefault takes effect. */
+  var touchStartX = 0, touchStartY = 0, touchDecided = false, touchHorizontal = false;
+  container.addEventListener('touchstart', function(e) {
+    if (e.touches.length !== 1) return;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    touchDecided = false;
+    touchHorizontal = false;
+  }, { passive: true });
+  container.addEventListener('touchmove', function(e) {
+    if (e.touches.length !== 1) return;
+    var dx = e.touches[0].clientX - touchStartX;
+    var dy = e.touches[0].clientY - touchStartY;
+    if (!touchDecided && (Math.abs(dx) > 6 || Math.abs(dy) > 6)) {
+      touchHorizontal = Math.abs(dx) > Math.abs(dy);
+      touchDecided = true;
+    }
+    if (!touchHorizontal) return; // let vertical gestures fall through to page scroll
+    var maxScroll = Math.max(0, container.scrollWidth - container.clientWidth);
+    if (maxScroll <= 0) { e.preventDefault(); return; }
+    var atLeft = container.scrollLeft <= 0;
+    var atRight = container.scrollLeft >= maxScroll;
+    if ((atLeft && dx > 0) || (atRight && dx < 0)) e.preventDefault();
+  }, { passive: false });
+  document.addEventListener('DOMContentLoaded', update);
+  setTimeout(update, 100);
+  // Nav class flips trigger height changes after scroll fires; observe and re-run.
+  var nav = document.getElementById('sticky-nav');
+  if (nav && 'MutationObserver' in window) {
+    new MutationObserver(function() {
+      // Wait for the height transition to settle so we read the final height.
+      setTimeout(update, 350);
+      update();
+    }).observe(nav, { attributes: true, attributeFilter: ['class'] });
+  }
+}());
+/* Timeline event modal — click/tap an event to view its details. */
+(function() {
+  var modal = document.getElementById('tl-modal');
+  if (!modal) return;
+  var dateEl = modal.querySelector('.tl-modal-date');
+  var titleEl = modal.querySelector('.tl-modal-title');
+  var actorEl = modal.querySelector('.tl-modal-actor');
+  var summaryEl = modal.querySelector('.tl-modal-summary');
+  var relevanceTextEl = modal.querySelector('.tl-modal-relevance-text');
+  var sourceRow = modal.querySelector('.tl-modal-source');
+  var sourceLink = modal.querySelector('.tl-modal-source-link');
+  var closeBtn = modal.querySelector('.tl-modal-close');
+  var lastFocused = null;
+  var blockedBackground = [];
+
+  function show(ev) {
+    if (modal.classList.contains('visible')) return;
+    dateEl.textContent = ev.dataset.date || ev.dataset.year || '';
+    titleEl.textContent = ev.dataset.title || '';
+    actorEl.textContent = ev.dataset.actor || '';
+    summaryEl.textContent = ev.dataset.summary || '';
+    relevanceTextEl.textContent = ev.dataset.relevance || '';
+    var source = ev.dataset.source || '';
+    if (source && /^https?:\/\//i.test(source)) {
+      sourceLink.href = source;
+      try { sourceLink.textContent = new URL(source).hostname.replace(/^www\./, ''); }
+      catch (e) { sourceLink.textContent = source; }
+      sourceRow.style.display = '';
+    } else {
+      sourceRow.style.display = 'none';
+    }
+    lastFocused = document.activeElement;
+    modal.classList.add('visible');
+    modal.setAttribute('aria-hidden', 'false');
+    // Keep every background branch inert while preserving any pre-existing state.
+    for (var layer = modal; layer !== document.body; layer = layer.parentElement) {
+      Array.from(layer.parentElement.children).forEach(function(sibling) {
+        if (sibling !== layer && sibling.tagName !== 'SCRIPT') {
+          blockedBackground.push([sibling, sibling.inert]);
+          sibling.inert = true;
+        }
+      });
+    }
+    closeBtn.focus();
+  }
+  function hide() {
+    modal.classList.remove('visible');
+    modal.setAttribute('aria-hidden', 'true');
+    blockedBackground.forEach(function(entry) { entry[0].inert = entry[1]; });
+    blockedBackground = [];
+    if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+  }
+
+  document.addEventListener('click', function(e) {
+    var ev = e.target && e.target.closest && e.target.closest('.tl-event');
+    if (ev) show(ev);
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var active = document.activeElement;
+    if (active && active.classList && active.classList.contains('tl-event')) {
+      e.preventDefault();
+      show(active);
+    }
+  });
+  closeBtn.addEventListener('click', hide);
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) hide();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (!modal.classList.contains('visible')) return;
+    if (e.key === 'Escape') hide();
+    if (e.key === 'Tab') {
+      var first = closeBtn;
+      var last = sourceRow.style.display === 'none' ? closeBtn : sourceLink;
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault(); last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault(); first.focus();
+      }
+    }
+  });
+}());
+/* Timeline slider — click-and-hold the thumb (or anywhere on the track) and
+   drag to pan the timeline. The thumb is a proportional scrollbar: its width
+   reflects how much of the timeline is visible, its position reflects
+   scrollLeft. Native touchpad horizontal scroll still works and keeps the
+   thumb in sync. Shown only when the timeline overflows. */
+(function() {
+  var sc = document.querySelector('.timeline-scroll');
+  var slider = document.querySelector('.timeline-slider');
+  if (!sc || !slider) return;
+  var thumb = slider.querySelector('.timeline-slider-thumb');
+  var dragging = false, startX = 0, startLeft = 0, rafId = 0, pendingX = 0;
+  /* Horizontal gutter so the thumb floats inside the track — never flush
+     against the left/right ends, mirroring the vertical CSS inset. */
+  var PAD = 3;
+
+  function maxScroll() { return Math.max(0, sc.scrollWidth - sc.clientWidth); }
+  function trackW() { return slider.clientWidth; }
+  function thumbW() {
+    /* Capped at 100px so it reads as a short grab-handle; also kept within
+       the PAD gutter so it never touches the track ends. */
+    var ratio = sc.scrollWidth > 0 ? sc.clientWidth / sc.scrollWidth : 1;
+    return Math.max(30, Math.min(trackW() - PAD * 2, 100, Math.round(trackW() * ratio)));
+  }
+  function travelPx() { return Math.max(0, trackW() - thumbW() - PAD * 2); }
+  /* Position the thumb from the live scrollLeft — no rounding so motion is
+     sub-pixel smooth. PAD keeps a gap at both ends. */
+  function placeThumb() {
+    var max = maxScroll(), t = travelPx();
+    thumb.style.left = (PAD + (max > 0 && t > 0 ? (sc.scrollLeft / max) * t : 0)) + 'px';
+  }
+  function render() {
+    if (maxScroll() <= 0) { slider.classList.remove('active'); return; }
+    slider.classList.add('active');
+    thumb.style.width = thumbW() + 'px';
+    placeThumb();
+  }
+  function seekToClientX(clientX) {
+    var rect = slider.getBoundingClientRect();
+    var t = trackW() - thumbW() - PAD * 2;
+    if (t <= 0) return;
+    var pos = Math.max(0, Math.min(t, clientX - rect.left - PAD - thumbW() / 2));
+    sc.scrollLeft = (pos / t) * maxScroll();
+  }
+  /* Apply at most one drag update per frame for perfectly smooth motion. */
+  function applyDrag() {
+    rafId = 0;
+    var t = travelPx();
+    if (t <= 0) return;
+    var next = startLeft + ((pendingX - startX) / t) * maxScroll();
+    sc.scrollLeft = Math.max(0, Math.min(maxScroll(), next));
+    placeThumb();
+  }
+
+  function onDown(e) {
+    if (maxScroll() <= 0) return;
+    dragging = true;
+    slider.classList.add('dragging');
+    sc.style.scrollBehavior = 'auto';
+    sc.style.scrollSnapType = 'none'; /* snap fights a continuous drag → judder */
+    if (e.target !== thumb) seekToClientX(e.clientX);
+    startX = e.clientX;
+    startLeft = sc.scrollLeft;
+    placeThumb();
+    if (slider.setPointerCapture && e.pointerId != null) {
+      try { slider.setPointerCapture(e.pointerId); } catch (err) {}
+    }
+    e.preventDefault();
+  }
+  function onMove(e) {
+    if (!dragging) return;
+    pendingX = e.clientX;
+    if (!rafId) rafId = requestAnimationFrame(applyDrag);
+    e.preventDefault();
+  }
+  function onUp() {
+    if (!dragging) return;
+    dragging = false;
+    if (rafId) { cancelAnimationFrame(rafId); rafId = 0; }
+    slider.classList.remove('dragging');
+    sc.style.scrollBehavior = '';
+    sc.style.scrollSnapType = '';
+  }
+
+  slider.addEventListener('pointerdown', onDown);
+  slider.addEventListener('pointermove', onMove);
+  slider.addEventListener('pointerup', onUp);
+  slider.addEventListener('pointercancel', onUp);
+  /* Native touchpad scroll keeps the thumb synced, but never mid-drag — the
+     drag path positions the thumb itself, so no feedback fighting. */
+  sc.addEventListener('scroll', function() { if (!dragging) placeThumb(); }, { passive: true });
+  window.addEventListener('resize', render, { passive: true });
+  if ('MutationObserver' in window) {
+    new MutationObserver(render).observe(sc, { childList: true });
+  }
+  window.addEventListener('load', render);
+  setTimeout(render, 300);
+  setTimeout(render, 1200);
+  render();
+}());
+/* Sticky navbar — slides down once user scrolls past the page title.
+   When a content section is in view, its name slides into the nav below the title. */
+(function() {
+  var nav = document.getElementById('sticky-nav');
+  var navLinks = document.getElementById('sticky-nav-links');
+  var title = document.querySelector('.page-title');
+  if (!nav || !navLinks || !title) return;
+
+  var sections = [
+    { sel: '.def-equation', id: 'first-principles' },
+    { sel: '.comparison-section', id: 'comparison' },
+    { sel: '.timeline-section', id: 'timeline' },
+    { sel: '#terms-table', id: 'terms' },
+    { sel: '#tools-table', id: 'tools' },
+    { sel: '#teachings-table', id: 'teachings' }
+  ];
+  var activeId = null;
+  function setActive(id) {
+    if (id === activeId) return;
+    activeId = id;
+    var links = navLinks.querySelectorAll('a');
+    for (var i = 0; i < links.length; i++) {
+      var on = links[i].getAttribute('href') === '#' + id;
+      links[i].classList.toggle('active', on);
+      if (on) {
+        links[i].setAttribute('aria-current', 'location');
+        // Keep the active chip visible when the row overflows (phones).
+        var l = links[i];
+        var target = l.offsetLeft - (navLinks.clientWidth - l.offsetWidth) / 2;
+        navLinks.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
+      } else {
+        links[i].removeAttribute('aria-current');
+      }
+    }
+  }
+
+  var threshold = 0;
+  function measure() {
+    threshold = title.offsetTop + title.offsetHeight;
+  }
+
+  function findActiveSection(navBottomY) {
+    var active = null;
+    for (var i = 0; i < sections.length; i++) {
+      var el = document.querySelector(sections[i].sel);
+      if (!el) continue;
+      var r = el.getBoundingClientRect();
+      if (r.top < navBottomY && r.bottom > navBottomY) {
+        active = sections[i];
+      }
+    }
+    return active;
+  }
+
+  function onScroll() {
+    var navVisible = window.scrollY >= threshold;
+    nav.classList.toggle('visible', navVisible);
+
+    // The section links ride along whenever the nav is showing, so any
+    // section is one click away; the one in view is highlighted.
+    nav.classList.toggle('with-section', navVisible);
+    if (!navVisible) return;
+
+    // Measure against the nav's full height: on a single jump (deep link,
+    // chip click) it is still animating open when this runs.
+    var active = findActiveSection(Math.max(nav.offsetHeight, 94) + 24);
+    setActive(active ? active.id : null);
+  }
+
+  measure();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function() { measure(); onScroll(); });
+  onScroll();
+}());
+/* Content is already in the HTML. Notify after every interaction listener is attached. */
+(function() {
+  function ready() {
+    document.dispatchEvent(new CustomEvent('cheatsheet:rendered'));
+    window.dispatchEvent(new Event('resize'));
+    window.dispatchEvent(new Event('scroll'));
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ready);
+  else ready();
+}());
+</script>
+
+</body>
+</html>
