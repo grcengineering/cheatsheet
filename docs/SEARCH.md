@@ -41,3 +41,9 @@ Keep a dated baseline for queries such as `GRC Engineering`, `what is GRC Engine
 ## Maintaining trust
 
 Contributors should provide primary sources for historical and technical claims, useful descriptions for tools, and attributable learning resources. Review external links and substantive claims when those entries change. Keep the source repository and contribution path visible so readers can inspect provenance and propose corrections. Add examples or deeper explanations when they help readers; preserve the reference's purpose and avoid repetitive material written only to target keywords.
+
+## Verification on October 20, 2026
+
+Google Search Console ownership is verified. Google processed the sitemap with one discovered page, passed a live smartphone crawl with the HTTPS canonical recognized, and accepted a new indexing request. The effective Search generative AI setting is Include, inherited from `grc.engineering`. Bing verified the imported property and sitemap; its indexed baseline predates this publication, and its fresh-crawl/live-test tools returned provider errors. IndexNow accepted the canonical URL notification with HTTP 202. None of these receipts establishes a ranking.
+
+The [official mobile audit](https://pagespeed.web.dev/analysis/https-cheatsheet-grc-engineering/evbzmy7d1t?form_factor=mobile) and [desktop audit](https://pagespeed.web.dev/analysis/https-cheatsheet-grc-engineering/evbzmy7d1t?form_factor=desktop) measured performance 100, SEO 100 and best practices 100. Mobile laboratory LCP was 1.0 s and CLS 0.022; desktop LCP was 0.4 s and CLS 0.003. Both had zero total blocking time and **no field data**. The audit's definition-link accessibility findings were addressed by persistent underlines and distinct attribution labels. Lab scores do not establish real-user Core Web Vitals or search placement.

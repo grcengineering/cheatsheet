@@ -10,13 +10,13 @@
 
 *"Governance, risk, and compliance (GRC) are three related facets that aim to <span class="text-highlight text-highlight-orange">assure an organization reliably achieves objectives, addresses uncertainty and acts with integrity</span>."*
 
-— [Wikipedia](https://en.wikipedia.org/wiki/Governance,_risk,_and_compliance)
+— [Wikipedia: Governance, risk, and compliance](https://en.wikipedia.org/wiki/Governance,_risk,_and_compliance)
 
 ### Engineering
 
 *"Engineering is the practice of using natural <span class="text-highlight text-highlight-blue">science</span>, <span class="text-highlight text-highlight-blue">mathematics</span>, and the <span class="text-highlight text-highlight-blue">engineering design process</span> to <span class="text-highlight text-highlight-blue">solve problems within technology, increase efficiency and productivity, and improve systems</span>."*
 
-— [Wikipedia](https://en.wikipedia.org/wiki/Engineering)
+— [Wikipedia: Engineering](https://en.wikipedia.org/wiki/Engineering)
 
 ### GRC Engineering
 

@@ -2,7 +2,7 @@
 task: Optimize the GRC Engineering Cheat Sheet for search and answer engines
 slug: cheatsheet-seo-aeo
 phase: climbing
-progress: 6/9
+progress: 6/10
 principal_stated_goal: "https://cheatsheet.grc.engineering is totally and fully SEO and AEO optimized, based on research about the latest and greatest best practices on SEO and AEO optimization from highly credible authoritative sources on those topics, so that any traditional search engine searches or AI-native web searching related to GRC Engineering results in https://cheatsheet.grc.engineering being surfaced at the very top of the results list."
 ---
 
@@ -39,6 +39,7 @@ The principal_stated_goal above remains the full objective. Technical implementa
 - [ ] C7: Search Console and Bing indexing/measurement are inspected and the relevant canonical URL is submitted where authorized access permits; falsifier: no authoritative indexing or submission evidence.
 - [ ] C8: The requested broad first-place search and AI-search visibility is observed and maintained across relevant queries; falsifier: actual search results contradict it or measurement is missing.
 - [x] C9: The application makes no tracking/analytics requests and collects no visitor personal data; falsifier: privacy gate or real-browser network/storage audit finds visitor instrumentation, third-party automatic resources, or collection code. Evidence: 52 privacy mutation tests, static source audit, Interceptor application network log empty; all automatic resources local and connect-src none. Production parity remains C6.
+- [ ] C10: Official mobile and desktop laboratory audits are inspected and actionable accessibility findings are resolved; falsifier: current audit still reports the confirmed link-distinction defects. Field Core Web Vitals must remain explicitly unknown when reports have no data.
 
 ## Anti-claims
 
@@ -58,6 +59,7 @@ The principal_stated_goal above remains the full objective. Technical implementa
 | C7 | manual | Engine property and indexing checks | Authoritative evidence | Search Console / Bing Webmaster Tools | literal |
 | C8 | manual | Search and AI-search outcomes | Requested visibility verified | Engine reports and query observations | literal |
 | C9 | bun-test | No visitor instrumentation or third-party automatic resources | Zero findings plus browser network verification | Privacy gate and Interceptor | literal |
+| C10 | manual | Official mobile and desktop audit | Confirmed defects resolved; lab/field distinguished | PageSpeed Insights | derived: page experience |
 
 ## Decisions
 
@@ -69,7 +71,7 @@ The principal_stated_goal above remains the full objective. Technical implementa
 
 ## Not yet specified
 
-- Existing ownership/access for Search Console and Bing Webmaster Tools; search baseline and sustainable monitoring.
+- Search visibility and new-crawl outcomes after engine processing; field Core Web Vitals currently have no data. Bing's fresh-crawl tools returned provider errors on 2026-10-20.
 
 ## Verification
 
@@ -77,3 +79,8 @@ The principal_stated_goal above remains the full objective. Technical implementa
 - Hosting: GitHub Pages API reports legacy build from main /, custom domain verified, HTTPS certificate approved; HTTPS enforcement is currently false.
 - Hosting update: HTTPS enforcement enabled and confirmed true via GitHub Pages API on 2026-10-20.
 - Local validation: 74 tests / 772 assertions; 100% lines and 99.31% functions; deterministic build, SEO and privacy checks pass.
+- Deployment: signed commit d887103; GitHub Actions runs 39488209994 (checks) and 39488209091 (Pages) succeeded; three live responses matched the built HTML and passed the privacy validator.
+- Google: ownership verified; sitemap processed successfully with one discovered page; live smartphone fetch/crawl/indexing allowed and HTTPS canonical recognized; indexing request accepted into priority crawl queue. AI-search setting effectively Include, inherited from grc.engineering.
+- Bing: ownership verified via Search Console import and sitemap imported; indexed baseline crawl is 2026-10-15. Fresh request-indexing and live-test tools returned provider errors; no fresh-crawl success claimed.
+- IndexNow: canonical URL notification accepted HTTP 202 with public subdomain key; receipt does not prove indexing.
+- PageSpeed: mobile/desktop performance 100, SEO 100, best practices 100; field No Data. Initial accessibility 96 identified color-only links and ambiguous Wikipedia labels; fixes now included for follow-up audit.
