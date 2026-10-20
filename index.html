@@ -527,7 +527,7 @@ body {
   justify-content: center;
   cursor: pointer;
   font-size: 1.2rem;
-  transition: background 0.2s ease, width 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), height 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), top 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), right 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), font-size 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: background 0.2s ease;
   backdrop-filter: blur(10px);
   color: var(--text);
 }
@@ -559,8 +559,7 @@ body:has(.sticky-nav.with-section) .theme-toggle {
   z-index: 99;
   backdrop-filter: blur(12px);
   transform: translateY(-100%);
-  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              height 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   box-shadow: var(--nav-shadow);
   pointer-events: none;
   display: flex;
@@ -604,7 +603,7 @@ body:has(.sticky-nav.with-section) .theme-toggle {
 }
 .section-nav a {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -646,7 +645,6 @@ body:has(.sticky-nav.with-section) .theme-toggle {
   max-height: 0;
   transform: translateY(8px);
   transition: opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              max-height 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
               transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 .sticky-nav-links::-webkit-scrollbar { display: none; }
@@ -713,7 +711,7 @@ body:has(.sticky-nav.with-section) .theme-toggle {
   left: 50%;
   transform: translate(-50%, 4px);
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   white-space: nowrap;
@@ -1380,7 +1378,7 @@ a.term-link:hover { text-decoration-style: solid; }
 #teachings-table .teaching-author {
   display: block;
   color: var(--text-dim);
-  font-size: 0.88em;
+  font-size: max(0.88em, 0.75rem);
   font-weight: 400;
   margin-top: 3px;
 }
@@ -1730,7 +1728,7 @@ a.term-link:hover { text-decoration-style: solid; }
 .page-footer a:hover { color: var(--blue-text); }
 .version-tag {
   margin-top: 6px;
-  font-size: 0.65rem !important;
+  font-size: 0.75rem !important;
   opacity: 1;
   letter-spacing: 1px !important;
   text-transform: uppercase;
@@ -1758,7 +1756,7 @@ a.term-link:hover { text-decoration-style: solid; }
   .sticky-nav { padding: 6px 56px; height: 52px; }
   .sticky-nav.with-section { height: 92px; }
   .sticky-nav { --nav-title-size: clamp(1rem, calc(0.4rem + 3vw), 1.35rem); }
-  .section-nav a { font-size: 0.62rem; padding: 5px 9px; }
+  .section-nav a { font-size: 0.75rem; padding: 5px 9px; }
   .page-header .section-nav { margin: -16px auto 28px; }
   .timeline-section-title {
     font-size: 1rem;
@@ -1788,7 +1786,7 @@ a.term-link:hover { text-decoration-style: solid; }
   thead th { padding: 8px 14px; font-size: 0.9rem; }
   tbody td { padding: 10px 14px; }
   .ref-tables tbody td { padding: 8px 12px; }
-  #teachings-table .teaching-author { font-size: 0.82em; }
+  #teachings-table .teaching-author { font-size: max(0.82em, 0.75rem); }
 }
 @media (max-width: 768px) and (orientation: portrait) {
   .theme-toggle { top: 14px; right: 14px; width: 32px; height: 32px; font-size: 0.85rem; }

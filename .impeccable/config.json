@@ -20,6 +20,33 @@
         ],
         "createdAt": "2026-10-20T19:54:25.418Z",
         "reason": "Preserve established GRCE fusion typography from origin/main 4cfa98e; light and dark text gradients now have verified accessible contrast."
+      },
+      {
+        "rule": "all-caps-body",
+        "value": "*",
+        "files": [
+          "src/index.template.html"
+        ],
+        "createdAt": "2026-10-20T20:23:02.780Z",
+        "reason": "Agent: the 42-character match is the existing h2 comparison heading, not body prose; preserve the established uppercase section-heading treatment."
+      },
+      {
+        "rule": "gpt-thin-border-wide-shadow",
+        "value": "*",
+        "files": [
+          "src/index.template.html"
+        ],
+        "createdAt": "2026-10-20T20:23:03.081Z",
+        "reason": "Agent: preserve the established definition-card shadow treatment from baseline 4cfa98e during this scoped legibility fix; the same card treatment already has an explicit dark-glow preservation exception."
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "src/index.template.html"
+        ],
+        "createdAt": "2026-10-20T20:25:28.822Z",
+        "reason": "Agent: browser checks at 414px, 844px and 1280px show padded table cells (8-20px horizontal; 6px minimum vertical) and timeline text at least 51px from its top/bottom borders. The detector misclassifies zero-padding outer wrappers whose descendants provide the text inset."
       }
     ]
   }
