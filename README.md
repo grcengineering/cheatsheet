@@ -40,38 +40,6 @@ A side-by-side comparison of the legacy GRC mindset and the GRC Engineering appr
 
 ---
 
-## GRC Engineering in practice
-
-Start with an organizational objective and a real decision. Use science and mathematics to test assumptions, user-centered design to make a process workable, and systems thinking to understand dependencies and consequences. Software and automation can support that work. The useful outcome might also be a better decision model, a clearer responsibility, or a simpler process.
-
-### What practitioners do
-
-GRC engineers translate objectives into explicit requirements, examine uncertainty, design controls and workflows, test whether those designs work, and produce evidence that helps someone decide what to do. They improve the system when results contradict its assumptions. Counting completed tasks or collected documents does not, by itself, establish that an objective was achieved.
-
-### Start with one objective
-
-**1. Understand the system.** Describe the objective, the workflow it depends on, its users' needs, and the failure scenario you want to address.
-
-**2. Set a testable requirement.** State what success means, who needs the result, and what uncertainty remains. Choose thresholds for that particular context.
-
-**3. Design a small intervention.** Compare options, including process changes. Identify dependencies, costs, and possible unintended effects before choosing tools.
-
-**4. Test the claim.** Define the evidence needed, exercise relevant failure conditions, and preserve enough context to reproduce the evaluation.
-
-**5. Use the result.** Fix a failed design, revise an unsupported assumption, or explain the remaining uncertainty to the decision maker. Compare the outcome with the original process before expanding the approach.
-
-### Example: evaluate synthetic recovery-test evidence
-
-Suppose a fictional service must recover within **15 minutes**, losing no more than **60 minutes** of data. These are illustrative requirements, not universal standards. The recovery time objective (RTO) limits tolerable unavailability; the recovery point objective (RPO) determines how far back recovered data may be relative to the disruption. See [NIST's contingency planning guide, section 3.2.1](https://csrc.nist.gov/pubs/sp/800/34/r1/upd1/final) for these concepts.
-
-The [offline example and instructions](https://github.com/grcengineering/cheatsheet/tree/main/examples) evaluate invented recovery-test observations. Run `bun examples/recovery-check.ts` from the repository. The checker compares the supplied recovery duration and data-loss window with the requirements, checks the supplied integrity result, and explains its decision. All observations are synthetic fixture values; the demo does not restore a service or measure a recovery operation.
-
-Inspect the supplied cases: complete evidence within both limits passes; a breached limit or failed integrity check fails. Missing or invalid evidence cannot pass. The output records the illustrative requirements, checks, and reasons, making the decision inspectable alongside its input fixture.
-
-A failure becomes a decision: investigate the restoration process, backup schedule, or evidence quality, then plan a new recovery test after addressing the cause. For a real service, exercise its actual recovery procedure and validate dependencies, permissions, usable data, and operational readiness. Passing this evidence checker alone does not prove production recoverability, compliance, or acceptable risk.
-
----
-
 ## Timeline
 
 A history of governance, risk, and compliance milestones — from the first federal IT security standards to the emergence of GRC Engineering as a discipline.
@@ -239,14 +207,12 @@ Contributions are welcome. To add or update an entry:
 - **Terms**: Vocabulary that meaningfully distinguishes GRC Engineering from legacy GRC. Keep definitions concise (1–2 sentences).
 - **Timeline**: Verifiable historical milestones with a clear connection to the GRC field.
 - **Comparison table**: Keep bullet items short, parallel in structure between Legacy and GRC Engineering columns, and grouped under one of the five program areas.
-- **Practice**: Explain decisions and methods with reproducible examples. Clearly separate synthetic observations from real measurements, state assumptions and limits, and use no personal data.
 
 ### Markdown conventions
 
 The build renders this README into `index.html`, so syntax matters:
 
 - All section tables use standard markdown tables.
-- The **GRC Engineering in practice** section uses introductory paragraphs followed by `###` subsections and paragraphs. Separate each paragraph with a blank line; use inline emphasis, code, and links. Lists, tables, and fenced code blocks are not supported in this section; keep runnable code in `examples/`.
 - Inside the **Comparison** table, bullet items within a single cell are separated with `<br>•` (literal HTML line break + bullet).
 - Inline links use `[text](url)`; **bold** is `**text**`; *italic* is `*text*`.
 - Raw HTML (`<u>`, `<em>`, `<span class="...">`, `<br>`) is preserved through to the rendered cheatsheet.

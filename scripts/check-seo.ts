@@ -47,7 +47,7 @@ export async function validateSite(files: SiteFiles): Promise<string[]> {
   const ids = new Map<string, string>();
   const activeIds: string[] = [];
   const jsonBlocks: string[] = [];
-  const sections = ["page-desc", "comparison", "practice", "timeline", "terms", "tools", "teachings"];
+  const sections = ["page-desc", "comparison", "timeline", "terms", "tools", "teachings"];
   const sectionText = new Map<string, string>();
   const rowCount = new Map<string, number>();
   let title = "", titleCount = 0, h1 = "", h1Count = 0, mainCount = 0, language = "", css = "";
@@ -106,22 +106,6 @@ export async function validateSite(files: SiteFiles): Promise<string[]> {
     element() { definitions.push(""); },
     text(chunk) { definitions[definitions.length - 1] += chunk.text; },
   });
-  let practiceIntro = "";
-  const practiceTopics: { heading: string; paragraphs: string[] }[] = [];
-  rewriter.on('[data-awesome="practice"] .practice-intro', { text(chunk) { practiceIntro += chunk.text; } });
-  rewriter.on('[data-awesome="practice"] .practice-topic', {
-    element() { practiceTopics.push({ heading: "", paragraphs: [] }); },
-  });
-  rewriter.on('[data-awesome="practice"] .practice-topic h3', {
-    text(chunk) { practiceTopics[practiceTopics.length - 1].heading += chunk.text; },
-  });
-  rewriter.on('[data-awesome="practice"] .practice-topic p', {
-    element() { practiceTopics[practiceTopics.length - 1].paragraphs.push(""); },
-    text(chunk) {
-      const topic = practiceTopics[practiceTopics.length - 1];
-      topic.paragraphs[topic.paragraphs.length - 1] += chunk.text;
-    },
-  });
   await rewriter.transform(new Response(files.html)).text();
 
   const oneMeta = (key: string) => {
@@ -157,9 +141,6 @@ export async function validateSite(files: SiteFiles): Promise<string[]> {
   for (const section of sections) require(textContent(sectionText.get(section)!).length > 0, `Essential ${section} content is empty in source HTML`);
   for (const [section, count] of rowCount) require(count > 0, `Essential ${section} table has no source HTML rows`);
   require(definitions.length === 3 && definitions.every(value => textContent(value)), "All three first-principles definitions must be present in source HTML");
-  require(!!textContent(practiceIntro) && practiceTopics.length > 0 && practiceTopics.every(topic =>
-    textContent(topic.heading) && topic.paragraphs.length > 0 && topic.paragraphs.every(paragraph => textContent(paragraph))),
-  "Practice guidance requires a visible introduction and nonempty titled subsections in source HTML");
 
   const objects: Json[] = [];
   require(jsonBlocks.length > 0, "Missing JSON-LD structured data");
@@ -181,9 +162,6 @@ export async function validateSite(files: SiteFiles): Promise<string[]> {
   require(webpage.url === CANONICAL && webpage["@id"] === `${CANONICAL}#webpage`, "WebPage identity must match canonical");
   require(webpage.name === textContent(title) && webpage.description === description, "WebPage name and description must match visible page metadata");
   require(webpage.isPartOf?.["@id"] === website["@id"], "WebPage must reference its WebSite");
-  const practicePart = Array.isArray(webpage.hasPart) ? webpage.hasPart.find((part: Json) => part["@id"] === `${CANONICAL}#practice`) : undefined;
-  require(practicePart && hasType(practicePart, "WebPageElement") && practicePart.url === `${CANONICAL}#practice`
-    && practicePart.name === "GRC Engineering in practice" && ids.has("practice"), "WebPage must identify the visible practice section");
   require(webpage.publisher?.["@id"] === organization["@id"] || website.publisher?.["@id"] === organization["@id"], "Site or page must identify the GRC Engineering publisher");
   require(terms["@id"] === `${CANONICAL}#terms`, "DefinedTermSet identity must match this reference");
   const definedTerms: Json[] = Array.isArray(terms.hasDefinedTerm) ? terms.hasDefinedTerm : [];

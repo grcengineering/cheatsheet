@@ -12,8 +12,6 @@ test('structured metadata identifies the published source and describes every vi
   expect(page.name).toBe(title);
   expect(page.description).toBe(description);
   expect(page.about.description).toBe(plainText(content.cards[2].paragraphs[0]));
-  expect(page.hasPart.map((part: any) => part['@id'])).toEqual(['first-principles', 'comparison', 'practice', 'timeline', 'terms', 'tools', 'teachings'].map(id => canonical + '#' + id));
-  expect(page.hasPart).toContainEqual({ '@type': 'WebPageElement', '@id': canonical + '#practice', url: canonical + '#practice', name: 'GRC Engineering in practice' });
   const terms = graph.find((node: any) => node['@type'] === 'DefinedTermSet');
   expect(terms.hasDefinedTerm).toHaveLength(content.tables.Terms.rows.length);
   for (const [term, meaning] of content.tables.Terms.rows) {
