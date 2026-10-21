@@ -32,6 +32,25 @@ describe("published search eligibility regressions", () => {
     expect(errors).toContain("All three first-principles definitions must be present in source HTML");
   });
 
+  test("practice headings alone cannot stand in for useful source HTML guidance", async () => {
+    const files = await publishedFiles();
+    files.html = rewrite(files.html, '[data-awesome="practice"] p', el => el.setInnerContent(""));
+    expect(await validateSite(files)).toContain("Practice guidance requires a visible introduction and nonempty titled subsections in source HTML");
+    files.html = rewrite(files.html, '[data-awesome="practice"]', el => el.setInnerContent(""));
+    expect(await validateSite(files)).toContain("Essential practice content is empty in source HTML");
+  });
+
+  test("structured page parts must identify the visible practice section", async () => {
+    const files = await publishedFiles();
+    files.html = files.html.replace(/(<script\b[^>]*type="application\/ld\+json"[^>]*>)([\s\S]*?)(<\/script>)/, (_, open, source, close) => {
+      const graph = JSON.parse(source);
+      const page = graph["@graph"].find((entity: Record<string, unknown>) => entity["@type"] === "WebPage");
+      page.hasPart = page.hasPart.filter((part: Record<string, unknown>) => part["@id"] !== `${CANONICAL}#practice`);
+      return open + JSON.stringify(graph) + close;
+    });
+    expect(await validateSite(files)).toContain("WebPage must identify the visible practice section");
+  });
+
   test("an accidental index or snippet opt-out is rejected", async () => {
     const files = await publishedFiles();
     files.html = rewrite(files.html, "head", el => el.append('<meta name="googlebot" content="noindex, nosnippet">', { html: true }));

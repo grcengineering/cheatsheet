@@ -1,0 +1,42 @@
+[
+  {
+    "scenario": "complete-pass",
+    "service": "Example service",
+    "evidence": { "restoreDurationMinutes": 12, "dataLossWindowMinutes": 35, "integrityVerified": true }
+  },
+  {
+    "scenario": "slow-recovery",
+    "service": "Example service",
+    "evidence": { "restoreDurationMinutes": 18, "dataLossWindowMinutes": 35, "integrityVerified": true }
+  },
+  {
+    "scenario": "excess-data-loss",
+    "service": "Example service",
+    "evidence": { "restoreDurationMinutes": 12, "dataLossWindowMinutes": 75, "integrityVerified": true }
+  },
+  {
+    "scenario": "integrity-failure",
+    "service": "Example service",
+    "evidence": { "restoreDurationMinutes": 12, "dataLossWindowMinutes": 35, "integrityVerified": false }
+  },
+  {
+    "scenario": "missing-observation",
+    "service": "Example service",
+    "evidence": { "restoreDurationMinutes": 12, "integrityVerified": true }
+  },
+  {
+    "scenario": "invalid-number-type",
+    "service": "Example service",
+    "evidence": { "restoreDurationMinutes": true, "dataLossWindowMinutes": 35, "integrityVerified": true }
+  },
+  {
+    "scenario": "invalid-negative-duration",
+    "service": "Example service",
+    "evidence": { "restoreDurationMinutes": -1, "dataLossWindowMinutes": 35, "integrityVerified": true }
+  },
+  {
+    "scenario": "invalid-record-shape",
+    "service": "Example service",
+    "evidence": null
+  }
+]

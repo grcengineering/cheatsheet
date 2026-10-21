@@ -33,9 +33,9 @@ export function structuredData(readme: string): string {
           url: canonical + '#first-principles',
         },
         mainEntity: termSet,
-        hasPart: ['first-principles', 'comparison', 'timeline', 'terms', 'tools', 'teachings'].map(id => ({
+        hasPart: ['first-principles', 'comparison', 'practice', 'timeline', 'terms', 'tools', 'teachings'].map(id => ({
           '@type': 'WebPageElement', '@id': canonical + '#' + id, url: canonical + '#' + id,
-          name: ({ 'first-principles': 'First Principles', comparison: 'Legacy GRC vs. GRC Engineering', timeline: 'Timeline', terms: 'Terms', tools: 'Tools', teachings: 'Teachings' } as Record<string, string>)[id],
+          name: ({ 'first-principles': 'First Principles', comparison: 'Legacy GRC vs. GRC Engineering', practice: 'GRC Engineering in practice', timeline: 'Timeline', terms: 'Terms', tools: 'Tools', teachings: 'Teachings' } as Record<string, string>)[id],
         })),
       },
       {

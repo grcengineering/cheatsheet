@@ -1,10 +1,12 @@
 /** Build the published reference from README; no content fetch is needed in the browser. */
 export type Table = { headers: string[]; rows: string[][] };
 export type Card = { term: string; paragraphs: string[] };
+export type Practice = { intro: string[]; subsections: { heading: string; paragraphs: string[] }[] };
 export type Content = {
   description: string;
   intro: string[];
   cards: Card[];
+  practice: Practice;
   intros: Record<string, string[]>;
   tables: Record<string, Table>;
 };
@@ -91,20 +93,62 @@ function paragraphs(lines: string[]): string[] {
     .map(paragraph => paragraph.trim().replace(/\s*\n\s*/g, ' ')).filter(Boolean);
 }
 
+/** Practice deliberately supports prose and H3s, so unsupported blocks cannot disappear. */
+function parsePractice(lines: string[]): Practice {
+  const practice: Practice = { intro: [], subsections: [] };
+  let block: string[] = [];
+  const finish = () => {
+    const text = paragraphs(block);
+    if (practice.subsections.length) practice.subsections[practice.subsections.length - 1].paragraphs = text;
+    else practice.intro = text;
+    block = [];
+  };
+  for (const line of lines) {
+    const heading = line.match(/^###\s+(.+)$/);
+    if (heading) {
+      finish();
+      practice.subsections.push({ heading: heading[1].trim(), paragraphs: [] });
+    } else {
+      if (/^\s*(?:#{1,6}\s|`{3,}|~{3,}|(?:[-+*]|\d+[.)])\s+|\||>)/.test(line)) {
+        throw new Error('GRC Engineering in practice supports paragraphs and H3 subsections only');
+      }
+      block.push(line);
+    }
+  }
+  finish();
+  const hasProse = (values: string[]) => values.length > 0 && values.every(value => plainText(value).trim());
+  if (!hasProse(practice.intro) || !practice.subsections.length || practice.subsections.some(section => !hasProse(section.paragraphs))) {
+    throw new Error('GRC Engineering in practice requires an introduction and nonempty H3 subsections');
+  }
+  const anchors = practice.subsections.map(section => slugify(section.heading));
+  if (anchors.includes('') || new Set(anchors).size !== anchors.length) {
+    throw new Error('GRC Engineering in practice requires unique, nonempty subsection anchors');
+  }
+  return practice;
+}
+
 export function parseMarkdown(markdown: string): Content {
   const sections: Record<string, string[]> = { __intro: [] };
   let current = '__intro', hasTitle = false;
   for (const line of markdown.split(/\r?\n/)) {
-    if (/^#\s+/.test(line)) { hasTitle = true; continue; }
+    if (/^#\s+/.test(line)) {
+      if (current === 'GRC Engineering in practice') {
+        throw new Error('GRC Engineering in practice supports paragraphs and H3 subsections only');
+      }
+      hasTitle = true; continue;
+    }
     const h2 = line.match(/^##\s+(.+)$/);
     if (h2) {
+      if (current === 'GRC Engineering in practice' && h2[1].trim() !== 'Timeline') {
+        throw new Error('GRC Engineering in practice must end at the Timeline section; unexpected H2 would discard practice content');
+      }
       current = h2[1].trim();
       if (sections[current]) throw new Error('Duplicate section: ' + current);
       sections[current] = [];
     } else sections[current].push(line);
   }
   if (!hasTitle) throw new Error('README requires a title');
-  for (const name of ['First Principles', ...Object.keys(TABLES)]) {
+  for (const name of ['First Principles', 'GRC Engineering in practice', ...Object.keys(TABLES)]) {
     if (!sections[name]) throw new Error('Missing required section: ' + name);
   }
   const description = sections.__intro.filter(line => /^>/.test(line)).map(line => line.replace(/^>\s?/, '')).join(' ').trim();
@@ -143,11 +187,18 @@ export function parseMarkdown(markdown: string): Content {
   }
   const ids = tables.Terms.rows.map(row => slugify(row[0]));
   if (new Set(ids).size !== ids.length || ids.includes('')) throw new Error('Terms require unique, nonempty anchors');
-  return { description, intro, cards, intros, tables };
+  const practice = parsePractice(sections['GRC Engineering in practice']);
+  return { description, intro, cards, practice, intros, tables };
 }
 
 function renderParagraphs(content: string[]): string {
   return content.map(paragraph => '<p>' + inlineMd(paragraph) + '</p>').join('\n');
+}
+
+function renderPractice(practice: Practice): string {
+  return '<div class="practice-intro">' + renderParagraphs(practice.intro) + '</div>\n'
+    + practice.subsections.map(section => '<article class="practice-topic"><h3 id="practice-' + slugify(section.heading) + '">'
+      + inlineMd(section.heading) + '</h3>\n' + renderParagraphs(section.paragraphs) + '</article>').join('\n');
 }
 
 function renderComparison(table: Table): string {
@@ -209,6 +260,7 @@ export function renderDocument(template: string, markdown: string): string {
     PAGE_DESCRIPTION: inlineMd(content.description),
     INTRO: renderParagraphs(content.intro),
     COMPARISON: renderComparison(content.tables['Legacy GRC vs. GRC Engineering']),
+    PRACTICE: renderPractice(content.practice),
     TIMELINE: timeline.visual,
     TIMELINE_NARRATIVES: timeline.narratives,
     TERMS: renderTwoColumn(content.tables.Terms, true),

@@ -65,6 +65,12 @@
         },
         {
           "@type": "WebPageElement",
+          "@id": "https://cheatsheet.grc.engineering/#practice",
+          "url": "https://cheatsheet.grc.engineering/#practice",
+          "name": "GRC Engineering in practice"
+        },
+        {
+          "@type": "WebPageElement",
           "@id": "https://cheatsheet.grc.engineering/#timeline",
           "url": "https://cheatsheet.grc.engineering/#timeline",
           "name": "Timeline"
@@ -1961,6 +1967,15 @@ a.term-link:hover { text-decoration-style: solid; }
 .def-card p a:not(.term-link) { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
 .page-intro a, .section-intro a, .timeline-narratives a { color: #146B8A; overflow-wrap: anywhere; }
 .section-intro { color: var(--text-dim); max-width: 900px; margin: 0 auto 22px; padding: 0 24px; text-align: center; }
+/* Practical guidance shares the reference's typography and a comfortable prose measure. */
+.practice-section { max-width: 1000px; margin: 0 auto 80px; padding: 0 24px; }
+.practice-content { max-width: 74ch; margin: 0 auto; }
+.practice-content p { margin: 12px 0; }
+.practice-topic { margin-top: 32px; }
+.practice-topic h3 { font-family: var(--font-title); font-size: 1.2rem; line-height: 1.4; scroll-margin-top: 130px; }
+.practice-content a { color: #146B8A; text-decoration: underline; text-underline-offset: 0.12em; overflow-wrap: anywhere; }
+.practice-content code { font-family: var(--font-mono); font-size: 0.85em; overflow-wrap: anywhere; }
+[data-theme="dark"] .practice-content a { color: #63BEDC; }
 .timeline-narratives { max-width: 1000px; margin: 24px auto 0; border: 1px solid var(--border); border-radius: 12px; padding: 14px 20px; background: var(--bg-card); }
 .timeline-narratives > summary { cursor: pointer; font-weight: 700; color: var(--text); }
 .timeline-narratives ol { padding-left: 24px; }
@@ -1992,6 +2007,7 @@ a.term-link:hover { text-decoration-style: solid; }
   <div class="section-nav sticky-nav-links" id="sticky-nav-links">
     <a href="#first-principles">First Principles</a>
     <a href="#comparison">Comparison</a>
+    <a href="#practice">Practice</a>
     <a href="#timeline">Timeline</a>
     <a href="#terms">Terms</a>
     <a href="#tools">Tools</a>
@@ -2005,6 +2021,7 @@ a.term-link:hover { text-decoration-style: solid; }
   <nav class="section-nav" aria-label="Cheat sheet sections">
     <a href="#first-principles">First Principles</a>
     <a href="#comparison">Comparison</a>
+    <a href="#practice">Practice</a>
     <a href="#timeline">Timeline</a>
     <a href="#terms">Terms</a>
     <a href="#tools">Tools</a>
@@ -2060,6 +2077,24 @@ a.term-link:hover { text-decoration-style: solid; }
   </div>
   </div>
 </div>
+</section>
+
+<section class="practice-section" aria-labelledby="practice">
+  <h2 class="page-subtitle anchor-title" id="practice"><span class="anchor-wrap"><a class="anchor-link" href="#practice">GRC Engineering in practice</a><button type="button" class="copy-link" data-anchor="practice" data-tip="Copy link" aria-label="Copy link to GRC Engineering in practice"><i class="ri-link" aria-hidden="true"></i></button></span></h2>
+  <div class="practice-content" data-awesome="practice"><div class="practice-intro"><p>Start with an organizational objective and a real decision. Use science and mathematics to test assumptions, user-centered design to make a process workable, and systems thinking to understand dependencies and consequences. Software and automation can support that work. The useful outcome might also be a better decision model, a clearer responsibility, or a simpler process.</p></div>
+<article class="practice-topic"><h3 id="practice-what-practitioners-do">What practitioners do</h3>
+<p>GRC engineers translate objectives into explicit requirements, examine uncertainty, design controls and workflows, test whether those designs work, and produce evidence that helps someone decide what to do. They improve the system when results contradict its assumptions. Counting completed tasks or collected documents does not, by itself, establish that an objective was achieved.</p></article>
+<article class="practice-topic"><h3 id="practice-start-with-one-objective">Start with one objective</h3>
+<p><strong>1. Understand the system.</strong> Describe the objective, the workflow it depends on, its users&#39; needs, and the failure scenario you want to address.</p>
+<p><strong>2. Set a testable requirement.</strong> State what success means, who needs the result, and what uncertainty remains. Choose thresholds for that particular context.</p>
+<p><strong>3. Design a small intervention.</strong> Compare options, including process changes. Identify dependencies, costs, and possible unintended effects before choosing tools.</p>
+<p><strong>4. Test the claim.</strong> Define the evidence needed, exercise relevant failure conditions, and preserve enough context to reproduce the evaluation.</p>
+<p><strong>5. Use the result.</strong> Fix a failed design, revise an unsupported assumption, or explain the remaining uncertainty to the decision maker. Compare the outcome with the original process before expanding the approach.</p></article>
+<article class="practice-topic"><h3 id="practice-example-evaluate-synthetic-recovery-test-evidence">Example: evaluate synthetic recovery-test evidence</h3>
+<p>Suppose a fictional service must recover within <strong>15 minutes</strong>, losing no more than <strong>60 minutes</strong> of data. These are illustrative requirements, not universal standards. The recovery time objective (RTO) limits tolerable unavailability; the recovery point objective (RPO) determines how far back recovered data may be relative to the disruption. See <a href="https://csrc.nist.gov/pubs/sp/800/34/r1/upd1/final" target="_blank" rel="noopener noreferrer">NIST&#39;s contingency planning guide, section 3.2.1</a> for these concepts.</p>
+<p>The <a href="https://github.com/grcengineering/cheatsheet/tree/main/examples" target="_blank" rel="noopener noreferrer">offline example and instructions</a> evaluate invented recovery-test observations. Run <code>bun examples/recovery-check.ts</code> from the repository. The checker compares the supplied recovery duration and data-loss window with the requirements, checks the supplied integrity result, and explains its decision. All observations are synthetic fixture values; the demo does not restore a service or measure a recovery operation.</p>
+<p>Inspect the supplied cases: complete evidence within both limits passes; a breached limit or failed integrity check fails. Missing or invalid evidence cannot pass. The output records the illustrative requirements, checks, and reasons, making the decision inspectable alongside its input fixture.</p>
+<p>A failure becomes a decision: investigate the restoration process, backup schedule, or evidence quality, then plan a new recovery test after addressing the cause. For a real service, exercise its actual recovery procedure and validate dependencies, permissions, usable data, and operational readiness. Passing this evidence checker alone does not prove production recoverability, compliance, or acceptable risk.</p></article></div>
 </section>
 
 <!-- ── TIMELINE ── -->
@@ -2797,6 +2832,7 @@ function toggleTheme() {
   var sections = [
     { sel: '.def-equation', id: 'first-principles' },
     { sel: '.comparison-section', id: 'comparison' },
+    { sel: '.practice-section', id: 'practice' },
     { sel: '.timeline-section', id: 'timeline' },
     { sel: '#terms-table', id: 'terms' },
     { sel: '#tools-table', id: 'tools' },

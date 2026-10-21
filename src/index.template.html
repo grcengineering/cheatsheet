@@ -1605,6 +1605,15 @@ a.term-link:hover { text-decoration-style: solid; }
 .def-card p a:not(.term-link) { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
 .page-intro a, .section-intro a, .timeline-narratives a { color: #146B8A; overflow-wrap: anywhere; }
 .section-intro { color: var(--text-dim); max-width: 900px; margin: 0 auto 22px; padding: 0 24px; text-align: center; }
+/* Practical guidance shares the reference's typography and a comfortable prose measure. */
+.practice-section { max-width: 1000px; margin: 0 auto 80px; padding: 0 24px; }
+.practice-content { max-width: 74ch; margin: 0 auto; }
+.practice-content p { margin: 12px 0; }
+.practice-topic { margin-top: 32px; }
+.practice-topic h3 { font-family: var(--font-title); font-size: 1.2rem; line-height: 1.4; scroll-margin-top: 130px; }
+.practice-content a { color: #146B8A; text-decoration: underline; text-underline-offset: 0.12em; overflow-wrap: anywhere; }
+.practice-content code { font-family: var(--font-mono); font-size: 0.85em; overflow-wrap: anywhere; }
+[data-theme="dark"] .practice-content a { color: #63BEDC; }
 .timeline-narratives { max-width: 1000px; margin: 24px auto 0; border: 1px solid var(--border); border-radius: 12px; padding: 14px 20px; background: var(--bg-card); }
 .timeline-narratives > summary { cursor: pointer; font-weight: 700; color: var(--text); }
 .timeline-narratives ol { padding-left: 24px; }
@@ -1636,6 +1645,7 @@ a.term-link:hover { text-decoration-style: solid; }
   <div class="section-nav sticky-nav-links" id="sticky-nav-links">
     <a href="#first-principles">First Principles</a>
     <a href="#comparison">Comparison</a>
+    <a href="#practice">Practice</a>
     <a href="#timeline">Timeline</a>
     <a href="#terms">Terms</a>
     <a href="#tools">Tools</a>
@@ -1649,6 +1659,7 @@ a.term-link:hover { text-decoration-style: solid; }
   <nav class="section-nav" aria-label="Cheat sheet sections">
     <a href="#first-principles">First Principles</a>
     <a href="#comparison">Comparison</a>
+    <a href="#practice">Practice</a>
     <a href="#timeline">Timeline</a>
     <a href="#terms">Terms</a>
     <a href="#tools">Tools</a>
@@ -1700,6 +1711,11 @@ a.term-link:hover { text-decoration-style: solid; }
   </div>
   </div>
 </div>
+</section>
+
+<section class="practice-section" aria-labelledby="practice">
+  <h2 class="page-subtitle anchor-title" id="practice"><span class="anchor-wrap"><a class="anchor-link" href="#practice">GRC Engineering in practice</a><button type="button" class="copy-link" data-anchor="practice" data-tip="Copy link" aria-label="Copy link to GRC Engineering in practice"><i class="ri-link" aria-hidden="true"></i></button></span></h2>
+  <div class="practice-content" data-awesome="practice">{{PRACTICE}}</div>
 </section>
 
 <!-- ── TIMELINE ── -->
@@ -2305,6 +2321,7 @@ function toggleTheme() {
   var sections = [
     { sel: '.def-equation', id: 'first-principles' },
     { sel: '.comparison-section', id: 'comparison' },
+    { sel: '.practice-section', id: 'practice' },
     { sel: '.timeline-section', id: 'timeline' },
     { sel: '#terms-table', id: 'terms' },
     { sel: '#tools-table', id: 'tools' },

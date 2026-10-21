@@ -55,10 +55,13 @@ describe('canonical README validation', () => {
     expect(content.tables['Legacy GRC vs. GRC Engineering'].rows).toHaveLength(5);
     expect(content.tables.Timeline.rows.length).toBeGreaterThan(20);
     expect(content.tables.Terms.rows.length).toBeGreaterThan(20);
+    expect(content.practice.intro.length).toBeGreaterThan(0);
+    expect(content.practice.subsections.length).toBeGreaterThan(0);
   });
   test('rejects missing canonical sections rather than silently dropping content', () => {
-    for (const name of ['First Principles', 'Legacy GRC vs. GRC Engineering', 'Timeline', 'Terms', 'Tools', 'Teachings']) {
-      expect(() => parseMarkdown(markdown.replace('## ' + name, '## Renamed ' + name))).toThrow('Missing required section');
+    for (const name of ['First Principles', 'Legacy GRC vs. GRC Engineering', 'GRC Engineering in practice', 'Timeline', 'Terms', 'Tools', 'Teachings']) {
+      expect(() => parseMarkdown(markdown.replace('## ' + name, '## Renamed ' + name)))
+        .toThrow(name === 'Timeline' ? 'must end at the Timeline section' : 'Missing required section');
     }
     expect(() => parseMarkdown(markdown + '\n## Terms\n')).toThrow('Duplicate section');
     expect(() => parseMarkdown(markdown.replace(/^# .+\n/, ''))).toThrow('README requires a title');
@@ -68,6 +71,37 @@ describe('canonical README validation', () => {
     expect(() => parseMarkdown(markdown.replace('### Engineering', '### Renamed'))).toThrow('First Principles');
     expect(() => parseMarkdown(markdown.replace(/### GRC\n[\s\S]*?(?=### Engineering)/, '### GRC\n\n'))).toThrow('First Principles');
     expect(() => parseMarkdown(markdown.replace(/### GRC\n[\s\S]*?(?=---\n\n## Legacy)/, ''))).toThrow('First Principles');
+  });
+  test('requires practice prose and explicitly parses H3 subsections instead of collapsing them', () => {
+    const replacePractice = (body: string) => markdown.replace(/(## GRC Engineering in practice\n)[\s\S]*?(?=\n## Timeline)/, '$1\n' + body + '\n');
+    const minimal = parseMarkdown(replacePractice('An **intro**.\n\n### Test the claim\n\nUse `synthetic` evidence.\n\nA second paragraph.'));
+    expect(minimal.practice).toEqual({ intro: ['An **intro**.'], subsections: [{ heading: 'Test the claim', paragraphs: ['Use `synthetic` evidence.', 'A second paragraph.'] }] });
+    for (const body of ['', 'Only an introduction.', '### No introduction\n\nBody.', 'Intro.\n\n### Empty subsection', '<em></em>\n\n### Topic\n\nBody.', 'Intro.\n\n### Topic\n\n<br>']) {
+      expect(() => parseMarkdown(replacePractice(body))).toThrow('requires an introduction and nonempty H3 subsections');
+    }
+    for (const block of ['- Lost list item', '1. Lost ordered item', '```ts\ncode\n```', '#### Unsupported heading', '| hidden | table |', '> quote']) {
+      expect(() => parseMarkdown(replacePractice('Intro.\n\n### Topic\n\n' + block))).toThrow('supports paragraphs and H3 subsections only');
+    }
+    expect(() => parseMarkdown(replacePractice('Intro.\n\n### Repeated\n\nFirst.\n\n### Repeated\n\nSecond.'))).toThrow('unique, nonempty subsection anchors');
+    expect(() => parseMarkdown(replacePractice('Intro.\n\n### !!!\n\nBody.'))).toThrow('unique, nonempty subsection anchors');
+  });
+  test('outer section routing cannot silently discard practice headings or split off its example', () => {
+    const firstHeading = '### ' + content.practice.subsections[0].heading;
+    const exampleHeading = '### ' + content.practice.subsections[content.practice.subsections.length - 1].heading;
+    const unexpectedTitle = markdown.replace(firstHeading, '# Accidentally lost heading\n\n' + firstHeading);
+    expect(unexpectedTitle).not.toBe(markdown);
+    expect(() => parseMarkdown(unexpectedTitle)).toThrow('supports paragraphs and H3 subsections only');
+    const unexpectedSplit = markdown.replace(exampleHeading, '## Unexpected practice split\n\n' + exampleHeading);
+    expect(unexpectedSplit).not.toBe(markdown);
+    expect(() => parseMarkdown(unexpectedSplit)).toThrow('unexpected H2 would discard practice content');
+    // A normal Timeline boundary, followed by the remaining tables and Contributing, remains supported.
+    const normalTransition = markdown.replace('\n---\n\n## Timeline', '\n\n## Timeline');
+    expect(normalTransition).not.toBe(markdown);
+    expect(normalTransition).toContain('## Contributing');
+    const parsed = parseMarkdown(normalTransition);
+    expect(parsed.practice).toEqual(content.practice);
+    expect(parsed.tables.Timeline).toEqual(content.tables.Timeline);
+    expect(parsed.tables.Teachings).toEqual(content.tables.Teachings);
   });
   test('rejects absent tables, bad dimensions/separators, blank cells, and ambiguous term anchors', () => {
     expect(() => parseMarkdown(markdown.replace(/\| Term \| Description \|[\s\S]*?(?=\n---\n\n## Tools)/, ''))).toThrow('Terms requires a table');
@@ -84,7 +118,7 @@ describe('canonical README validation', () => {
     expect(edited).not.toBe(markdown);
     expect(() => parseMarkdown(edited)).toThrow('Unrendered content after Terms table');
     expect(() => renderDocument(template, edited)).toThrow('put section prose before the table');
-    for (const [nextSection, table] of Object.entries({ Timeline: 'Legacy GRC vs. GRC Engineering', Terms: 'Timeline', Teachings: 'Tools', Contributing: 'Teachings' })) {
+    for (const [nextSection, table] of Object.entries({ 'GRC Engineering in practice': 'Legacy GRC vs. GRC Engineering', Terms: 'Timeline', Teachings: 'Tools', Contributing: 'Teachings' })) {
       const changed = markdown.replace('\n---\n\n## ' + nextSection, '\n\n' + note + '\n\n---\n\n## ' + nextSection);
       expect(changed).not.toBe(markdown);
       expect(() => renderDocument(template, changed)).toThrow('Unrendered content after ' + table + ' table');
@@ -98,6 +132,28 @@ describe('canonical README validation', () => {
 });
 
 describe('static publication parity', () => {
+  test('practice paragraphs and headings are complete, linked, safe HTML between comparison and timeline', async () => {
+    const html = renderDocument(await fixture(), markdown);
+    const practice = (await elements(html, '[data-awesome="practice"]'))[0];
+    for (const paragraph of content.practice.intro) expect(practice.text).toContain(normalize(plainText(paragraph)));
+    const topics = await elements(html, '.practice-topic');
+    expect(topics).toHaveLength(content.practice.subsections.length);
+    content.practice.subsections.forEach((section, index) => {
+      expect(topics[index].text).toContain(normalize(plainText(section.heading)));
+      for (const paragraph of section.paragraphs) expect(topics[index].text).toContain(normalize(plainText(paragraph)));
+    });
+    expect((await elements(html, '.practice-topic h3')).map(heading => heading.id))
+      .toEqual(content.practice.subsections.map(section => 'practice-' + slugify(section.heading)));
+    expect((await elements(html, 'nav a[href="#practice"]')).map(link => link.text)).toEqual(['Practice', 'Practice']);
+    expect(await elements(html, '#practice a[href="#practice"]')).toHaveLength(1);
+    expect(await elements(html, '#practice button[data-anchor="practice"]')).toHaveLength(1);
+    expect(html.indexOf('class="practice-section"')).toBeGreaterThan(html.indexOf('class="comparison-section"'));
+    expect(html.indexOf('class="practice-section"')).toBeLessThan(html.indexOf('class="timeline-section"'));
+    expect(html).toContain("{ sel: '.practice-section', id: 'practice' }");
+    const injected = markdown.replace(content.practice.intro[0], 'A **strong** `<script>` and [reference](https://example.com/).');
+    const safeHtml = renderDocument(await fixture(), injected);
+    expect(safeHtml).toContain('A <strong>strong</strong> <code>&lt;script&gt;</code> and <a href="https://example.com/" target="_blank" rel="noopener noreferrer">reference</a>.');
+  });
   test('renders every definition, intro, comparison bullet, term, tool and teaching without a script', async () => {
     const html = renderDocument(await fixture(), markdown);
     for (let i = 0; i < content.cards.length; i++) {
@@ -151,7 +207,7 @@ describe('static publication parity', () => {
     const html = renderDocument(await fixture(), markdown);
     const terms = await elements(html, '[data-awesome="terms"] tr');
     expect(terms.map(row => row.id)).toEqual(content.tables.Terms.rows.map(row => 'term-' + slugify(row[0])));
-    for (const section of ['.page-header', '.comparison-section', '.timeline-section', '.ref-tables']) {
+    for (const section of ['.page-header', '.comparison-section', '.practice-section', '.timeline-section', '.ref-tables']) {
       expect(await elements(html, 'main ' + section)).toHaveLength(1);
     }
     expect(await elements(html, 'main')).toHaveLength(1);
@@ -171,6 +227,8 @@ describe('static publication parity', () => {
     expect(renderDocument(template, markdown.replace('Exercising controls', 'Actively exercising controls'))).not.toBe(first);
     expect(() => renderDocument(template.replace('{{TERMS}}', ''), markdown)).toThrow('exactly one {{TERMS}}');
     expect(() => renderDocument(template + '{{TERMS}}', markdown)).toThrow('exactly one {{TERMS}}');
+    expect(() => renderDocument(template.replace('{{PRACTICE}}', ''), markdown)).toThrow('exactly one {{PRACTICE}}');
+    expect(() => renderDocument(template + '{{PRACTICE}}', markdown)).toThrow('exactly one {{PRACTICE}}');
     expect(() => renderDocument(template + '{{UNKNOWN}}', markdown)).toThrow('Unresolved template placeholder');
   });
 });
