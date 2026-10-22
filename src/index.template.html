@@ -551,9 +551,23 @@ body:has(.sticky-nav.with-section) .theme-toggle {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.repo-button-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 9px 14px;
+  border-left: 1px solid var(--border);
+  background: var(--bg-page);
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.repo-button-star { width: 14px; height: 14px; color: var(--orange); }
+.repo-button-value { min-width: 1ch; font-weight: 600; }
 @media (max-width: 480px) {
   .repo-button { font-size: 0.8125rem; }
   .repo-button-head { padding: 8px 10px; gap: 6px; }
+  .repo-button-stat { padding: 8px 10px; }
   .repo-button-org,
   .repo-button-sep { display: none; }
 }
@@ -1622,7 +1636,13 @@ a.term-link:hover { text-decoration-style: solid; }
 [data-theme="dark"] .page-intro a, [data-theme="dark"] .section-intro a, [data-theme="dark"] .timeline-narratives a { color: #63BEDC; }
 /* The definition labels retain their existing inline layout and text gradients. */
 .page-header [data-fp-card="1"] .def-term { color: var(--blue-text) !important; }
-.def-card-grc-eng .def-term { background-image: linear-gradient(to right, var(--orange-text-bright), var(--blue-text-bright)) !important; }
+.def-card-grc-eng .def-term-text {
+  display: inline-block;
+  background-image: linear-gradient(to right, var(--orange-text-bright), var(--blue-text-bright));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 @media (prefers-reduced-motion: reduce) {
   html, .timeline-scroll { scroll-behavior: auto !important; }
   .def-card-grc-eng { animation: none; --border-angle: 0deg !important; }
@@ -1679,7 +1699,7 @@ a.term-link:hover { text-decoration-style: solid; }
     <span class="def-operator">=</span>
     <div class="def-equation-bottom">
       <div class="def-card def-card-grc-eng" id="grc-engineering" data-fp-card="2">
-        <h3 class="def-term anchor-title" style="display: inline-block; background: linear-gradient(to right, var(--orange-bright), var(--blue-bright)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;"><span class="anchor-wrap"><a class="anchor-link def-term-text" href="#grc-engineering">{{FP_2_TERM}}</a><button type="button" class="copy-link" data-anchor="grc-engineering" data-tip="Copy link" aria-label="Copy link to GRC Engineering definition"><i class="ri-link" aria-hidden="true"></i></button></span></h3>
+        <h3 class="def-term anchor-title" style="display: inline-block;"><span class="anchor-wrap"><a class="anchor-link def-term-text" href="#grc-engineering">{{FP_2_TERM}}</a><button type="button" class="copy-link" data-anchor="grc-engineering" data-tip="Copy link" aria-label="Copy link to GRC Engineering definition"><i class="ri-link" aria-hidden="true"></i></button></span></h3>
         <p>{{FP_2_BODY}}</p>
       </div>
     </div>
@@ -1805,16 +1825,21 @@ a.term-link:hover { text-decoration-style: solid; }
 <footer class="page-footer">
   <p class="repo-built-from">
     <span class="repo-built-from-label">Built from</span>
-    <a class="repo-button" href="https://github.com/grcengineering/cheatsheet" target="_blank" rel="noopener noreferrer" aria-label="grcengineering/cheatsheet on GitHub — the source-of-truth repo for this cheat sheet">
+    <a class="repo-button" href="https://github.com/grcengineering/cheatsheet" target="_blank" rel="noopener noreferrer" aria-label="grcengineering/cheatsheet on GitHub, 11 stars">
       <span class="repo-button-head">
         <svg class="repo-button-logo" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
           <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
         </svg>
         <span class="repo-button-org">grcengineering</span><span class="repo-button-sep">/</span><span class="repo-button-name">cheatsheet</span>
       </span>
+      <!-- Public repository count refreshed when publishing; no visitor API request. -->
+      <span class="repo-button-stat" title="Stars">
+        <svg class="repo-button-star" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill="currentColor" d="m8 1.2 2.05 4.15 4.58.67-3.31 3.23.78 4.56L8 11.66l-4.1 2.15.78-4.56-3.31-3.23 4.58-.67L8 1.2Z"/></svg>
+        <span class="repo-button-value">11</span>
+      </span>
     </a>
   </p>
-  <p>Maintained by <a href="https://github.com/grcengineering/cheatsheet/graphs/contributors" rel="noreferrer">GRC Engineering contributors</a> · <a href="https://github.com/grcengineering/cheatsheet/issues/new" rel="noreferrer">Suggest a correction</a> · <a href="https://grc.engineering/" rel="noreferrer">Read the manifesto</a></p>
+  <p>Created by <a href="https://github.com/p4gs" rel="noreferrer">Justin Pagano</a></p>
   <p class="version-tag">v1.0.0</p>
 </footer>
 
