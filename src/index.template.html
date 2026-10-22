@@ -1171,22 +1171,22 @@ a.term-link:hover { text-decoration-style: solid; }
   z-index: 2;
   transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
-/* A single faint halo travels through the events in chronological order. */
+/* A single blue halo travels through the events in chronological order. */
 .tl-marker::after {
   content: '';
   position: absolute;
-  inset: -5px;
-  border: 1px solid var(--orange-bright);
+  inset: -7px;
+  border: 2px solid var(--blue);
   border-radius: 50%;
   pointer-events: none;
   opacity: 0;
   transform: scale(0.7);
 }
-.tl-marker.is-pulsing::after { animation: tl-marker-pulse 1.05s ease-out; }
+.tl-marker.is-pulsing::after { animation: tl-marker-pulse 1.2s ease-out infinite; }
 @keyframes tl-marker-pulse {
   0% { opacity: 0; transform: scale(0.7); }
-  30% { opacity: 0.25; transform: scale(1.1); }
-  100% { opacity: 0; transform: scale(1.8); }
+  30% { opacity: 0.65; transform: scale(1.15); }
+  90%, 100% { opacity: 0; transform: scale(2); }
 }
 .tl-event:hover .tl-marker {
   transform: translate(-50%, -50%) scale(1.4);
@@ -2153,45 +2153,6 @@ function toggleTheme() {
     }).observe(nav, { attributes: true, attributeFilter: ['class'] });
   }
 }());
-/* Timeline affordance: one marker pulses at a time while the timeline is visible. */
-(function() {
-  var timeline = document.querySelector('.timeline-scroll');
-  if (!timeline) return;
-  var markers = Array.from(timeline.querySelectorAll('.tl-marker'));
-  if (!markers.length) return;
-  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var inView = false;
-  var current = -1;
-  var timer = null;
-
-  function stop() {
-    if (timer !== null) clearTimeout(timer);
-    timer = null;
-    if (current >= 0) markers[current].classList.remove('is-pulsing');
-    current = -1;
-  }
-  function step() {
-    if (current >= 0) markers[current].classList.remove('is-pulsing');
-    current = (current + 1) % markers.length;
-    markers[current].classList.add('is-pulsing');
-    timer = setTimeout(step, 1200);
-  }
-  function sync() {
-    stop();
-    if (inView && !reducedMotion.matches && !document.hidden) step();
-  }
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(function(entries) {
-      var visible = entries[0].isIntersecting && entries[0].intersectionRatio >= 0.15;
-      if (visible !== inView) { inView = visible; sync(); }
-    }, { threshold: 0.15 }).observe(timeline);
-  } else {
-    inView = true;
-    sync();
-  }
-  reducedMotion.addEventListener('change', sync);
-  document.addEventListener('visibilitychange', sync);
-}());
 /* Timeline event modal — click/tap an event to view its details. */
 (function() {
   var modal = document.getElementById('tl-modal');
@@ -2206,6 +2167,35 @@ function toggleTheme() {
   var closeBtn = modal.querySelector('.tl-modal-close');
   var lastFocused = null;
   var blockedBackground = [];
+  var timeline = document.querySelector('.timeline-scroll');
+  var timelineEvents = timeline ? Array.from(timeline.querySelectorAll('.tl-event')) : [];
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var inView = false;
+  var nextPulseIndex = 0;
+  var pulsingMarker = null;
+
+  // Keep the cue on one event until its context card opens. Progress exists
+  // only in this page instance and survives motion/visibility interruptions.
+  function syncPulse() {
+    if (pulsingMarker) pulsingMarker.classList.remove('is-pulsing');
+    pulsingMarker = null;
+    if (!inView || reducedMotion.matches || document.hidden || nextPulseIndex >= timelineEvents.length) return;
+    pulsingMarker = timelineEvents[nextPulseIndex].querySelector('.tl-marker');
+    if (pulsingMarker) pulsingMarker.classList.add('is-pulsing');
+  }
+  if (timeline && timelineEvents.length) {
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function(entries) {
+        var visible = entries[0].isIntersecting && entries[0].intersectionRatio >= 0.15;
+        if (visible !== inView) { inView = visible; syncPulse(); }
+      }, { threshold: 0.15 }).observe(timeline);
+    } else {
+      inView = true;
+      syncPulse();
+    }
+    reducedMotion.addEventListener('change', syncPulse);
+    document.addEventListener('visibilitychange', syncPulse);
+  }
 
   function show(ev) {
     if (modal.classList.contains('visible')) return;
@@ -2236,6 +2226,10 @@ function toggleTheme() {
       });
     }
     closeBtn.focus();
+    if (ev === timelineEvents[nextPulseIndex]) {
+      nextPulseIndex += 1;
+      syncPulse();
+    }
   }
   function hide() {
     modal.classList.remove('visible');
