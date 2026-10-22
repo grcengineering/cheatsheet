@@ -6,9 +6,9 @@ const content = parseMarkdown(markdown);
 const normalize = (text: string) => text.replace(/\s+/g, ' ').trim();
 
 async function elements(html: string, selector: string) {
-  const matches: { text: string; id: string | null; href: string | null; scope: string | null }[] = [];
+  const matches: { text: string; id: string | null; href: string | null; scope: string | null; attributes: Record<string, string> }[] = [];
   const transformed = new HTMLRewriter().on(selector, {
-    element(element) { matches.push({ text: '', id: element.getAttribute('id'), href: element.getAttribute('href'), scope: element.getAttribute('scope') }); },
+    element(element) { matches.push({ text: '', id: element.getAttribute('id'), href: element.getAttribute('href'), scope: element.getAttribute('scope'), attributes: Object.fromEntries(element.attributes) }); },
     text(chunk) { matches[matches.length - 1].text += chunk.text; },
   }).transform(new Response(html.replace(/<br\s*\/?\s*>/g, ' ')));
   await transformed.text();
@@ -130,21 +130,26 @@ describe('static publication parity', () => {
     expect(html).not.toContain('README_URL');
     expect(html).not.toContain('{{');
   });
-  test('timeline narratives and citations are real HTML while modal datasets retain parity', async () => {
+  test('the interactive timeline retains every label, modal field and citation without a duplicate expander', async () => {
     const html = renderDocument(await fixture(), markdown);
     const events = await elements(html, '.tl-event');
-    const narratives = await elements(html, '.timeline-narratives li');
-    const citations = await elements(html, '.timeline-narratives a');
+    const years = await elements(html, '.tl-event .tl-year');
+    const labels = await elements(html, '.tl-event .tl-label');
     expect(events).toHaveLength(content.tables.Timeline.rows.length);
-    expect(narratives).toHaveLength(events.length);
+    expect(years).toHaveLength(events.length);
+    expect(labels).toHaveLength(events.length);
     content.tables.Timeline.rows.forEach((row, i) => {
-      for (const cell of row.slice(0, 6)) expect(narratives[i].text).toContain(normalize(plainText(cell)));
-      expect(citations[i].href).toBe(row[6]);
+      expect(years[i].text).toBe(normalize(plainText(row[0])));
+      expect(labels[i].text).toBe(normalize(plainText(row[2])));
+      expect(events[i].attributes['aria-label']).toBe(escapeHtml(plainText(row[0] + ': ' + row[2])));
+      expect(events[i].attributes.role).toBe('button');
+      expect(events[i].attributes.tabindex).toBe('0');
       for (const [column, name] of ['year', 'date', 'title', 'actor', 'summary', 'relevance', 'source'].entries()) {
-        expect(html).toContain('data-' + name + '="' + escapeHtml(plainText(row[column])) + '"');
+        expect(events[i].attributes['data-' + name]).toBe(escapeHtml(plainText(row[column])));
       }
     });
-    expect(await elements(html, 'details.timeline-narratives > summary')).toHaveLength(1);
+    expect(await elements(html, '.timeline-narratives')).toHaveLength(0);
+    expect(html).not.toContain('Read the complete timeline');
     expect(() => renderDocument('', markdown.replace(content.tables.Timeline.rows[0][6], 'javascript:bad'))).toThrow('Timeline requires an HTTP(S) source URL');
   });
   test('stable term links, scoped column headers, captions and the full main landmark survive generation', async () => {

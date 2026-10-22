@@ -1171,6 +1171,23 @@ a.term-link:hover { text-decoration-style: solid; }
   z-index: 2;
   transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
+/* A single faint halo travels through the events in chronological order. */
+.tl-marker::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border: 1px solid var(--orange-bright);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.7);
+}
+.tl-marker.is-pulsing::after { animation: tl-marker-pulse 1.05s ease-out; }
+@keyframes tl-marker-pulse {
+  0% { opacity: 0; transform: scale(0.7); }
+  30% { opacity: 0.25; transform: scale(1.1); }
+  100% { opacity: 0; transform: scale(1.8); }
+}
 .tl-event:hover .tl-marker {
   transform: translate(-50%, -50%) scale(1.4);
   border-color: var(--blue-bright);
@@ -1620,20 +1637,13 @@ a.term-link:hover { text-decoration-style: solid; }
   border-color: var(--border);
 }
 [data-theme="dark"] body:has(.sticky-nav.visible) .theme-toggle:hover { background: var(--toggle-hover); }
-/* Canonical introductions and a native, script-independent timeline reading view. */
+/* Canonical section introductions. */
 .page-intro { max-width: 780px; margin: 0 auto 24px; position: relative; z-index: 1; font-size: 0.9rem; color: var(--text-dim); }
 .def-card p a:not(.term-link) { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
-.page-intro a, .section-intro a, .timeline-narratives a { color: var(--blue); overflow-wrap: anywhere; }
+.page-intro a, .section-intro a { color: var(--blue); overflow-wrap: anywhere; }
 .section-intro { color: var(--text-dim); max-width: 900px; margin: 0 auto 22px; padding: 0 24px; text-align: center; }
-.timeline-narratives { max-width: 1000px; margin: 24px auto 0; border: 1px solid var(--border); border-radius: 12px; padding: 14px 20px; background: var(--bg-card); }
-.timeline-narratives > summary { cursor: pointer; font-weight: 700; color: var(--text); }
-.timeline-narratives ol { padding-left: 24px; }
-.timeline-narratives li { margin: 20px 0; padding-left: 4px; scroll-margin-top: 130px; }
-.timeline-narratives h3 { font-family: var(--font-title); font-size: 1.1rem; margin-bottom: 6px; }
-.timeline-narratives p { margin: 6px 0; }
-.timeline-event-meta { color: var(--text-dim); font-size: 0.9rem; }
 [data-theme="dark"] .page-intro { color: #A7B3BF; }
-[data-theme="dark"] .page-intro a, [data-theme="dark"] .section-intro a, [data-theme="dark"] .timeline-narratives a { color: #63BEDC; }
+[data-theme="dark"] .page-intro a, [data-theme="dark"] .section-intro a { color: #63BEDC; }
 /* The definition labels retain their existing inline layout and text gradients. */
 .page-header [data-fp-card="1"] .def-term { color: var(--blue-text) !important; }
 .def-card-grc-eng .def-term-text {
@@ -1648,6 +1658,7 @@ a.term-link:hover { text-decoration-style: solid; }
   .def-card-grc-eng { animation: none; --border-angle: 0deg !important; }
   #terms-table tbody tr.term-row-flash > td { animation: none; }
   .sticky-nav, .sticky-nav-links, .theme-toggle, .copy-link, .tl-modal, .tl-marker { transition: none; }
+  .tl-marker::after { animation: none !important; opacity: 0 !important; }
 }
 </style>
 </head>
@@ -1739,7 +1750,6 @@ a.term-link:hover { text-decoration-style: solid; }
   <div class="timeline-slider" aria-hidden="true">
     <div class="timeline-slider-thumb"></div>
   </div>
-  {{TIMELINE_NARRATIVES}}
 </section>
 
 <div class="tl-modal" id="tl-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="tl-modal-title">
@@ -2142,6 +2152,45 @@ function toggleTheme() {
       update();
     }).observe(nav, { attributes: true, attributeFilter: ['class'] });
   }
+}());
+/* Timeline affordance: one marker pulses at a time while the timeline is visible. */
+(function() {
+  var timeline = document.querySelector('.timeline-scroll');
+  if (!timeline) return;
+  var markers = Array.from(timeline.querySelectorAll('.tl-marker'));
+  if (!markers.length) return;
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var inView = false;
+  var current = -1;
+  var timer = null;
+
+  function stop() {
+    if (timer !== null) clearTimeout(timer);
+    timer = null;
+    if (current >= 0) markers[current].classList.remove('is-pulsing');
+    current = -1;
+  }
+  function step() {
+    if (current >= 0) markers[current].classList.remove('is-pulsing');
+    current = (current + 1) % markers.length;
+    markers[current].classList.add('is-pulsing');
+    timer = setTimeout(step, 1200);
+  }
+  function sync() {
+    stop();
+    if (inView && !reducedMotion.matches && !document.hidden) step();
+  }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function(entries) {
+      var visible = entries[0].isIntersecting && entries[0].intersectionRatio >= 0.15;
+      if (visible !== inView) { inView = visible; sync(); }
+    }, { threshold: 0.15 }).observe(timeline);
+  } else {
+    inView = true;
+    sync();
+  }
+  reducedMotion.addEventListener('change', sync);
+  document.addEventListener('visibilitychange', sync);
 }());
 /* Timeline event modal — click/tap an event to view its details. */
 (function() {

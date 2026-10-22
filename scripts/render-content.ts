@@ -159,25 +159,16 @@ function renderComparison(table: Table): string {
   }).join('\n');
 }
 
-function renderTimeline(table: Table): { visual: string; narratives: string } {
-  const visual = table.rows.map(row => {
+function renderTimeline(table: Table): string {
+  return table.rows.map(row => {
     const [year, date, title, actor, summary, relevance, source] = row;
+    if (!/^https?:\/\/[^\s<>"']+$/.test(source)) throw new Error('Timeline requires an HTTP(S) source URL');
     const attrs = Object.entries({ year, date, title, actor, summary, relevance, source })
       .map(([name, value]) => ' data-' + name + '="' + escapeHtml(plainText(value)) + '"').join('');
     return '<div class="tl-event" tabindex="0" role="button" aria-label="' + escapeHtml(plainText(year + ': ' + title)) + '"' + attrs + '>'
       + '<div class="tl-content"><span class="tl-year">' + inlineMd(year) + '</span><span class="tl-label">' + inlineMd(title) + '</span></div>'
       + '<div class="tl-stem"></div><div class="tl-marker"></div></div>';
   }).join('\n');
-  const narratives = '<details class="timeline-narratives"><summary>Read the complete timeline (' + table.rows.length + ' milestones)</summary>\n<ol>'
-    + table.rows.map((row, i) => {
-      const [year, date, title, actor, summary, relevance, source] = row;
-      if (!/^https?:\/\/[^\s<>"']+$/.test(source)) throw new Error('Timeline requires an HTTP(S) source URL');
-      return '<li id="timeline-event-' + (i + 1) + '"><article><h3>' + inlineMd(year + ' — ' + title) + '</h3>'
-        + '<p class="timeline-event-meta">' + inlineMd(date + ' · ' + actor) + '</p><p>' + inlineMd(summary) + '</p>'
-        + '<p><strong>GRC relevance:</strong> ' + inlineMd(relevance) + '</p><p><strong>Source:</strong> <a href="' + escapeHtml(source)
-        + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(source) + '</a></p></article></li>';
-    }).join('\n') + '</ol></details>';
-  return { visual, narratives };
 }
 
 function renderTwoColumn(table: Table, termAnchors = false): string {
@@ -204,13 +195,11 @@ function renderTeachings(table: Table): string {
 /** Placeholders have exactly one occurrence, so a template edit cannot silently drop content. */
 export function renderDocument(template: string, markdown: string): string {
   const content = parseMarkdown(markdown);
-  const timeline = renderTimeline(content.tables.Timeline);
   const slots: Record<string, string> = {
     PAGE_DESCRIPTION: inlineMd(content.description),
     INTRO: renderParagraphs(content.intro),
     COMPARISON: renderComparison(content.tables['Legacy GRC vs. GRC Engineering']),
-    TIMELINE: timeline.visual,
-    TIMELINE_NARRATIVES: timeline.narratives,
+    TIMELINE: renderTimeline(content.tables.Timeline),
     TERMS: renderTwoColumn(content.tables.Terms, true),
     TOOLS: renderTwoColumn(content.tables.Tools),
     TEACHINGS: renderTeachings(content.tables.Teachings),
